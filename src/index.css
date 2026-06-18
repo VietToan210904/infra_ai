@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 215 34% 9%;
+    --foreground: 210 30% 94%;
+    --card: 214 30% 13%;
+    --card-foreground: 210 32% 96%;
+    --popover: 214 28% 14%;
+    --popover-foreground: 210 32% 96%;
+    --primary: 194 58% 52%;
+    --primary-foreground: 214 38% 9%;
+    --secondary: 214 20% 20%;
+    --secondary-foreground: 210 24% 92%;
+    --muted: 214 17% 18%;
+    --muted-foreground: 214 15% 70%;
+    --accent: 39 70% 60%;
+    --accent-foreground: 220 34% 10%;
+    --destructive: 0 72% 52%;
+    --destructive-foreground: 210 32% 96%;
+    --border: 214 18% 25%;
+    --input: 214 18% 24%;
+    --ring: 194 58% 52%;
+    --radius: 0.625rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply min-h-screen bg-background text-foreground antialiased;
+    margin: 0;
+    text-rendering: optimizeLegibility;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+}
+
+@layer utilities {
+  .dashboard-three-panel {
+    grid-template-columns: minmax(460px, 42fr) minmax(320px, 28fr) minmax(360px, 30fr);
+  }
+
+  .civic-panel {
+    border-radius: 0.75rem;
+    border: 1px solid hsl(var(--border));
+    background: hsl(var(--card) / 0.88);
+    box-shadow: 0 18px 44px rgb(0 0 0 / 0.22);
+    backdrop-filter: blur(12px);
+  }
+
+  .map-texture {
+    background:
+      linear-gradient(30deg, rgb(255 255 255 / 0.04) 12%, transparent 12.5%, transparent 87%, rgb(255 255 255 / 0.035) 87.5%, rgb(255 255 255 / 0.035)),
+      linear-gradient(150deg, rgb(255 255 255 / 0.04) 12%, transparent 12.5%, transparent 87%, rgb(255 255 255 / 0.03) 87.5%, rgb(255 255 255 / 0.03)),
+      radial-gradient(circle at 30% 26%, rgb(61 123 141 / 0.42), transparent 30%),
+      radial-gradient(circle at 67% 68%, rgb(80 110 93 / 0.38), transparent 34%),
+      linear-gradient(135deg, #182637 0%, #101a29 48%, #172338 100%);
+    background-size: 58px 58px, 58px 58px, 100% 100%, 100% 100%, 100% 100%;
+  }
+}
+
+.mapboxgl-popup-content {
+  background: #111d2d;
+  border: 1px solid rgb(82 102 126 / 0.65);
+  border-radius: 10px;
+  color: #eef5ff;
+  padding: 10px 12px;
+  box-shadow: 0 14px 34px rgb(0 0 0 / 0.32);
+}
+
+.mapboxgl-popup-tip {
+  border-top-color: #0d1724 !important;
+  border-bottom-color: #0d1724 !important;
+}
+
+.mapboxgl-ctrl-group {
+  background: #111d2d !important;
+  border: 1px solid rgb(82 102 126 / 0.65) !important;
+}
+
+.mapboxgl-ctrl button {
+  filter: invert(1) hue-rotate(160deg);
+}

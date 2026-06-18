@@ -1,0 +1,433 @@
+import { type MouseEvent, useEffect, useMemo, useRef, useState } from "react";
+import mapboxgl from "mapbox-gl";
+import { Crosshair, MapPin } from "lucide-react";
+
+import { Badge } from "@/components/ui/badge";
+import {
+  SAIGON_BOUNDS,
+  SAIGON_CENTER,
+  candidateZones,
+  syntheticLayerData,
+} from "@/data/mockGeoJson";
+import type { LayerKey, SelectedLocation } from "@/types/site";
+
+interface MapPanelProps {
+  selectedLocation: SelectedLocation | null;
+  activeLayers: LayerKey[];
+  onLocationSelect: (location: SelectedLocation) => void;
+}
+
+const layerStyles: Record<
+  LayerKey,
+  {
+    sourceId: string;
+    layerId: string;
+    outlineLayerId?: string;
+    color: string;
+    kind: "circle" | "fill";
+  }
+> = {
+  education: {
+    sourceId: "education-readiness-source",
+    layerId: "education-readiness-layer",
+    color: "#38bdf8",
+    kind: "circle",
+  },
+  healthcare: {
+    sourceId: "healthcare-readiness-source",
+    layerId: "healthcare-readiness-layer",
+    color: "#34d399",
+    kind: "circle",
+  },
+  government: {
+    sourceId: "government-readiness-source",
+    layerId: "government-readiness-layer",
+    color: "#f59e0b",
+    kind: "circle",
+  },
+  overall_readiness: {
+    sourceId: "overall-readiness-source",
+    layerId: "overall-readiness-fill-layer",
+    outlineLayerId: "overall-readiness-outline-layer",
+    color: "#22c55e",
+    kind: "fill",
+  },
+};
+
+export function MapPanel({
+  selectedLocation,
+  activeLayers,
+  onLocationSelect,
+}: MapPanelProps) {
+  const mapContainerRef = useRef<HTMLDivElement | null>(null);
+  const mapRef = useRef<mapboxgl.Map | null>(null);
+  const markerRef = useRef<mapboxgl.Marker | null>(null);
+  const activeLayersRef = useRef(activeLayers);
+  const onLocationSelectRef = useRef(onLocationSelect);
+  const [mapLoaded, setMapLoaded] = useState(false);
+  const mapboxToken = import.meta.env.VITE_MAPBOX_TOKEN as string | undefined;
+
+  const selectedCoordinateText = useMemo(() => {
+    if (!selectedLocation) {
+      return "Awaiting site selection";
+    }
+
+    return `${selectedLocation.lat.toFixed(5)}, ${selectedLocation.lng.toFixed(5)}`;
+  }, [selectedLocation]);
+
+  useEffect(() => {
+    activeLayersRef.current = activeLayers;
+  }, [activeLayers]);
+
+  useEffect(() => {
+    onLocationSelectRef.current = onLocationSelect;
+  }, [onLocationSelect]);
+
+  useEffect(() => {
+    if (!mapboxToken || mapRef.current || !mapContainerRef.current) {
+      return;
+    }
+
+    mapboxgl.accessToken = mapboxToken;
+
+    const map = new mapboxgl.Map({
+      container: mapContainerRef.current,
+      style: "mapbox://styles/mapbox/standard-satellite",
+      center: [SAIGON_CENTER.lng, SAIGON_CENTER.lat],
+      zoom: 11.7,
+      maxBounds: SAIGON_BOUNDS,
+      attributionControl: false,
+    });
+
+    map.addControl(new mapboxgl.NavigationControl({ visualizePitch: true }), "top-right");
+    map.addControl(new mapboxgl.AttributionControl({ compact: true }), "bottom-right");
+
+    map.on("load", () => {
+      addSyntheticLayers(map, activeLayersRef.current);
+      setMapLoaded(true);
+    });
+
+    map.on("click", (event) => {
+      onLocationSelectRef.current({
+        lat: event.lngLat.lat,
+        lng: event.lngLat.lng,
+        label: "Candidate AI Infrastructure Site",
+      });
+    });
+
+    mapRef.current = map;
+
+    return () => {
+      markerRef.current?.remove();
+      map.remove();
+      mapRef.current = null;
+    };
+  }, [mapboxToken]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !mapLoaded) {
+      return;
+    }
+
+    Object.entries(layerStyles).forEach(([key, style]) => {
+      const visibility = activeLayers.includes(key as LayerKey)
+        ? "visible"
+        : "none";
+      if (map.getLayer(style.layerId)) {
+        map.setLayoutProperty(style.layerId, "visibility", visibility);
+      }
+      if (style.outlineLayerId && map.getLayer(style.outlineLayerId)) {
+        map.setLayoutProperty(style.outlineLayerId, "visibility", visibility);
+      }
+    });
+  }, [activeLayers, mapLoaded]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !mapLoaded) {
+      return;
+    }
+
+    if (!selectedLocation) {
+      markerRef.current?.remove();
+      markerRef.current = null;
+      return;
+    }
+
+    const lngLat: [number, number] = [
+      selectedLocation.lng,
+      selectedLocation.lat,
+    ];
+
+    if (!markerRef.current) {
+      markerRef.current = new mapboxgl.Marker({ color: "#f59e0b" })
+        .setPopup(
+          new mapboxgl.Popup({ offset: 24 }).setText(
+            "Candidate AI Infrastructure Site"
+          )
+        )
+        .addTo(map);
+    }
+
+    markerRef.current.setLngLat(lngLat);
+    map.flyTo({
+      center: lngLat,
+      zoom: Math.max(map.getZoom(), 12.2),
+      essential: true,
+      duration: 650,
+    });
+  }, [mapLoaded, selectedLocation]);
+
+  return (
+    <div className="relative h-[560px] min-h-[500px] overflow-hidden rounded-xl border bg-background/60 lg:h-[calc(100vh-360px)] lg:min-h-[560px] lg:max-h-[760px]">
+      {!mapboxToken ? (
+        <DemoMapFallback
+          selectedLocation={selectedLocation}
+          onLocationSelect={onLocationSelect}
+        />
+      ) : (
+        <div ref={mapContainerRef} className="h-full w-full" />
+      )}
+
+      <div className="pointer-events-none absolute left-4 top-4 flex flex-wrap gap-2">
+        <Badge variant="secondary">Saigon / Ho Chi Minh City</Badge>
+        <Badge variant="outline">
+          {mapboxToken ? "Satellite layer" : "Demo map layer active"}
+        </Badge>
+        <Badge variant="outline">{activeLayers.length} planning layers</Badge>
+      </div>
+
+      <div className="absolute bottom-4 left-4 max-w-[330px] rounded-xl border bg-background/90 p-3 shadow-panel backdrop-blur">
+        <div className="flex items-start gap-2">
+          <Crosshair className="mt-0.5 h-4 w-4 text-primary" />
+          <div>
+            <p className="text-xs font-medium uppercase text-muted-foreground">
+              Selected coordinates
+            </p>
+            <p className="mt-1 text-sm font-semibold">
+              {selectedCoordinateText}
+            </p>
+            <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+              Click the map or choose a candidate site to move the marker.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DemoMapFallback({
+  selectedLocation,
+  onLocationSelect,
+}: {
+  selectedLocation: SelectedLocation | null;
+  onLocationSelect: (location: SelectedLocation) => void;
+}) {
+  function handleMapClick(event: MouseEvent<HTMLDivElement>) {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = (event.clientX - rect.left) / rect.width;
+    const y = (event.clientY - rect.top) / rect.height;
+    const [[west, south], [east, north]] = SAIGON_BOUNDS;
+
+    onLocationSelect({
+      lng: west + x * (east - west),
+      lat: north - y * (north - south),
+      label: "Custom Saigon planning point",
+    });
+  }
+
+  const selectedPosition = selectedLocation
+    ? getMapPosition(selectedLocation.lng, selectedLocation.lat)
+    : null;
+
+  return (
+    <div
+      className="map-texture relative h-full w-full cursor-crosshair overflow-hidden"
+      onClick={handleMapClick}
+      role="button"
+      tabIndex={0}
+    >
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgb(255_255_255_/_0.04)_1px,transparent_1px),linear-gradient(0deg,rgb(255_255_255_/_0.035)_1px,transparent_1px)] bg-[size:72px_72px]" />
+      <div className="absolute left-[8%] top-[58%] h-16 w-[88%] -rotate-6 rounded-full border border-cyan-100/20 bg-cyan-200/8 blur-[1px]" />
+      <div className="absolute left-[48%] top-[-10%] h-[125%] w-12 rotate-[18deg] rounded-full bg-sky-200/10 blur-[2px]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgb(6_15_26_/_0.22)_78%)]" />
+
+      {[
+        { label: "Thu Duc", x: 67, y: 25 },
+        { label: "Binh Thanh", x: 51, y: 42 },
+        { label: "District 1", x: 47, y: 52 },
+        { label: "Thu Thiem", x: 56, y: 54 },
+        { label: "District 7", x: 49, y: 69 },
+        { label: "Saigon River", x: 61, y: 48 },
+      ].map((district) => (
+        <div
+          key={district.label}
+          className="pointer-events-none absolute rounded-md bg-background/32 px-2 py-1 text-xs font-medium text-slate-200/78 backdrop-blur"
+          style={{ left: `${district.x}%`, top: `${district.y}%` }}
+        >
+          {district.label}
+        </div>
+      ))}
+
+      {candidateZones.map((zone) => {
+        const position = getMapPosition(zone.lng, zone.lat);
+        return (
+          <button
+            key={zone.id}
+            type="button"
+            className="absolute -translate-x-1/2 -translate-y-full rounded-full border border-white/65 bg-amber-300/95 p-1.5 text-slate-950 shadow-[0_8px_18px_rgb(0_0_0_/0.35)] transition hover:scale-105 hover:bg-amber-200"
+            style={{ left: `${position.x}%`, top: `${position.y}%` }}
+            onClick={(event) => {
+              event.stopPropagation();
+              onLocationSelect({
+                lat: zone.lat,
+                lng: zone.lng,
+                label: zone.label,
+              });
+            }}
+            aria-label={`Select ${zone.label}`}
+          >
+            <MapPin className="h-4 w-4" />
+          </button>
+        );
+      })}
+
+      {selectedPosition && (
+        <div
+          className="pointer-events-none absolute -translate-x-1/2 -translate-y-full"
+          style={{ left: `${selectedPosition.x}%`, top: `${selectedPosition.y}%` }}
+        >
+          <div className="relative">
+            <div className="absolute left-1/2 top-1/2 h-10 w-10 -translate-x-1/2 -translate-y-1/2 rounded-full border border-primary/50 bg-primary/15" />
+            <div className="relative rounded-full border border-white bg-primary p-2 text-primary-foreground shadow-[0_10px_24px_rgb(0_0_0_/0.45)]">
+              <MapPin className="h-5 w-5" />
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function getMapPosition(lng: number, lat: number) {
+  const [[west, south], [east, north]] = SAIGON_BOUNDS;
+  const x = ((lng - west) / (east - west)) * 100;
+  const y = ((north - lat) / (north - south)) * 100;
+
+  return {
+    x: Math.max(4, Math.min(96, x)),
+    y: Math.max(8, Math.min(92, y)),
+  };
+}
+
+function addSyntheticLayers(map: mapboxgl.Map, activeLayers: LayerKey[]) {
+  (Object.keys(layerStyles) as LayerKey[]).forEach((key) => {
+    const style = layerStyles[key];
+    const visibility = activeLayers.includes(key) ? "visible" : "none";
+
+    if (!map.getSource(style.sourceId)) {
+      map.addSource(style.sourceId, {
+        type: "geojson",
+        data: syntheticLayerData[key],
+      });
+    }
+
+    if (style.kind === "circle" && !map.getLayer(style.layerId)) {
+      map.addLayer({
+        id: style.layerId,
+        type: "circle",
+        source: style.sourceId,
+        layout: { visibility },
+        paint: {
+          "circle-color": style.color,
+          "circle-radius": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            10,
+            5,
+            14,
+            10,
+          ],
+          "circle-opacity": 0.86,
+          "circle-stroke-color": "#f8fafc",
+          "circle-stroke-width": 1.4,
+        },
+      });
+      registerLayerPopup(map, style.layerId);
+    }
+
+    if (style.kind === "fill" && !map.getLayer(style.layerId)) {
+      map.addLayer({
+        id: style.layerId,
+        type: "fill",
+        source: style.sourceId,
+        layout: { visibility },
+        paint: {
+          "fill-color": [
+            "interpolate",
+            ["linear"],
+            ["get", "readinessScore"],
+            60,
+            "#f59e0b",
+            75,
+            "#22c55e",
+            90,
+            "#14b8a6",
+          ],
+          "fill-opacity": 0.28,
+        },
+      });
+
+      if (style.outlineLayerId && !map.getLayer(style.outlineLayerId)) {
+        map.addLayer({
+          id: style.outlineLayerId,
+          type: "line",
+          source: style.sourceId,
+          layout: { visibility },
+          paint: {
+            "line-color": style.color,
+            "line-width": 2,
+            "line-opacity": 0.8,
+          },
+        });
+      }
+
+      registerLayerPopup(map, style.layerId);
+    }
+  });
+}
+
+function registerLayerPopup(map: mapboxgl.Map, layerId: string) {
+  map.on("mouseenter", layerId, () => {
+    map.getCanvas().style.cursor = "pointer";
+  });
+
+  map.on("mouseleave", layerId, () => {
+    map.getCanvas().style.cursor = "";
+  });
+
+  map.on("click", layerId, (event) => {
+    const feature = event.features?.[0];
+    if (!feature) {
+      return;
+    }
+
+    const properties = feature.properties as
+      | {
+          name?: string;
+          readinessScore?: number;
+          confidence?: string;
+        }
+      | undefined;
+
+    new mapboxgl.Popup({ offset: 16 })
+      .setLngLat(event.lngLat)
+      .setHTML(
+        `<strong>${properties?.name ?? "Synthetic MVP layer"}</strong><br/>Readiness score: ${properties?.readinessScore ?? "N/A"}<br/>Confidence: ${properties?.confidence ?? "N/A"}`
+      )
+      .addTo(map);
+  });
+}

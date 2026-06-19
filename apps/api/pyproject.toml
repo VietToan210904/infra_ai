@@ -1,0 +1,10 @@
+[project]
+name = "infraai-api"
+version = "0.1.0"
+description = "Future FastAPI backend for InfraAI SiteCompass."
+requires-python = ">=3.11"
+dependencies = []
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+

@@ -4,6 +4,21 @@ InfraAI SiteCompass is a satellite-map AI readiness dashboard for public-sector 
 
 A public-sector technology leader can choose a candidate location on a satellite map and generate a mocked decision-support blueprint for either a public-sector AI compute hub or a regional AI data center. The MVP evaluates physical infrastructure, digital access, AI literacy, sector readiness, governance, environmental constraints, and phased investment priorities.
 
+## Repository Layout
+
+This repo is organized as a production-oriented monorepo:
+
+- `apps/web` - current React/Vite frontend MVP.
+- `apps/api` - reserved for the future FastAPI backend.
+- `services/agents` - reserved for future agent workflows, prompts, tools, evaluators, and memory.
+- `services/data-pipelines` - reserved for future public/synthetic data ingestion and geospatial processing.
+- `packages/contracts` - reserved for OpenAPI specs, JSON schemas, and generated shared client types.
+- `packages/shared` - reserved for truly shared frontend-safe code.
+- `data` - reserved for shared mock, seed, GeoJSON, and sample data.
+- `infra` - reserved for Docker, compose, Terraform, and Kubernetes deployment files.
+- `docs` - architecture, API, deployment, data-source, and responsible-AI docs.
+- `scripts` - repeatable dev, CI, and data helper scripts.
+
 ## Tech Stack
 
 - React
@@ -17,16 +32,16 @@ A public-sector technology leader can choose a candidate location on a satellite
 
 ## Local Setup
 
-Install dependencies:
+Install dependencies from the repo root:
 
 ```bash
 npm install
 ```
 
-Create a local environment file:
+Create a local frontend environment file:
 
 ```bash
-cp .env.example .env
+cp apps/web/.env.example apps/web/.env
 ```
 
 Add your Mapbox public token:
@@ -36,7 +51,7 @@ VITE_MAPBOX_TOKEN=your_mapbox_public_token
 VITE_API_BASE_URL=http://localhost:8000
 ```
 
-Run the Vite dev server:
+Run the Vite dev server from the repo root:
 
 ```bash
 npm run dev
@@ -48,9 +63,15 @@ Build for production:
 npm run build
 ```
 
+Lint:
+
+```bash
+npm run lint
+```
+
 ## shadcn/ui Notes
 
-This project includes local shadcn-compatible primitives in `src/components/ui` and a `components.json` config. The MVP uses:
+The frontend includes local shadcn-compatible primitives in `apps/web/src/components/ui` and an `apps/web/components.json` config. The MVP uses:
 
 - Button
 - Card
@@ -66,7 +87,7 @@ This project includes local shadcn-compatible primitives in `src/components/ui` 
 - Tooltip
 - Accordion
 
-To add more shadcn components later:
+To add more shadcn components later, run the command from `apps/web`:
 
 ```bash
 npx shadcn@latest add component-name
@@ -147,4 +168,5 @@ Request:
 }
 ```
 
-The frontend mock functions live in `src/api/siteApi.ts`, so replacing them with FastAPI calls should be localized.
+The frontend mock functions live in `apps/web/src/api/siteApi.ts`, so replacing them with FastAPI calls should be localized.
+

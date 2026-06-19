@@ -1,0 +1,10 @@
+[project]
+name = "infraai-agents"
+version = "0.1.0"
+description = "Future agent workflows for InfraAI SiteCompass."
+requires-python = ">=3.11"
+dependencies = []
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+

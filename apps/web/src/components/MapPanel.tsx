@@ -1,4 +1,11 @@
-import { type MouseEvent, useEffect, useMemo, useRef, useState } from "react";
+import {
+  type MouseEvent,
+  type MutableRefObject,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import mapboxgl from "mapbox-gl";
 import { Crosshair, MapPin } from "lucide-react";
 
@@ -9,7 +16,7 @@ import {
   candidateZones,
   syntheticLayerData,
 } from "@/data/mockGeoJson";
-import type { LayerKey, SelectedLocation } from "@/types/site";
+import type { CandidateZone, LayerKey, SelectedLocation } from "@/types/site";
 
 interface MapPanelProps {
   selectedLocation: SelectedLocation | null;
@@ -59,21 +66,49 @@ export function MapPanel({
   activeLayers,
   onLocationSelect,
 }: MapPanelProps) {
+  const mapboxToken = import.meta.env.VITE_MAPBOX_TOKEN as string | undefined;
+  const selectedCoordinateText = useSelectedCoordinateText(selectedLocation);
+
+  return (
+    <div className="relative h-[560px] min-h-[500px] overflow-hidden rounded-xl border bg-background/60 lg:h-[calc(100vh-360px)] lg:min-h-[560px] lg:max-h-[760px]">
+      {mapboxToken ? (
+        <RealMap
+          activeLayers={activeLayers}
+          mapboxToken={mapboxToken}
+          selectedLocation={selectedLocation}
+          onLocationSelect={onLocationSelect}
+        />
+      ) : (
+        <MapFallback
+          selectedLocation={selectedLocation}
+          onLocationSelect={onLocationSelect}
+        />
+      )}
+
+      <MapOverlayChips
+        activeLayerCount={activeLayers.length}
+        isRealMap={Boolean(mapboxToken)}
+      />
+      <SelectedSiteCard selectedCoordinateText={selectedCoordinateText} />
+    </div>
+  );
+}
+
+function RealMap({
+  activeLayers,
+  mapboxToken,
+  selectedLocation,
+  onLocationSelect,
+}: MapPanelProps & { mapboxToken: string }) {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
-  const markerRef = useRef<mapboxgl.Marker | null>(null);
+  const selectedMarkerRef = useRef<mapboxgl.Marker | null>(null);
+  const candidateMarkerRefs = useRef<
+    Array<{ id: string; element: HTMLButtonElement; marker: mapboxgl.Marker }>
+  >([]);
   const activeLayersRef = useRef(activeLayers);
   const onLocationSelectRef = useRef(onLocationSelect);
   const [mapLoaded, setMapLoaded] = useState(false);
-  const mapboxToken = import.meta.env.VITE_MAPBOX_TOKEN as string | undefined;
-
-  const selectedCoordinateText = useMemo(() => {
-    if (!selectedLocation) {
-      return "Awaiting site selection";
-    }
-
-    return `${selectedLocation.lat.toFixed(5)}, ${selectedLocation.lng.toFixed(5)}`;
-  }, [selectedLocation]);
 
   useEffect(() => {
     activeLayersRef.current = activeLayers;
@@ -84,7 +119,7 @@ export function MapPanel({
   }, [onLocationSelect]);
 
   useEffect(() => {
-    if (!mapboxToken || mapRef.current || !mapContainerRef.current) {
+    if (!mapContainerRef.current || mapRef.current) {
       return;
     }
 
@@ -92,18 +127,25 @@ export function MapPanel({
 
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
-      style: "mapbox://styles/mapbox/standard-satellite",
+      style: "mapbox://styles/mapbox/satellite-streets-v12",
       center: [SAIGON_CENTER.lng, SAIGON_CENTER.lat],
       zoom: 11.7,
       maxBounds: SAIGON_BOUNDS,
       attributionControl: false,
+      dragRotate: false,
+      pitchWithRotate: false,
     });
 
-    map.addControl(new mapboxgl.NavigationControl({ visualizePitch: true }), "top-right");
+    map.scrollZoom.enable();
+    map.touchZoomRotate.disableRotation();
+    map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), "top-right");
+    map.addControl(new mapboxgl.FullscreenControl(), "top-right");
+    map.addControl(new mapboxgl.ScaleControl({ maxWidth: 120, unit: "metric" }), "bottom-right");
     map.addControl(new mapboxgl.AttributionControl({ compact: true }), "bottom-right");
 
     map.on("load", () => {
       addSyntheticLayers(map, activeLayersRef.current);
+      addCandidateMarkers(map, onLocationSelectRef, candidateMarkerRefs);
       setMapLoaded(true);
     });
 
@@ -111,14 +153,16 @@ export function MapPanel({
       onLocationSelectRef.current({
         lat: event.lngLat.lat,
         lng: event.lngLat.lng,
-        label: "Candidate AI Infrastructure Site",
+        label: "Custom Saigon planning point",
       });
     });
 
     mapRef.current = map;
 
     return () => {
-      markerRef.current?.remove();
+      selectedMarkerRef.current?.remove();
+      candidateMarkerRefs.current.forEach(({ marker }) => marker.remove());
+      candidateMarkerRefs.current = [];
       map.remove();
       mapRef.current = null;
     };
@@ -149,9 +193,11 @@ export function MapPanel({
       return;
     }
 
+    updateCandidateMarkerStates(candidateMarkerRefs.current, selectedLocation);
+
     if (!selectedLocation) {
-      markerRef.current?.remove();
-      markerRef.current = null;
+      selectedMarkerRef.current?.remove();
+      selectedMarkerRef.current = null;
       return;
     }
 
@@ -160,65 +206,38 @@ export function MapPanel({
       selectedLocation.lat,
     ];
 
-    if (!markerRef.current) {
-      markerRef.current = new mapboxgl.Marker({ color: "#f59e0b" })
+    if (!selectedMarkerRef.current) {
+      selectedMarkerRef.current = new mapboxgl.Marker({
+        anchor: "bottom",
+        element: createSelectedMarkerElement(),
+      })
         .setPopup(
-          new mapboxgl.Popup({ offset: 24 }).setText(
-            "Candidate AI Infrastructure Site"
+          new mapboxgl.Popup({ offset: 22 }).setHTML(
+            `<strong>${escapeHtml(selectedLocation.label ?? "Selected planning site")}</strong><br/>${selectedLocation.lat.toFixed(5)}, ${selectedLocation.lng.toFixed(5)}`
           )
         )
         .addTo(map);
+    } else {
+      selectedMarkerRef.current.setPopup(
+        new mapboxgl.Popup({ offset: 22 }).setHTML(
+          `<strong>${escapeHtml(selectedLocation.label ?? "Selected planning site")}</strong><br/>${selectedLocation.lat.toFixed(5)}, ${selectedLocation.lng.toFixed(5)}`
+        )
+      );
     }
 
-    markerRef.current.setLngLat(lngLat);
+    selectedMarkerRef.current.setLngLat(lngLat);
     map.flyTo({
       center: lngLat,
-      zoom: Math.max(map.getZoom(), 12.2),
+      zoom: Math.max(map.getZoom(), 12.15),
       essential: true,
       duration: 650,
     });
   }, [mapLoaded, selectedLocation]);
 
-  return (
-    <div className="relative h-[560px] min-h-[500px] overflow-hidden rounded-xl border bg-background/60 lg:h-[calc(100vh-360px)] lg:min-h-[560px] lg:max-h-[760px]">
-      {!mapboxToken ? (
-        <DemoMapFallback
-          selectedLocation={selectedLocation}
-          onLocationSelect={onLocationSelect}
-        />
-      ) : (
-        <div ref={mapContainerRef} className="h-full w-full" />
-      )}
-
-      <div className="pointer-events-none absolute left-4 top-4 flex flex-wrap gap-2">
-        <Badge variant="secondary">Saigon / Ho Chi Minh City</Badge>
-        <Badge variant="outline">
-          {mapboxToken ? "Satellite layer" : "Demo map layer active"}
-        </Badge>
-        <Badge variant="outline">{activeLayers.length} planning layers</Badge>
-      </div>
-
-      <div className="absolute bottom-4 left-4 max-w-[330px] rounded-xl border bg-background/90 p-3 shadow-panel backdrop-blur">
-        <div className="flex items-start gap-2">
-          <Crosshair className="mt-0.5 h-4 w-4 text-primary" />
-          <div>
-            <p className="text-xs font-medium uppercase text-muted-foreground">
-              Selected coordinates
-            </p>
-            <p className="mt-1 text-sm font-semibold">
-              {selectedCoordinateText}
-            </p>
-            <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-              Click the map or choose a candidate site to move the marker.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+  return <div ref={mapContainerRef} className="h-full w-full" />;
 }
 
-function DemoMapFallback({
+function MapFallback({
   selectedLocation,
   onLocationSelect,
 }: {
@@ -273,12 +292,14 @@ function DemoMapFallback({
 
       {candidateZones.map((zone) => {
         const position = getMapPosition(zone.lng, zone.lat);
+        const isSelected = isSameLocation(selectedLocation, zone);
         return (
-          <button
+          <CandidateMarker
             key={zone.id}
-            type="button"
-            className="absolute -translate-x-1/2 -translate-y-full rounded-full border border-white/65 bg-amber-300/95 p-1.5 text-slate-950 shadow-[0_8px_18px_rgb(0_0_0_/0.35)] transition hover:scale-105 hover:bg-amber-200"
-            style={{ left: `${position.x}%`, top: `${position.y}%` }}
+            isSelected={isSelected}
+            label={zone.label}
+            left={position.x}
+            top={position.y}
             onClick={(event) => {
               event.stopPropagation();
               onLocationSelect({
@@ -287,14 +308,11 @@ function DemoMapFallback({
                 label: zone.label,
               });
             }}
-            aria-label={`Select ${zone.label}`}
-          >
-            <MapPin className="h-4 w-4" />
-          </button>
+          />
         );
       })}
 
-      {selectedPosition && (
+      {selectedPosition && !candidateZones.some((zone) => isSameLocation(selectedLocation, zone)) && (
         <div
           className="pointer-events-none absolute -translate-x-1/2 -translate-y-full"
           style={{ left: `${selectedPosition.x}%`, top: `${selectedPosition.y}%` }}
@@ -311,6 +329,169 @@ function DemoMapFallback({
   );
 }
 
+function CandidateMarker({
+  isSelected,
+  label,
+  left,
+  onClick,
+  top,
+}: {
+  isSelected: boolean;
+  label: string;
+  left: number;
+  onClick: (event: MouseEvent<HTMLButtonElement>) => void;
+  top: number;
+}) {
+  return (
+    <button
+      type="button"
+      className={[
+        "absolute -translate-x-1/2 -translate-y-full rounded-full border p-1.5 shadow-[0_8px_18px_rgb(0_0_0_/0.35)] transition hover:scale-105",
+        isSelected
+          ? "border-white bg-primary text-primary-foreground"
+          : "border-white/65 bg-amber-300/95 text-slate-950 hover:bg-amber-200",
+      ].join(" ")}
+      style={{ left: `${left}%`, top: `${top}%` }}
+      onClick={onClick}
+      title={label}
+      aria-label={`Select ${label}`}
+    >
+      <MapPin className={isSelected ? "h-5 w-5" : "h-4 w-4"} />
+    </button>
+  );
+}
+
+function MapOverlayChips({
+  activeLayerCount,
+  isRealMap,
+}: {
+  activeLayerCount: number;
+  isRealMap: boolean;
+}) {
+  return (
+    <div className="pointer-events-none absolute left-4 top-4 flex flex-wrap gap-2">
+      <Badge variant="secondary">Ho Chi Minh City</Badge>
+      <Badge variant="outline">{isRealMap ? "Satellite" : "Demo map layer active"}</Badge>
+      <Badge variant="outline">Planning layers {activeLayerCount}</Badge>
+    </div>
+  );
+}
+
+function SelectedSiteCard({
+  selectedCoordinateText,
+}: {
+  selectedCoordinateText: string;
+}) {
+  return (
+    <div className="absolute bottom-4 left-4 max-w-[330px] rounded-xl border bg-background/90 p-3 shadow-panel backdrop-blur">
+      <div className="flex items-start gap-2">
+        <Crosshair className="mt-0.5 h-4 w-4 text-primary" />
+        <div>
+          <p className="text-xs font-medium uppercase text-muted-foreground">
+            Selected coordinates
+          </p>
+          <p className="mt-1 text-sm font-semibold">
+            {selectedCoordinateText}
+          </p>
+          <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+            Click the map or choose a candidate site to move the marker.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function useSelectedCoordinateText(selectedLocation: SelectedLocation | null) {
+  return useMemo(() => {
+    if (!selectedLocation) {
+      return "Awaiting site selection";
+    }
+
+    return `${selectedLocation.lat.toFixed(5)}, ${selectedLocation.lng.toFixed(5)}`;
+  }, [selectedLocation]);
+}
+
+function addCandidateMarkers(
+  map: mapboxgl.Map,
+  onLocationSelectRef: MutableRefObject<(location: SelectedLocation) => void>,
+  candidateMarkerRefs: MutableRefObject<
+    Array<{ id: string; element: HTMLButtonElement; marker: mapboxgl.Marker }>
+  >
+) {
+  candidateMarkerRefs.current.forEach(({ marker }) => marker.remove());
+  candidateMarkerRefs.current = candidateZones.map((zone) => {
+    const element = createCandidateMarkerElement(zone);
+    const marker = new mapboxgl.Marker({
+      anchor: "bottom",
+      element,
+    })
+      .setLngLat([zone.lng, zone.lat])
+      .setPopup(
+        new mapboxgl.Popup({ offset: 18 }).setHTML(
+          `<strong>${escapeHtml(zone.label)}</strong><br/>${escapeHtml(zone.description)}`
+        )
+      )
+      .addTo(map);
+
+    element.addEventListener("click", (event) => {
+      event.stopPropagation();
+      onLocationSelectRef.current({
+        lat: zone.lat,
+        lng: zone.lng,
+        label: zone.label,
+      });
+      marker.togglePopup();
+    });
+
+    return { id: zone.id, element, marker };
+  });
+}
+
+function createCandidateMarkerElement(zone: CandidateZone) {
+  const element = document.createElement("button");
+  element.type = "button";
+  element.className = "site-marker site-marker-candidate";
+  element.title = zone.label;
+  element.setAttribute("aria-label", `Select ${zone.label}`);
+  element.innerHTML = mapPinSvg();
+
+  return element;
+}
+
+function createSelectedMarkerElement() {
+  const element = document.createElement("div");
+  element.className = "site-marker site-marker-selected";
+  element.innerHTML = mapPinSvg();
+
+  return element;
+}
+
+function updateCandidateMarkerStates(
+  markers: Array<{
+    id: string;
+    element: HTMLButtonElement;
+    marker: mapboxgl.Marker;
+  }>,
+  selectedLocation: SelectedLocation | null
+) {
+  markers.forEach(({ id, element }) => {
+    const zone = candidateZones.find((candidate) => candidate.id === id);
+    const selected = zone ? isSameLocation(selectedLocation, zone) : false;
+    element.classList.toggle("is-selected", selected);
+    element.setAttribute("aria-pressed", String(selected));
+  });
+}
+
+function mapPinSvg() {
+  return `
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"></path>
+      <circle cx="12" cy="10" r="3"></circle>
+    </svg>
+  `;
+}
+
 function getMapPosition(lng: number, lat: number) {
   const [[west, south], [east, north]] = SAIGON_BOUNDS;
   const x = ((lng - west) / (east - west)) * 100;
@@ -320,6 +501,20 @@ function getMapPosition(lng: number, lat: number) {
     x: Math.max(4, Math.min(96, x)),
     y: Math.max(8, Math.min(92, y)),
   };
+}
+
+function isSameLocation(
+  selectedLocation: SelectedLocation | null,
+  zone: CandidateZone
+) {
+  if (!selectedLocation) {
+    return false;
+  }
+
+  return (
+    Math.abs(selectedLocation.lat - zone.lat) < 0.0001 &&
+    Math.abs(selectedLocation.lng - zone.lng) < 0.0001
+  );
 }
 
 function addSyntheticLayers(map: mapboxgl.Map, activeLayers: LayerKey[]) {
@@ -426,8 +621,17 @@ function registerLayerPopup(map: mapboxgl.Map, layerId: string) {
     new mapboxgl.Popup({ offset: 16 })
       .setLngLat(event.lngLat)
       .setHTML(
-        `<strong>${properties?.name ?? "Synthetic MVP layer"}</strong><br/>Readiness score: ${properties?.readinessScore ?? "N/A"}<br/>Confidence: ${properties?.confidence ?? "N/A"}`
+        `<strong>${escapeHtml(properties?.name ?? "Planning layer")}</strong><br/>Readiness score: ${properties?.readinessScore ?? "N/A"}<br/>Confidence: ${properties?.confidence ?? "N/A"}`
       )
       .addTo(map);
   });
+}
+
+function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }

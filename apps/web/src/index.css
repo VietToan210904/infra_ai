@@ -102,6 +102,11 @@
   filter: invert(1) hue-rotate(160deg);
 }
 
+.mapboxgl-ctrl-logo,
+.mapboxgl-ctrl-attrib a {
+  pointer-events: none;
+}
+
 .site-marker {
   display: grid;
   width: 34px;

@@ -139,7 +139,6 @@ function RealMap({
     map.scrollZoom.enable();
     map.touchZoomRotate.disableRotation();
     map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), "top-right");
-    map.addControl(new mapboxgl.FullscreenControl(), "top-right");
     map.addControl(new mapboxgl.ScaleControl({ maxWidth: 120, unit: "metric" }), "bottom-right");
     map.addControl(new mapboxgl.AttributionControl({ compact: true }), "bottom-right");
 
@@ -205,27 +204,22 @@ function RealMap({
       selectedLocation.lng,
       selectedLocation.lat,
     ];
+    const popupHtml = `<strong>${escapeHtml(selectedLocation.label ?? "Selected planning site")}</strong><br/>${selectedLocation.lat.toFixed(5)}, ${selectedLocation.lng.toFixed(5)}`;
 
     if (!selectedMarkerRef.current) {
       selectedMarkerRef.current = new mapboxgl.Marker({
         anchor: "bottom",
         element: createSelectedMarkerElement(),
       })
-        .setPopup(
-          new mapboxgl.Popup({ offset: 22 }).setHTML(
-            `<strong>${escapeHtml(selectedLocation.label ?? "Selected planning site")}</strong><br/>${selectedLocation.lat.toFixed(5)}, ${selectedLocation.lng.toFixed(5)}`
-          )
-        )
+        .setLngLat(lngLat)
+        .setPopup(new mapboxgl.Popup({ offset: 22 }).setHTML(popupHtml))
         .addTo(map);
     } else {
       selectedMarkerRef.current.setPopup(
-        new mapboxgl.Popup({ offset: 22 }).setHTML(
-          `<strong>${escapeHtml(selectedLocation.label ?? "Selected planning site")}</strong><br/>${selectedLocation.lat.toFixed(5)}, ${selectedLocation.lng.toFixed(5)}`
-        )
+        new mapboxgl.Popup({ offset: 22 }).setHTML(popupHtml)
       );
+      selectedMarkerRef.current.setLngLat(lngLat);
     }
-
-    selectedMarkerRef.current.setLngLat(lngLat);
     map.flyTo({
       center: lngLat,
       zoom: Math.max(map.getZoom(), 12.15),
@@ -301,6 +295,7 @@ function MapFallback({
             left={position.x}
             top={position.y}
             onClick={(event) => {
+              event.preventDefault();
               event.stopPropagation();
               onLocationSelect({
                 lat: zone.lat,
@@ -435,6 +430,7 @@ function addCandidateMarkers(
       .addTo(map);
 
     element.addEventListener("click", (event) => {
+      event.preventDefault();
       event.stopPropagation();
       onLocationSelectRef.current({
         lat: zone.lat,

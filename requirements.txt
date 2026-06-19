@@ -1,0 +1,17 @@
+# InfraAI Python dependency note
+#
+# Python dependencies are managed per service through each service's
+# pyproject.toml. Keep those files as the dependency source of truth:
+#
+# - apps/api/pyproject.toml
+# - services/agents/pyproject.toml
+# - services/data-pipelines/pyproject.toml
+#
+# Recommended future install commands:
+#
+#   python -m pip install -e "apps/api[dev]"
+#   python -m pip install -e "services/agents[dev]"
+#   python -m pip install -e "services/data-pipelines[dev]"
+#
+# Do not duplicate dependencies here manually. This file exists only for
+# compatibility with tools that expect a root requirements.txt.

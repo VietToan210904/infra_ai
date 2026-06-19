@@ -119,9 +119,9 @@ function App() {
     : "Choose a candidate site or click the map";
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#0a1420_0%,#0d1724_48%,#09111c_100%)]">
-      <div className="mx-auto flex w-full max-w-[1880px] flex-col gap-5 px-4 py-4 lg:px-6">
-        <header className="civic-panel flex flex-wrap items-center justify-between gap-4 px-5 py-4">
+    <main className="min-h-screen w-full overflow-x-hidden bg-[linear-gradient(180deg,#0a1420_0%,#0d1724_48%,#09111c_100%)] xl:h-screen xl:overflow-hidden">
+      <div className="flex min-h-screen w-full flex-col gap-5 px-4 py-4 lg:px-6 xl:h-screen xl:min-h-0 2xl:px-8">
+        <header className="civic-panel flex shrink-0 flex-wrap items-center justify-between gap-4 px-5 py-4">
           <div className="space-y-1">
             <div className="flex items-center gap-3">
               <div className="flex h-9 w-9 items-center justify-center rounded-lg border bg-primary/12 text-primary">
@@ -144,8 +144,8 @@ function App() {
           </div>
         </header>
 
-        <div className="grid gap-5 xl:dashboard-three-panel xl:items-start">
-          <section className="civic-panel space-y-5 p-5">
+        <div className="grid flex-1 gap-5 xl:min-h-0 xl:dashboard-three-panel xl:items-stretch">
+          <section className="civic-panel space-y-5 p-5 xl:h-full xl:min-h-0 xl:overflow-y-auto">
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
                 <div className="flex items-center gap-2 text-base font-semibold">
@@ -268,14 +268,14 @@ function App() {
             />
           </section>
 
-          <section className="min-h-[620px]">
+          <section className="min-h-[620px] xl:h-full xl:min-h-0">
             <AgentChatPanel
               selectedLocation={selectedLocation}
               analysis={analysis}
             />
           </section>
 
-          <section className="min-h-[620px]">
+          <section className="min-h-[620px] xl:h-full xl:min-h-0">
             <ReadinessReportPanel
               analysis={analysis}
               isLoading={isAnalyzing}
@@ -285,7 +285,7 @@ function App() {
           </section>
         </div>
 
-        <footer className="civic-panel flex flex-wrap items-center justify-between gap-3 px-4 py-3 text-xs text-muted-foreground">
+        <footer className="civic-panel flex shrink-0 flex-wrap items-center justify-between gap-3 px-4 py-3 text-xs text-muted-foreground">
           <span>
             Demo planning data for Saigon. Recommendations require engineering,
             environmental, and public-sector review.

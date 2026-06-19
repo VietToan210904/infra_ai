@@ -90,7 +90,7 @@ export function AgentChatPanel({
   }
 
   return (
-    <Card className="flex min-h-[620px] flex-col rounded-xl shadow-none xl:h-[calc(100vh-132px)]">
+    <Card className="flex min-h-[620px] flex-col rounded-xl shadow-none xl:h-full xl:min-h-0 xl:overflow-hidden">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between gap-3">
           <CardTitle className="flex items-center gap-2">
@@ -104,7 +104,7 @@ export function AgentChatPanel({
           benefit.
         </p>
       </CardHeader>
-      <CardContent className="flex flex-1 flex-col gap-4">
+      <CardContent className="flex min-h-0 flex-1 flex-col gap-4">
         <div className="flex flex-wrap gap-2">
           {suggestedQuestions.map((question) => (
             <Button
@@ -120,7 +120,7 @@ export function AgentChatPanel({
           ))}
         </div>
 
-        <ScrollArea className="min-h-[340px] flex-1 rounded-xl border bg-background/35 p-4">
+        <ScrollArea className="min-h-[340px] flex-1 rounded-xl border bg-background/35 p-4 xl:min-h-0">
           <div className="space-y-4 pr-3">
             {messages.map((message) => (
               <div

@@ -34,6 +34,13 @@
     color-scheme: dark;
   }
 
+  html,
+  body,
+  #root {
+    min-height: 100%;
+    width: 100%;
+  }
+
   body {
     @apply min-h-screen bg-background text-foreground antialiased;
     margin: 0;

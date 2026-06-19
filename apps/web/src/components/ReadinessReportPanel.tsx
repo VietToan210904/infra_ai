@@ -38,7 +38,7 @@ export function ReadinessReportPanel({
         : "outline";
 
   return (
-    <Card className="flex min-h-[620px] flex-col rounded-xl shadow-none xl:h-[calc(100vh-132px)]">
+    <Card className="flex min-h-[620px] flex-col rounded-xl shadow-none xl:h-full xl:min-h-0 xl:overflow-hidden">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between gap-3">
           <CardTitle className="flex items-center gap-2">
@@ -52,11 +52,11 @@ export function ReadinessReportPanel({
           review.
         </p>
       </CardHeader>
-      <CardContent className="flex flex-1 flex-col">
+      <CardContent className="flex min-h-0 flex-1 flex-col">
         {isLoading ? (
           <ReportSkeleton />
         ) : analysis ? (
-          <ScrollArea className="min-h-[520px] flex-1 pr-4">
+          <ScrollArea className="min-h-[520px] flex-1 pr-4 xl:min-h-0">
             <div className="space-y-5 pb-1">
               <section className="rounded-xl border bg-background/35 p-5">
                 <div className="flex items-start justify-between gap-4">
@@ -192,7 +192,7 @@ function EmptyReportState({
   selectedLocation: SelectedLocation | null;
 }) {
   return (
-    <div className="flex min-h-[460px] flex-1 items-center justify-center rounded-xl border bg-background/35 p-6 text-center">
+    <div className="flex min-h-[460px] flex-1 items-center justify-center rounded-xl border bg-background/35 p-6 text-center xl:min-h-0">
       <div className="max-w-sm">
         <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl border bg-secondary/50 text-primary">
           <MapPin className="h-5 w-5" />

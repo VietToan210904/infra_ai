@@ -50,38 +50,41 @@ function getReadinessVariant(score: number): "success" | "warning" | "outline" {
   return "outline";
 }
 
-function getSectorScore(analysis: SiteAnalysisResult, name: string) {
-  return analysis.sectors.find((s) => s.name === name)?.score ?? 0;
-}
-
 // ── Donut Chart ────────────────────────────────────────────────────────────
+// Fixed canvas: 100×100 SVG + label below. Used for sector cards (size=100).
 
-function DonutChart({ score, size = 100, label }: { score: number; size?: number; label: string }) {
-  const radius = (size - 14) / 2;
+const CHART_W = 100; // fixed width for ALL sector charts
+const CHART_H = 100; // fixed height for ALL sector charts
+
+function DonutChart({ score, size = CHART_W, label }: { score: number; size?: number; label: string }) {
+  const radius = (size - 18) / 2;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (score / 100) * circumference;
   const color = getScoreColor(score);
 
   return (
-    <div className="flex flex-col items-center gap-1">
+    <div className="flex flex-col items-center gap-1" style={{ width: CHART_W }}>
       <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
-        <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="#1e293b" strokeWidth={10} />
+        <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="#334155" strokeWidth={9} />
         <circle
           cx={size / 2} cy={size / 2} r={radius}
-          fill="none" stroke={color} strokeWidth={10}
+          fill="none" stroke={color} strokeWidth={9}
           strokeDasharray={circumference} strokeDashoffset={offset}
           strokeLinecap="round"
           transform={`rotate(-90 ${size / 2} ${size / 2})`}
           style={{ transition: "stroke-dashoffset 0.6s ease" }}
         />
-        <text x={size / 2} y={size / 2 - 4} textAnchor="middle" fill="#94a3b8" fontSize={size * 0.2} fontWeight="600">
+        {/* score number — always dark-friendly */}
+        <text x={size / 2} y={size / 2 + 1} textAnchor="middle" dominantBaseline="middle"
+          fill={color} fontSize={size * 0.22} fontWeight="700">
           {score}
         </text>
-        <text x={size / 2} y={size / 2 + 12} textAnchor="middle" fill="#94a3b8" fontSize={size * 0.1}>
+        <text x={size / 2} y={size / 2 + size * 0.18} textAnchor="middle"
+          fill="#94a3b8" fontSize={size * 0.11}>
           /100
         </text>
       </svg>
-      <span className="text-xs text-muted-foreground text-center leading-tight">{label}</span>
+      <span className="text-xs font-medium text-slate-400 text-center leading-tight">{label}</span>
     </div>
   );
 }
@@ -92,7 +95,7 @@ function RadarChart({ scores }: { scores: ComponentScores }) {
   const size = 220;
   const cx = size / 2;
   const cy = size / 2;
-  const maxR = 80;
+  const maxR = 76;
   const labels = ["Power", "Connectivity", "Cooling", "Feasibility", "Compute", "Demand", "Governance"];
   const values = [
     scores.power, scores.connectivity, scores.coolingWater,
@@ -103,10 +106,7 @@ function RadarChart({ scores }: { scores: ComponentScores }) {
 
   function point(i: number, r: number) {
     const angle = (i / n) * 2 * Math.PI - Math.PI / 2;
-    return {
-      x: cx + r * Math.cos(angle),
-      y: cy + r * Math.sin(angle),
-    };
+    return { x: cx + r * Math.cos(angle), y: cy + r * Math.sin(angle) };
   }
 
   const gridLevels = [20, 40, 60, 80, 100];
@@ -114,37 +114,37 @@ function RadarChart({ scores }: { scores: ComponentScores }) {
   const dataPath = dataPoints.map((p, i) => `${i === 0 ? "M" : "L"}${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(" ") + " Z";
 
   return (
-    <div className="flex flex-col items-center gap-2">
+    <div className="flex flex-col items-center gap-1">
       <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
         {/* Grid rings */}
         {gridLevels.map((level) => {
           const pts = Array.from({ length: n }, (_, i) => point(i, (level / 100) * maxR));
           const path = pts.map((p, i) => `${i === 0 ? "M" : "L"}${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(" ") + " Z";
-          return <path key={level} d={path} fill="none" stroke="#1e293b" strokeWidth={1} />;
+          return <path key={level} d={path} fill="none" stroke="#2d3f55" strokeWidth={1} />;
         })}
         {/* Axis lines */}
         {Array.from({ length: n }, (_, i) => {
           const outer = point(i, maxR);
-          return <line key={i} x1={cx} y1={cy} x2={outer.x} y2={outer.y} stroke="#1e293b" strokeWidth={1} />;
+          return <line key={i} x1={cx} y1={cy} x2={outer.x} y2={outer.y} stroke="#2d3f55" strokeWidth={1} />;
         })}
         {/* Data polygon */}
-        <path d={dataPath} fill="rgba(82,184,214,0.2)" stroke="#52b8d6" strokeWidth={2} />
+        <path d={dataPath} fill="rgba(82,184,214,0.18)" stroke="#52b8d6" strokeWidth={2} />
         {/* Data points */}
         {dataPoints.map((p, i) => (
-          <circle key={i} cx={p.x} cy={p.y} r={3.5} fill={getScoreColor(values[i])} />
+          <circle key={i} cx={p.x} cy={p.y} r={3.5} fill={getScoreColor(values[i])} stroke="#0f1e2e" strokeWidth={1} />
         ))}
-        {/* Labels */}
+        {/* Labels — bright enough on dark bg */}
         {Array.from({ length: n }, (_, i) => {
-          const pos = point(i, maxR + 16);
+          const pos = point(i, maxR + 17);
           return (
             <text key={i} x={pos.x} y={pos.y} textAnchor="middle" dominantBaseline="middle"
-              fill="#94a3b8" fontSize={9} fontWeight="500">
+              fill="#0B0D17" fontSize={9} fontWeight="500">
               {labels[i]}
             </text>
           );
         })}
       </svg>
-      <p className="text-xs text-muted-foreground">Infrastructure component scores</p>
+      <p className="text-xs font-medium text-slate-400">Infrastructure component scores</p>
     </div>
   );
 }
@@ -156,13 +156,14 @@ function HorizontalBar({ label, score, icon }: { label: string; score: number; i
   return (
     <div className="space-y-1.5">
       <div className="flex items-center justify-between gap-3 text-sm">
-        <span className="flex items-center gap-1.5 text-slate-300">
+        {/* label: use explicit light colour that reads on both dark card & beige bg */}
+        <span className="flex items-center gap-1.5 text-slate-600">
           <span className="text-primary">{icon}</span>
           {label}
         </span>
-        <span className="font-semibold" style={{ color }}>{score}</span>
+        <span className="font-semibold tabular-nums" style={{ color }}>{score}</span>
       </div>
-      <div className="h-2 w-full overflow-hidden rounded-full bg-secondary/50">
+      <div className="h-2 w-full overflow-hidden rounded-full bg-slate-700/60">
         <div
           className="h-full rounded-full transition-all duration-700"
           style={{ width: `${score}%`, backgroundColor: color }}
@@ -174,39 +175,72 @@ function HorizontalBar({ label, score, icon }: { label: string; score: number; i
 
 // ── Gauge Chart ────────────────────────────────────────────────────────────
 
+
 function GaugeChart({ score, label }: { score: number; label: string }) {
   const color = getScoreColor(score);
-  const angle = -135 + (score / 100) * 270;
-  const r = 50;
-  const cx = 70;
-  const cy = 70;
 
-  function arc(startAngle: number, endAngle: number, color: string) {
-    const toRad = (a: number) => (a * Math.PI) / 180;
-    const x1 = cx + r * Math.cos(toRad(startAngle - 90));
-    const y1 = cy + r * Math.sin(toRad(startAngle - 90));
-    const x2 = cx + r * Math.cos(toRad(endAngle - 90));
-    const y2 = cy + r * Math.sin(toRad(endAngle - 90));
-    const large = endAngle - startAngle > 180 ? 1 : 0;
-    return `M${x1.toFixed(1)},${y1.toFixed(1)} A${r},${r} 0 ${large},1 ${x2.toFixed(1)},${y2.toFixed(1)}`;
+  const W = CHART_W;
+  const H = CHART_H;
+
+  const cx = W / 2;
+  const cy = H / 2 + 10;
+  const r = 34;
+  const sw = 8;
+
+  const START = 225;
+  const SPAN = 270;
+
+  function polarXY(compassDeg: number, radius: number) {
+    const rad = ((compassDeg - 90) * Math.PI) / 180;
+    return { x: cx + radius * Math.cos(rad), y: cy + radius * Math.sin(rad) };
   }
 
-  const needleRad = ((angle - 90) * Math.PI) / 180;
-  const nx = cx + 42 * Math.cos(needleRad);
-  const ny = cy + 42 * Math.sin(needleRad);
+  function arcPath(fromDeg: number, toDeg: number) {
+    const p1 = polarXY(fromDeg, r);
+    const p2 = polarXY(toDeg, r);
+    // Span always goes clockwise; use the actual angular difference
+    const span = ((toDeg - fromDeg) + 360) % 360;
+    const large = span > 180 ? 1 : 0;
+    return `M${p1.x.toFixed(2)},${p1.y.toFixed(2)} A${r},${r} 0 ${large},1 ${p2.x.toFixed(2)},${p2.y.toFixed(2)}`;
+  }
+
+  const fillEnd = START + (score / 100) * SPAN;
+
+  // Needle tip & base (triangle shape)
+  const tip = polarXY(fillEnd, r - 5);
+  const bl = polarXY(fillEnd + 90, 4);
+  const br = polarXY(fillEnd - 90, 4);
+
+  // "0" and "100" labels just outside the arc ends
+  const zeroPos = polarXY(START, r + 11);
+  const endPos = polarXY(START + SPAN, r + 11);
 
   return (
-    <div className="flex flex-col items-center gap-1">
-      <svg width={140} height={90} viewBox="0 0 140 90">
-        <path d={arc(-135, 135, "#1e293b")} fill="none" stroke="#1e293b" strokeWidth={10} strokeLinecap="round" />
-        <path d={arc(-135, -135 + (score / 100) * 270, color)} fill="none" stroke={color} strokeWidth={10} strokeLinecap="round" />
-        <line x1={cx} y1={cy} x2={nx.toFixed(1)} y2={ny.toFixed(1)} stroke="black" strokeWidth={2} strokeLinecap="round" />
-        <circle cx={cx} cy={cy} r={4} fill="#334155" stroke="black" strokeWidth={1.5} />
-        <text x={cx} y={cy + 18} textAnchor="middle" fill="#94a3b8" fontSize={14} fontWeight="600">{score}</text>
-        <text x={28} y={86} fill="#94a3b8" fontSize={8}>0</text>
-        <text x={98} y={86} fill="#94a3b8" fontSize={8}>100</text>
+    <div className="flex flex-col items-center gap-0" style={{ width: CHART_W }}>
+      <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`}>
+        {/* Track */}
+        <path d={arcPath(START, START + SPAN)} fill="none" stroke="#334155" strokeWidth={sw} strokeLinecap="round" />
+        {/* Fill */}
+        {score > 0 && (
+          <path d={arcPath(START, fillEnd)} fill="none" stroke={color} strokeWidth={sw} strokeLinecap="round" />
+        )}
+        {/* Needle triangle */}
+        <polygon
+          points={`${tip.x.toFixed(1)},${tip.y.toFixed(1)} ${bl.x.toFixed(1)},${bl.y.toFixed(1)} ${br.x.toFixed(1)},${br.y.toFixed(1)}`}
+          fill="#e2e8f0"
+        />
+        {/* Pivot */}
+        <circle cx={cx} cy={cy} r={3.5} fill="#475569" stroke="#e2e8f0" strokeWidth={1} />
+        {/* Tick labels */}
+        <text x={zeroPos.x} y={zeroPos.y} textAnchor="middle" dominantBaseline="middle" fill="#64748b" fontSize={7}>0</text>
+        <text x={endPos.x} y={endPos.y} textAnchor="middle" dominantBaseline="middle" fill="#64748b" fontSize={7}>100</text>
       </svg>
-      <span className="text-xs text-muted-foreground">{label}</span>
+
+      <div className="flex items-baseline gap-0.5 -mt-1">
+        <span className="text-xl font-bold tabular-nums" style={{ color }}>{score}</span>
+        <span className="text-[10px] text-slate-400">/100</span>
+      </div>
+      <span className="text-xs font-medium text-slate-400 mt-0.5 text-center leading-tight">{label}</span>
     </div>
   );
 }
@@ -217,7 +251,7 @@ function UseCasePills({ useCases }: { useCases: string[] }) {
   return (
     <div className="flex flex-wrap gap-1.5 mt-1">
       {useCases.map((uc) => (
-        <span key={uc} className="rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 text-xs text-primary">
+        <span key={uc} className="rounded-full border border-sky-500/40 bg-sky-500/10 px-2.5 py-0.5 text-xs font-medium text-sky-300">
           {uc}
         </span>
       ))}
@@ -241,11 +275,12 @@ function SectorCard({ sector, index }: { sector: SectorReadiness; index: number 
   const meta = sectorMeta[sector.name] ?? { icon: <Building className="h-4 w-4" />, color: "#94a3b8" };
   const variant = getReadinessVariant(sector.score);
 
-  // Alternate chart types: donut → gauge → donut → gauge → donut
+  // Alternate chart types per card: donut (even) ↔ gauge (odd)
   const useDonut = index % 2 === 0;
 
   return (
     <div className="rounded-xl border bg-background/30 p-4 space-y-3">
+      {/* Header row */}
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2">
           <span style={{ color: meta.color }}>{meta.icon}</span>
@@ -254,19 +289,31 @@ function SectorCard({ sector, index }: { sector: SectorReadiness; index: number 
         <Badge variant={variant}>{sector.level}</Badge>
       </div>
 
-      <div className="flex items-center gap-4">
-        {useDonut ? (
-          <DonutChart score={sector.score} size={88} label="Readiness" />
-        ) : (
-          <GaugeChart score={sector.score} label="Readiness" />
-        )}
-        <div className="flex-1 space-y-2">
+      {/* Chart + info row */}
+      <div className="flex items-start gap-4">
+        {/*
+          Fixed-width, fixed-height box so DonutChart and GaugeChart
+          occupy exactly the same space regardless of type.
+          CHART_W = 100, GaugeChart needs a bit more vertical room
+          because score number sits below the SVG (+36px).
+        */}
+        <div
+          className="shrink-0 flex flex-col items-center justify-start"
+          style={{ width: CHART_W, minHeight: CHART_H + 36 }}
+        >
+          {useDonut
+            ? <DonutChart score={sector.score} size={CHART_W} label="Readiness" />
+            : <GaugeChart score={sector.score} label="Readiness" />
+          }
+        </div>
+
+        <div className="flex-1 min-w-0 space-y-2 pt-1">
           <div>
-            <p className="text-xs font-medium text-muted-foreground uppercase">Main gap</p>
-            <p className="mt-0.5 text-xs text-slate-300 leading-relaxed">{sector.mainGap}</p>
+            <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">Main gap</p>
+            <p className="mt-0.5 text-xs text-slate-500 leading-relaxed">{sector.mainGap}</p>
           </div>
           <div>
-            <p className="text-xs font-medium text-muted-foreground uppercase">Use cases</p>
+            <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">Use cases</p>
             <UseCasePills useCases={sector.suggestedUseCases} />
           </div>
         </div>

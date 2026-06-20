@@ -58,7 +58,7 @@ export function LayerTogglePanel({
   onToggleLayer,
 }: LayerTogglePanelProps) {
   return (
-    <section className="rounded-xl border bg-background/35 p-4">
+    <section className="rounded-[20px] border bg-card/70 p-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <div className="flex items-center gap-2 text-sm font-semibold">

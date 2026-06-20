@@ -119,12 +119,12 @@ function App() {
     : "Choose a candidate site or click the map";
 
   return (
-    <main className="min-h-screen w-full overflow-x-hidden bg-[linear-gradient(180deg,#0a1420_0%,#0d1724_48%,#09111c_100%)] xl:h-screen xl:overflow-hidden">
+    <main className="min-h-screen w-full overflow-x-hidden bg-transparent xl:h-screen xl:overflow-hidden">
       <div className="flex min-h-screen w-full flex-col gap-5 px-4 py-4 lg:px-6 xl:h-screen xl:min-h-0 2xl:px-8">
         <header className="civic-panel flex shrink-0 flex-wrap items-center justify-between gap-4 px-5 py-4">
           <div className="space-y-1">
             <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg border bg-primary/12 text-primary">
+              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[linear-gradient(135deg,#245c7e,#327f78)] text-white shadow-[0_12px_22px_rgb(36_92_126_/0.22)]">
                 <Building2 className="h-5 w-5" />
               </div>
               <div>
@@ -181,9 +181,9 @@ function App() {
                     key={zone.id}
                     type="button"
                     className={cn(
-                      "rounded-xl border bg-background/35 p-3 text-left transition hover:border-primary/60 hover:bg-secondary/50",
+                      "rounded-2xl border bg-card/70 p-3 text-left transition hover:border-primary/60 hover:bg-secondary/70",
                       selectedZoneId === zone.id &&
-                        "border-primary bg-primary/10 shadow-[0_0_0_1px_rgb(82_184_214_/0.2)]"
+                        "border-primary bg-secondary shadow-[0_0_0_1px_rgb(36_92_126_/0.16)]"
                     )}
                     onClick={() =>
                       handleLocationSelect({
@@ -218,7 +218,7 @@ function App() {
               />
             </div>
 
-            <section className="rounded-xl border bg-background/35 p-4">
+            <section className="rounded-[20px] border bg-card/70 p-4">
               <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                 <div className="space-y-3">
                   <div>
@@ -302,7 +302,7 @@ function App() {
 
 function StatusItem({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-lg border bg-card/45 p-3">
+    <div className="rounded-2xl border bg-card/70 p-3">
       <p className="text-xs font-medium uppercase text-muted-foreground">
         {label}
       </p>

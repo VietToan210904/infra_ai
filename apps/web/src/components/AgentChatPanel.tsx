@@ -90,7 +90,7 @@ export function AgentChatPanel({
   }
 
   return (
-    <Card className="flex min-h-[620px] flex-col rounded-xl shadow-none xl:h-full xl:min-h-0 xl:overflow-hidden">
+    <Card className="flex min-h-[620px] flex-col rounded-[22px] shadow-none xl:h-full xl:min-h-0 xl:overflow-hidden">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between gap-3">
           <CardTitle className="flex items-center gap-2">
@@ -120,7 +120,7 @@ export function AgentChatPanel({
           ))}
         </div>
 
-        <ScrollArea className="min-h-[340px] flex-1 rounded-xl border bg-background/35 p-4 xl:min-h-0">
+        <ScrollArea className="min-h-[340px] flex-1 rounded-[20px] border bg-[#fbf8f1] p-4 xl:min-h-0">
           <div className="space-y-4 pr-3">
             {messages.map((message) => (
               <div
@@ -131,29 +131,29 @@ export function AgentChatPanel({
                 )}
               >
                 {message.role === "assistant" && (
-                  <div className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border bg-secondary/70">
+                  <div className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border bg-secondary/80">
                     <MessageSquareText className="h-4 w-4 text-primary" />
                   </div>
                 )}
                 <div
                   className={cn(
-                    "max-w-[86%] rounded-xl border px-4 py-3 text-sm leading-relaxed",
+                    "max-w-[86%] rounded-2xl border px-4 py-3 text-sm leading-relaxed shadow-sm",
                     message.role === "assistant"
-                      ? "bg-card/80 text-slate-200"
-                      : "border-primary/35 bg-primary/14 text-slate-50"
+                      ? "border-border bg-card text-foreground"
+                      : "border-primary bg-primary text-primary-foreground"
                   )}
                 >
                   {message.content}
                 </div>
                 {message.role === "user" && (
-                  <div className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border bg-primary/12">
+                  <div className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border bg-primary/10">
                     <UserRound className="h-4 w-4 text-primary" />
                   </div>
                 )}
               </div>
             ))}
             {isThinking && (
-              <div className="rounded-lg border bg-card/60 px-3 py-2 text-xs text-muted-foreground">
+              <div className="rounded-xl border bg-card px-3 py-2 text-xs text-muted-foreground shadow-sm">
                 Reviewing the current readiness report...
               </div>
             )}

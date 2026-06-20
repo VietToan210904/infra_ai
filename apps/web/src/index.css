@@ -1,29 +1,31 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 215 34% 9%;
-    --foreground: 210 30% 94%;
-    --card: 214 30% 13%;
-    --card-foreground: 210 32% 96%;
-    --popover: 214 28% 14%;
-    --popover-foreground: 210 32% 96%;
-    --primary: 194 58% 52%;
-    --primary-foreground: 214 38% 9%;
-    --secondary: 214 20% 20%;
-    --secondary-foreground: 210 24% 92%;
-    --muted: 214 17% 18%;
-    --muted-foreground: 214 15% 70%;
-    --accent: 39 70% 60%;
-    --accent-foreground: 220 34% 10%;
+    --background: 38 31% 94%;
+    --foreground: 216 36% 14%;
+    --card: 43 100% 99%;
+    --card-foreground: 216 36% 14%;
+    --popover: 43 100% 99%;
+    --popover-foreground: 216 36% 14%;
+    --primary: 202 56% 32%;
+    --primary-foreground: 43 100% 99%;
+    --secondary: 199 45% 94%;
+    --secondary-foreground: 202 56% 32%;
+    --muted: 38 40% 96%;
+    --muted-foreground: 218 13% 47%;
+    --accent: 36 58% 45%;
+    --accent-foreground: 43 100% 99%;
     --destructive: 0 72% 52%;
-    --destructive-foreground: 210 32% 96%;
-    --border: 214 18% 25%;
-    --input: 214 18% 24%;
-    --ring: 194 58% 52%;
-    --radius: 0.625rem;
+    --destructive-foreground: 43 100% 99%;
+    --border: 35 23% 81%;
+    --input: 35 23% 81%;
+    --ring: 202 56% 32%;
+    --radius: 1rem;
   }
 
   * {
@@ -31,7 +33,7 @@
   }
 
   html {
-    color-scheme: dark;
+    color-scheme: light;
   }
 
   html,
@@ -43,7 +45,12 @@
 
   body {
     @apply min-h-screen bg-background text-foreground antialiased;
+    background:
+      radial-gradient(circle at 6% 8%, rgb(36 92 126 / 0.09), transparent 26%),
+      radial-gradient(circle at 84% 4%, rgb(185 130 47 / 0.09), transparent 22%),
+      hsl(var(--background));
     margin: 0;
+    letter-spacing: -0.01em;
     text-rendering: optimizeLegibility;
   }
 
@@ -61,11 +68,11 @@
   }
 
   .civic-panel {
-    border-radius: 0.75rem;
+    border-radius: 1.375rem;
     border: 1px solid hsl(var(--border));
-    background: hsl(var(--card) / 0.88);
-    box-shadow: 0 18px 44px rgb(0 0 0 / 0.22);
-    backdrop-filter: blur(12px);
+    background: hsl(var(--card) / 0.9);
+    box-shadow: 0 20px 50px rgb(29 42 61 / 0.1);
+    backdrop-filter: blur(14px);
   }
 
   .map-texture {
@@ -80,26 +87,27 @@
 }
 
 .mapboxgl-popup-content {
-  background: #111d2d;
-  border: 1px solid rgb(82 102 126 / 0.65);
-  border-radius: 10px;
-  color: #eef5ff;
-  padding: 10px 12px;
-  box-shadow: 0 14px 34px rgb(0 0 0 / 0.32);
+  background: #fffdf8;
+  border: 1px solid rgb(217 209 196 / 0.95);
+  border-radius: 14px;
+  color: #16202f;
+  padding: 12px 14px;
+  box-shadow: 0 18px 38px rgb(29 42 61 / 0.18);
 }
 
 .mapboxgl-popup-tip {
-  border-top-color: #0d1724 !important;
-  border-bottom-color: #0d1724 !important;
+  border-top-color: #fffdf8 !important;
+  border-bottom-color: #fffdf8 !important;
 }
 
 .mapboxgl-ctrl-group {
-  background: #111d2d !important;
-  border: 1px solid rgb(82 102 126 / 0.65) !important;
+  background: rgb(255 253 248 / 0.96) !important;
+  border: 1px solid rgb(217 209 196 / 0.95) !important;
+  box-shadow: 0 12px 30px rgb(29 42 61 / 0.14) !important;
 }
 
 .mapboxgl-ctrl button {
-  filter: invert(1) hue-rotate(160deg);
+  filter: none;
 }
 
 .mapboxgl-ctrl-logo,
@@ -132,11 +140,11 @@
 
 .site-marker-candidate {
   border: 1px solid rgb(255 255 255 / 0.72);
-  background: #eab856;
+  background: #ffd05b;
   color: #111827;
   box-shadow:
     0 10px 22px rgb(0 0 0 / 0.36),
-    0 0 0 4px rgb(234 184 86 / 0.18);
+    0 0 0 4px rgb(255 208 91 / 0.2);
 }
 
 .site-marker-candidate.is-selected {

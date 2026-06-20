@@ -17,7 +17,7 @@ export function ScoreCard({ suitability }: ScoreCardProps) {
         : "outline";
 
   return (
-    <section className="rounded-lg border bg-background/45 p-4">
+    <section className="rounded-[20px] border bg-card/70 p-4">
       <div className="flex items-start justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">

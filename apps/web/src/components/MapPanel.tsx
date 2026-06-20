@@ -37,26 +37,26 @@ const layerStyles: Record<
   education: {
     sourceId: "education-readiness-source",
     layerId: "education-readiness-layer",
-    color: "#38bdf8",
+    color: "#245c7e",
     kind: "circle",
   },
   healthcare: {
     sourceId: "healthcare-readiness-source",
     layerId: "healthcare-readiness-layer",
-    color: "#34d399",
+    color: "#327f78",
     kind: "circle",
   },
   government: {
     sourceId: "government-readiness-source",
     layerId: "government-readiness-layer",
-    color: "#f59e0b",
+    color: "#b9822f",
     kind: "circle",
   },
   overall_readiness: {
     sourceId: "overall-readiness-source",
     layerId: "overall-readiness-fill-layer",
     outlineLayerId: "overall-readiness-outline-layer",
-    color: "#22c55e",
+    color: "#4f7f4a",
     kind: "fill",
   },
 };
@@ -70,7 +70,7 @@ export function MapPanel({
   const selectedCoordinateText = useSelectedCoordinateText(selectedLocation);
 
   return (
-    <div className="relative h-[560px] min-h-[500px] overflow-hidden rounded-xl border bg-background/60 lg:h-[calc(100vh-360px)] lg:min-h-[560px] lg:max-h-[760px]">
+    <div className="relative h-[560px] min-h-[500px] overflow-hidden rounded-[22px] border bg-card lg:h-[calc(100vh-360px)] lg:min-h-[560px] lg:max-h-[760px]">
       {mapboxToken ? (
         <RealMap
           activeLayers={activeLayers}
@@ -344,7 +344,7 @@ function CandidateMarker({
         "absolute -translate-x-1/2 -translate-y-full rounded-full border p-1.5 shadow-[0_8px_18px_rgb(0_0_0_/0.35)] transition hover:scale-105",
         isSelected
           ? "border-white bg-primary text-primary-foreground"
-          : "border-white/65 bg-amber-300/95 text-slate-950 hover:bg-amber-200",
+          : "border-white/65 bg-[#ffd05b] text-slate-950 hover:bg-[#ffe38b]",
       ].join(" ")}
       style={{ left: `${left}%`, top: `${top}%` }}
       onClick={onClick}
@@ -365,9 +365,15 @@ function MapOverlayChips({
 }) {
   return (
     <div className="pointer-events-none absolute left-4 top-4 flex flex-wrap gap-2">
-      <Badge variant="secondary">Ho Chi Minh City</Badge>
-      <Badge variant="outline">{isRealMap ? "Satellite" : "Demo map layer active"}</Badge>
-      <Badge variant="outline">Planning layers {activeLayerCount}</Badge>
+      <Badge variant="outline" className="border-white/15 bg-[#0f1d2a]/80 text-[#edf7f6] backdrop-blur">
+        Ho Chi Minh City
+      </Badge>
+      <Badge variant="outline" className="border-white/15 bg-[#0f1d2a]/80 text-[#edf7f6] backdrop-blur">
+        {isRealMap ? "Satellite" : "Demo map layer active"}
+      </Badge>
+      <Badge variant="outline" className="border-white/15 bg-[#0f1d2a]/80 text-[#edf7f6] backdrop-blur">
+        Planning layers {activeLayerCount}
+      </Badge>
     </div>
   );
 }
@@ -378,7 +384,7 @@ function SelectedSiteCard({
   selectedCoordinateText: string;
 }) {
   return (
-    <div className="absolute bottom-4 left-4 max-w-[330px] rounded-xl border bg-background/90 p-3 shadow-panel backdrop-blur">
+    <div className="absolute bottom-4 left-4 max-w-[330px] rounded-2xl border bg-card/95 p-3 shadow-panel backdrop-blur">
       <div className="flex items-start gap-2">
         <Crosshair className="mt-0.5 h-4 w-4 text-primary" />
         <div>
@@ -562,11 +568,11 @@ function addSyntheticLayers(map: mapboxgl.Map, activeLayers: LayerKey[]) {
             ["linear"],
             ["get", "readinessScore"],
             60,
-            "#f59e0b",
+            "#b9822f",
             75,
-            "#22c55e",
+            "#4f7f4a",
             90,
-            "#14b8a6",
+            "#327f78",
           ],
           "fill-opacity": 0.28,
         },

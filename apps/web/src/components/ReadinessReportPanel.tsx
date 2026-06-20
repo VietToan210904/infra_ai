@@ -38,7 +38,7 @@ export function ReadinessReportPanel({
         : "outline";
 
   return (
-    <Card className="flex min-h-[620px] flex-col rounded-xl shadow-none xl:h-full xl:min-h-0 xl:overflow-hidden">
+    <Card className="flex min-h-[620px] flex-col rounded-[22px] shadow-none xl:h-full xl:min-h-0 xl:overflow-hidden">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between gap-3">
           <CardTitle className="flex items-center gap-2">
@@ -58,17 +58,17 @@ export function ReadinessReportPanel({
         ) : analysis ? (
           <ScrollArea className="min-h-[520px] flex-1 pr-4 xl:min-h-0">
             <div className="space-y-5 pb-1">
-              <section className="rounded-xl border bg-background/35 p-5">
+              <section className="rounded-[20px] border border-transparent bg-[linear-gradient(135deg,#245c7e,#327f78)] p-5 text-white shadow-[0_18px_34px_rgb(36_92_126_/0.2)]">
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <p className="text-xs font-medium uppercase text-muted-foreground">
+                    <p className="text-xs font-medium uppercase text-white/72">
                       Readiness score
                     </p>
                     <div className="mt-2 flex items-end gap-2">
                       <span className="text-5xl font-semibold tracking-normal">
                         {analysis.suitability.score}
                       </span>
-                      <span className="pb-2 text-sm text-muted-foreground">
+                      <span className="pb-2 text-sm text-white/72">
                         / 100
                       </span>
                     </div>
@@ -77,12 +77,15 @@ export function ReadinessReportPanel({
                     <Badge variant={readinessVariant}>
                       {readinessLabel} readiness
                     </Badge>
-                    <Badge variant="outline">
+                    <Badge variant="outline" className="border-white/22 bg-white/12 text-white">
                       {analysis.suitability.confidence} confidence
                     </Badge>
                   </div>
                 </div>
-                <Progress value={analysis.suitability.score} className="mt-5" />
+                <Progress
+                  value={analysis.suitability.score}
+                  className="mt-5 bg-white/24 [&>div]:bg-[linear-gradient(90deg,#f8ead3,#ffffff)]"
+                />
               </section>
 
               <section className="space-y-2">
@@ -117,12 +120,12 @@ export function ReadinessReportPanel({
 
               <section className="space-y-3">
                 <h3 className="flex items-center gap-2 text-sm font-semibold">
-                  <ShieldAlert className="h-4 w-4 text-amber-300" />
+                  <ShieldAlert className="h-4 w-4 text-[#b9822f]" />
                   Main risks
                 </h3>
                 <ul className="space-y-2 text-sm text-muted-foreground">
                   {analysis.bottlenecks.map((risk) => (
-                    <li key={risk} className="rounded-xl border bg-background/35 p-3">
+                    <li key={risk} className="rounded-2xl border bg-card/70 p-3">
                       {risk}
                     </li>
                   ))}
@@ -138,7 +141,7 @@ export function ReadinessReportPanel({
                     </Badge>
                   ))}
                 </div>
-                <div className="rounded-xl border bg-background/35 p-3">
+                <div className="rounded-2xl border bg-card/70 p-3">
                   <p className="text-xs font-medium uppercase text-muted-foreground">
                     First 0-6 months
                   </p>
@@ -167,7 +170,7 @@ export function ReadinessReportPanel({
 function ReportSkeleton() {
   return (
     <div className="space-y-5">
-      <div className="rounded-lg border bg-background/45 p-4">
+      <div className="rounded-2xl border bg-card/70 p-4">
         <Skeleton className="h-4 w-40" />
         <Skeleton className="mt-4 h-10 w-24" />
         <Skeleton className="mt-4 h-3 w-full" />
@@ -192,7 +195,7 @@ function EmptyReportState({
   selectedLocation: SelectedLocation | null;
 }) {
   return (
-    <div className="flex min-h-[460px] flex-1 items-center justify-center rounded-xl border bg-background/35 p-6 text-center xl:min-h-0">
+    <div className="flex min-h-[460px] flex-1 items-center justify-center rounded-[20px] border bg-card/70 p-6 text-center xl:min-h-0">
       <div className="max-w-sm">
         <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl border bg-secondary/50 text-primary">
           <MapPin className="h-5 w-5" />
@@ -223,9 +226,9 @@ function ReportScoreSection({
       <h3 className="text-sm font-semibold">{title}</h3>
       <div className="space-y-3">
         {rows.map(([label, score]) => (
-          <div key={label} className="rounded-xl border bg-background/30 p-3">
+          <div key={label} className="rounded-2xl border bg-card/70 p-3">
             <div className="mb-2 flex items-center justify-between gap-3">
-              <span className="text-sm text-slate-200">{label}</span>
+              <span className="text-sm text-foreground">{label}</span>
               <ReadinessPill score={score} />
             </div>
             <Progress value={score} />

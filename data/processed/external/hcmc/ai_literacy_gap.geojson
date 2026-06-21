@@ -1,0 +1,46 @@
+{
+  "type": "FeatureCollection",
+  "name": "synthetic_ai_literacy_gap_hcmc",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[106.675, 10.815], [106.715, 10.815], [106.715, 10.775], [106.675, 10.775], [106.675, 10.815]]]
+      },
+      "properties": {
+        "source_id": "syn-ai-literacy-core-001",
+        "name": "Synthetic civic AI-literacy training demand zone",
+        "asset_type": "ai_literacy_gap_scenario",
+        "category": "ai_analysis",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not survey, education, workforce, city, institutional, or investment evidence.",
+        "synthetic": true,
+        "gap_scenario": "medium"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[106.785, 10.865], [106.82, 10.865], [106.82, 10.835], [106.785, 10.835], [106.785, 10.865]]]
+      },
+      "properties": {
+        "source_id": "syn-ai-literacy-td-001",
+        "name": "Synthetic Thu Duc AI-literacy advantage zone",
+        "asset_type": "ai_literacy_gap_scenario",
+        "category": "ai_analysis",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not survey, education, workforce, city, institutional, or investment evidence.",
+        "synthetic": true,
+        "gap_scenario": "low"
+      }
+    }
+  ]
+}

@@ -15,6 +15,7 @@ import { Badge } from "@/components/ui/badge";
 import {
   infrastructureCategoryLabels,
   infrastructureLayers,
+  plannedInfrastructureLayers,
   type InfrastructureLayerCategory,
   type InfrastructureLayerId,
   type InfrastructureLayerRuntimeState,
@@ -37,20 +38,9 @@ const orderedCategories: InfrastructureLayerCategory[] = [
   "public_service",
   "land_environment",
   "transport_logistics",
+  "risk_land",
+  "ai_analysis",
   "verification",
-];
-
-const plannedLayerIds: InfrastructureLayerId[] = [
-  "fiber_corridors",
-  "flood_risk",
-  "heat_risk",
-  "water_availability",
-  "zoning",
-  "protected_land",
-  "population_density",
-  "workforce_readiness",
-  "digital_access_gap",
-  "ai_literacy_gap",
 ];
 
 export function InfrastructureLayerPanel({
@@ -64,18 +54,18 @@ export function InfrastructureLayerPanel({
         <div>
           <div className="flex items-center gap-2 text-sm font-semibold">
             <Database className="h-4 w-4 text-primary" />
-            Real infrastructure layers
+            Real and synthetic infrastructure layers
           </div>
           <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
             OpenStreetMap and external open-data overlays for early visual
-            inspection. These layers do not verify grid capacity, fibre
-            availability, or AI readiness.
+            inspection. Synthetic layers fill unavailable sources for demo
+            planning only and do not verify feasibility.
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
           <Badge variant="secondary">OpenStreetMap</Badge>
           <Badge variant="secondary">External sources</Badge>
-          <Badge variant="outline">Open data</Badge>
+          <Badge variant="outline">Synthetic demo</Badge>
           <Badge variant="warning">Not construction-ready</Badge>
         </div>
       </div>
@@ -161,14 +151,9 @@ export function InfrastructureLayerPanel({
           );
         })}
 
-        <LayerGroup title="Planned Future Layers" category="planned">
-          {plannedLayerIds.map((layerId) => {
-            const layer = infrastructureLayers.find((item) => item.id === layerId);
-            if (!layer) {
-              return null;
-            }
-
-            return (
+        {plannedInfrastructureLayers.length > 0 && (
+          <LayerGroup title="Planned Future Layers" category="planned">
+            {plannedInfrastructureLayers.map((layer) => (
               <div
                 key={layer.id}
                 className="rounded-xl border border-border/70 bg-transparent p-3 text-muted-foreground/75"
@@ -182,9 +167,9 @@ export function InfrastructureLayerPanel({
                   {layer.description}
                 </p>
               </div>
-            );
-          })}
-        </LayerGroup>
+            ))}
+          </LayerGroup>
+        )}
       </div>
     </section>
   );

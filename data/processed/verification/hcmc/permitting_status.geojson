@@ -1,0 +1,96 @@
+{
+  "type": "FeatureCollection",
+  "name": "synthetic_permitting_status_hcmc",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.802, 10.8493]
+      },
+      "properties": {
+        "source_id": "syn-permit-thu-duc-001",
+        "name": "Synthetic Thu Duc permit pre-screen",
+        "asset_type": "permitting_status_scenario",
+        "category": "verification",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not agency, permit portal, legal, environmental, public consultation, or investment evidence.",
+        "verification_status": "needs_review",
+        "evidence_source": "Synthetic demo fixture generated for frontend demonstration",
+        "evidence_type": "reviewed_document",
+        "evidence_date": "2026-06-21",
+        "review_owner": "Demo data generator",
+        "last_reviewed": "2026-06-21",
+        "synthetic": true,
+        "candidate_site": "Saigon Hi-Tech Park / Thu Duc",
+        "scenario_score": 61,
+        "permit_status_scenario": "pre-screen only",
+        "environmental_review_scenario": "not started",
+        "public_consultation_scenario": "needed"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.7308, 10.7817]
+      },
+      "properties": {
+        "source_id": "syn-permit-thu-thiem-001",
+        "name": "Synthetic Thu Thiem permit risk point",
+        "asset_type": "permitting_status_scenario",
+        "category": "verification",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not agency, permit portal, legal, environmental, public consultation, or investment evidence.",
+        "verification_status": "needs_review",
+        "evidence_source": "Synthetic demo fixture generated for frontend demonstration",
+        "evidence_type": "reviewed_document",
+        "evidence_date": "2026-06-21",
+        "review_owner": "Demo data generator",
+        "last_reviewed": "2026-06-21",
+        "synthetic": true,
+        "candidate_site": "Thu Thiem / District 2 area",
+        "scenario_score": 42,
+        "permit_status_scenario": "high review risk",
+        "environmental_review_scenario": "not started",
+        "public_consultation_scenario": "likely"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.7188, 10.7411]
+      },
+      "properties": {
+        "source_id": "syn-permit-d7-001",
+        "name": "Synthetic District 7 permit pre-screen",
+        "asset_type": "permitting_status_scenario",
+        "category": "verification",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not agency, permit portal, legal, environmental, public consultation, or investment evidence.",
+        "verification_status": "needs_review",
+        "evidence_source": "Synthetic demo fixture generated for frontend demonstration",
+        "evidence_type": "reviewed_document",
+        "evidence_date": "2026-06-21",
+        "review_owner": "Demo data generator",
+        "last_reviewed": "2026-06-21",
+        "synthetic": true,
+        "candidate_site": "Tan Thuan / District 7 area",
+        "scenario_score": 57,
+        "permit_status_scenario": "pre-screen only",
+        "environmental_review_scenario": "needed",
+        "public_consultation_scenario": "needed"
+      }
+    }
+  ]
+}

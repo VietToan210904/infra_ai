@@ -1,0 +1,102 @@
+{
+  "type": "FeatureCollection",
+  "name": "synthetic_fiber_capacity_verification_hcmc",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [106.7009, 10.7769],
+          [106.718, 10.787],
+          [106.752, 10.813],
+          [106.802, 10.8493]
+        ]
+      },
+      "properties": {
+        "source_id": "syn-fiber-d1-td-001",
+        "name": "Synthetic District 1 to Thu Duc fibre route",
+        "asset_type": "fiber_route_scenario",
+        "category": "verification",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not telecom provider, authority, engineering, contract, SLA, or investment evidence.",
+        "verification_status": "needs_review",
+        "evidence_source": "Synthetic demo fixture generated for frontend demonstration",
+        "evidence_type": "reviewed_document",
+        "evidence_date": "2026-06-21",
+        "review_owner": "Demo data generator",
+        "last_reviewed": "2026-06-21",
+        "synthetic": true,
+        "candidate_site": "Saigon Hi-Tech Park / Thu Duc",
+        "scenario_score": 74,
+        "route_diversity_scenario": "medium",
+        "latency_ms_scenario": 6.5
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [106.7009, 10.7769],
+          [106.705, 10.7615],
+          [106.7188, 10.7411]
+        ]
+      },
+      "properties": {
+        "source_id": "syn-fiber-d1-d7-001",
+        "name": "Synthetic District 1 to District 7 fibre route",
+        "asset_type": "fiber_route_scenario",
+        "category": "verification",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not telecom provider, authority, engineering, contract, SLA, or investment evidence.",
+        "verification_status": "needs_review",
+        "evidence_source": "Synthetic demo fixture generated for frontend demonstration",
+        "evidence_type": "reviewed_document",
+        "evidence_date": "2026-06-21",
+        "review_owner": "Demo data generator",
+        "last_reviewed": "2026-06-21",
+        "synthetic": true,
+        "candidate_site": "Tan Thuan / District 7 area",
+        "scenario_score": 69,
+        "route_diversity_scenario": "low",
+        "latency_ms_scenario": 8.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.7045, 10.782]
+      },
+      "properties": {
+        "source_id": "syn-fiber-pop-001",
+        "name": "Synthetic central interconnection point",
+        "asset_type": "network_pop_scenario",
+        "category": "verification",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not telecom provider, authority, engineering, contract, SLA, or investment evidence.",
+        "verification_status": "needs_review",
+        "evidence_source": "Synthetic demo fixture generated for frontend demonstration",
+        "evidence_type": "reviewed_document",
+        "evidence_date": "2026-06-21",
+        "review_owner": "Demo data generator",
+        "last_reviewed": "2026-06-21",
+        "synthetic": true,
+        "candidate_site": "District 1 civic core",
+        "scenario_score": 72,
+        "route_diversity_scenario": "medium",
+        "latency_ms_scenario": 5.1
+      }
+    }
+  ]
+}

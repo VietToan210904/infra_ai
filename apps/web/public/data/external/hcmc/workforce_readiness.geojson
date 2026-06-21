@@ -1,0 +1,40 @@
+{
+  "type": "FeatureCollection",
+  "name": "synthetic_workforce_readiness_hcmc",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [106.803, 10.848] },
+      "properties": {
+        "source_id": "syn-workforce-td-001",
+        "name": "Synthetic Thu Duc AI workforce cluster",
+        "asset_type": "workforce_readiness_scenario",
+        "category": "ai_analysis",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not labor, university, survey, employer, government, or investment evidence.",
+        "synthetic": true,
+        "readiness_scenario": "high"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [106.7009, 10.7769] },
+      "properties": {
+        "source_id": "syn-workforce-d1-001",
+        "name": "Synthetic central civic AI workforce node",
+        "asset_type": "workforce_readiness_scenario",
+        "category": "ai_analysis",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not labor, university, survey, employer, government, or investment evidence.",
+        "synthetic": true,
+        "readiness_scenario": "medium"
+      }
+    }
+  ]
+}

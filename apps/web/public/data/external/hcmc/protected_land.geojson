@@ -1,0 +1,26 @@
+{
+  "type": "FeatureCollection",
+  "name": "synthetic_protected_land_hcmc",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[106.745, 10.805], [106.775, 10.805], [106.775, 10.775], [106.745, 10.775], [106.745, 10.805]]]
+      },
+      "properties": {
+        "source_id": "syn-protected-river-001",
+        "name": "Synthetic river-buffer environmental review zone",
+        "asset_type": "protected_land_scenario",
+        "category": "risk_land",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not protected-land authority, environmental, legal, permit, or investment evidence.",
+        "synthetic": true,
+        "constraint_scenario": "environmental buffer review"
+      }
+    }
+  ]
+}

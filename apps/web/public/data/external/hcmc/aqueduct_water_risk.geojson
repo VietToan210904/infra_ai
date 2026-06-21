@@ -1,0 +1,48 @@
+{
+  "type": "FeatureCollection",
+  "name": "synthetic_aqueduct_water_risk_hcmc",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[106.68, 10.8], [106.755, 10.8], [106.755, 10.715], [106.68, 10.715], [106.68, 10.8]]]
+      },
+      "properties": {
+        "source_id": "syn-water-risk-south-001",
+        "name": "Synthetic river-adjacent water-risk review zone",
+        "asset_type": "water_risk_scenario",
+        "category": "land_environment",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not WRI Aqueduct, hydrology, water rights, flood model, environmental, or permit evidence.",
+        "synthetic": true,
+        "risk_scenario": "medium-high",
+        "review_need_scenario": "flood and discharge review"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[106.775, 10.875], [106.83, 10.875], [106.83, 10.82], [106.775, 10.82], [106.775, 10.875]]]
+      },
+      "properties": {
+        "source_id": "syn-water-risk-td-001",
+        "name": "Synthetic Thu Duc water-stress review zone",
+        "asset_type": "water_risk_scenario",
+        "category": "land_environment",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not WRI Aqueduct, hydrology, water rights, flood model, environmental, or permit evidence.",
+        "synthetic": true,
+        "risk_scenario": "medium",
+        "review_need_scenario": "cooling-water availability review"
+      }
+    }
+  ]
+}

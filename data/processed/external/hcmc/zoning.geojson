@@ -1,0 +1,46 @@
+{
+  "type": "FeatureCollection",
+  "name": "synthetic_land_zoning_hcmc",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[106.79, 10.86], [106.816, 10.86], [106.816, 10.837], [106.79, 10.837], [106.79, 10.86]]]
+      },
+      "properties": {
+        "source_id": "syn-land-zone-td-001",
+        "name": "Synthetic technology-industrial zoning context",
+        "asset_type": "land_zoning_scenario",
+        "category": "risk_land",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not planning authority, cadastral, ownership, legal, permit, or investment evidence.",
+        "synthetic": true,
+        "zoning_scenario": "technology-industrial compatible review"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[106.71, 10.748], [106.728, 10.748], [106.728, 10.734], [106.71, 10.734], [106.71, 10.748]]]
+      },
+      "properties": {
+        "source_id": "syn-land-zone-d7-001",
+        "name": "Synthetic industrial-logistics zoning context",
+        "asset_type": "land_zoning_scenario",
+        "category": "risk_land",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not planning authority, cadastral, ownership, legal, permit, or investment evidence.",
+        "synthetic": true,
+        "zoning_scenario": "industrial-logistics compatible review"
+      }
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "type": "FeatureCollection",
+  "name": "synthetic_construction_readiness_hcmc",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [106.794, 10.854],
+            [106.809, 10.854],
+            [106.809, 10.843],
+            [106.794, 10.843],
+            [106.794, 10.854]
+          ]
+        ]
+      },
+      "properties": {
+        "source_id": "syn-build-thu-duc-001",
+        "name": "Synthetic Thu Duc construction readiness zone",
+        "asset_type": "construction_readiness_scenario",
+        "category": "verification",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not geotechnical, land-control, utility, procurement, authority, engineering, permit, or investment evidence.",
+        "verification_status": "needs_review",
+        "evidence_source": "Synthetic demo fixture generated for frontend demonstration",
+        "evidence_type": "reviewed_document",
+        "evidence_date": "2026-06-21",
+        "review_owner": "Demo data generator",
+        "last_reviewed": "2026-06-21",
+        "synthetic": true,
+        "candidate_site": "Saigon Hi-Tech Park / Thu Duc",
+        "scenario_score": 68,
+        "land_control_scenario": "unknown",
+        "site_access_scenario": "moderate",
+        "geotech_review_scenario": "required"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [106.711, 10.746],
+            [106.726, 10.746],
+            [106.726, 10.735],
+            [106.711, 10.735],
+            [106.711, 10.746]
+          ]
+        ]
+      },
+      "properties": {
+        "source_id": "syn-build-d7-001",
+        "name": "Synthetic Tan Thuan retrofit readiness zone",
+        "asset_type": "construction_readiness_scenario",
+        "category": "verification",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not geotechnical, land-control, utility, procurement, authority, engineering, permit, or investment evidence.",
+        "verification_status": "needs_review",
+        "evidence_source": "Synthetic demo fixture generated for frontend demonstration",
+        "evidence_type": "reviewed_document",
+        "evidence_date": "2026-06-21",
+        "review_owner": "Demo data generator",
+        "last_reviewed": "2026-06-21",
+        "synthetic": true,
+        "candidate_site": "Tan Thuan / District 7 area",
+        "scenario_score": 60,
+        "land_control_scenario": "unknown",
+        "site_access_scenario": "good",
+        "geotech_review_scenario": "required"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [106.696, 10.781],
+          [106.714, 10.771],
+          [106.724, 10.744]
+        ]
+      },
+      "properties": {
+        "source_id": "syn-build-access-001",
+        "name": "Synthetic heavy-equipment access review route",
+        "asset_type": "construction_access_scenario",
+        "category": "verification",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not geotechnical, land-control, utility, procurement, authority, engineering, permit, or investment evidence.",
+        "verification_status": "needs_review",
+        "evidence_source": "Synthetic demo fixture generated for frontend demonstration",
+        "evidence_type": "reviewed_document",
+        "evidence_date": "2026-06-21",
+        "review_owner": "Demo data generator",
+        "last_reviewed": "2026-06-21",
+        "synthetic": true,
+        "candidate_site": "Tan Thuan / District 7 area",
+        "scenario_score": 55,
+        "land_control_scenario": "not applicable",
+        "site_access_scenario": "route review needed",
+        "geotech_review_scenario": "not applicable"
+      }
+    }
+  ]
+}

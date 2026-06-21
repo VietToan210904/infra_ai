@@ -1,0 +1,40 @@
+{
+  "type": "FeatureCollection",
+  "name": "synthetic_fiber_corridors_hcmc",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": { "type": "LineString", "coordinates": [[106.7009, 10.7769], [106.725, 10.79], [106.755, 10.815], [106.802, 10.8493]] },
+      "properties": {
+        "source_id": "syn-fiber-corridor-001",
+        "name": "Synthetic core to Thu Duc fibre corridor",
+        "asset_type": "fiber_corridor_scenario",
+        "category": "network",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not telecom provider, fibre route, bandwidth, latency, redundancy, SLA, or investment evidence.",
+        "synthetic": true,
+        "redundancy_scenario": "medium"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "LineString", "coordinates": [[106.7009, 10.7769], [106.707, 10.762], [106.7188, 10.7411]] },
+      "properties": {
+        "source_id": "syn-fiber-corridor-002",
+        "name": "Synthetic core to District 7 fibre corridor",
+        "asset_type": "fiber_corridor_scenario",
+        "category": "network",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not telecom provider, fibre route, bandwidth, latency, redundancy, SLA, or investment evidence.",
+        "synthetic": true,
+        "redundancy_scenario": "low-medium"
+      }
+    }
+  ]
+}

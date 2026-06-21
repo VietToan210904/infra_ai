@@ -1,0 +1,97 @@
+{
+  "type": "FeatureCollection",
+  "name": "synthetic_grid_capacity_verification_hcmc",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.802, 10.8493]
+      },
+      "properties": {
+        "source_id": "syn-grid-thu-duc-001",
+        "name": "Synthetic Thu Duc grid capacity scenario",
+        "asset_type": "grid_capacity_scenario",
+        "category": "verification",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not utility, provider, authority, engineering, permit, construction, or investment evidence.",
+        "verification_status": "needs_review",
+        "evidence_source": "Synthetic demo fixture generated for frontend demonstration",
+        "evidence_type": "reviewed_document",
+        "evidence_date": "2026-06-21",
+        "review_owner": "Demo data generator",
+        "last_reviewed": "2026-06-21",
+        "synthetic": true,
+        "candidate_site": "Saigon Hi-Tech Park / Thu Duc",
+        "scenario_score": 78,
+        "available_mw_scenario": 80,
+        "upgrade_need_scenario": "medium"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.7188, 10.7411]
+      },
+      "properties": {
+        "source_id": "syn-grid-d7-001",
+        "name": "Synthetic Tan Thuan grid capacity scenario",
+        "asset_type": "grid_capacity_scenario",
+        "category": "verification",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not utility, provider, authority, engineering, permit, construction, or investment evidence.",
+        "verification_status": "needs_review",
+        "evidence_source": "Synthetic demo fixture generated for frontend demonstration",
+        "evidence_type": "reviewed_document",
+        "evidence_date": "2026-06-21",
+        "review_owner": "Demo data generator",
+        "last_reviewed": "2026-06-21",
+        "synthetic": true,
+        "candidate_site": "Tan Thuan / District 7 area",
+        "scenario_score": 64,
+        "available_mw_scenario": 45,
+        "upgrade_need_scenario": "high"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [106.8014, 10.851],
+          [106.789, 10.8425],
+          [106.775, 10.8305]
+        ]
+      },
+      "properties": {
+        "source_id": "syn-grid-route-td-001",
+        "name": "Synthetic Thu Duc interconnection route",
+        "asset_type": "interconnection_route_scenario",
+        "category": "verification",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not utility, provider, authority, engineering, permit, construction, or investment evidence.",
+        "verification_status": "needs_review",
+        "evidence_source": "Synthetic demo fixture generated for frontend demonstration",
+        "evidence_type": "reviewed_document",
+        "evidence_date": "2026-06-21",
+        "review_owner": "Demo data generator",
+        "last_reviewed": "2026-06-21",
+        "synthetic": true,
+        "candidate_site": "Saigon Hi-Tech Park / Thu Duc",
+        "scenario_score": 70,
+        "route_km_scenario": 4.2,
+        "upgrade_need_scenario": "medium"
+      }
+    }
+  ]
+}

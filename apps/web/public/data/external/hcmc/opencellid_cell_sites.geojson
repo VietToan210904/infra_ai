@@ -1,0 +1,60 @@
+{
+  "type": "FeatureCollection",
+  "name": "synthetic_opencellid_cell_sites_hcmc",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [106.801, 10.849] },
+      "properties": {
+        "source_id": "syn-cell-td-001",
+        "name": "Synthetic Thu Duc cellular observation",
+        "asset_type": "cell_site_observation_scenario",
+        "category": "network",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not OpenCelliD, telecom provider, fibre, bandwidth, SLA, or coverage evidence.",
+        "synthetic": true,
+        "radio_scenario": "5G macro",
+        "signal_context_scenario": "strong urban coverage"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [106.7308, 10.7817] },
+      "properties": {
+        "source_id": "syn-cell-tt-001",
+        "name": "Synthetic Thu Thiem cellular observation",
+        "asset_type": "cell_site_observation_scenario",
+        "category": "network",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not OpenCelliD, telecom provider, fibre, bandwidth, SLA, or coverage evidence.",
+        "synthetic": true,
+        "radio_scenario": "4G/5G dense urban",
+        "signal_context_scenario": "medium-high coverage"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [106.7188, 10.7411] },
+      "properties": {
+        "source_id": "syn-cell-d7-001",
+        "name": "Synthetic District 7 cellular observation",
+        "asset_type": "cell_site_observation_scenario",
+        "category": "network",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not OpenCelliD, telecom provider, fibre, bandwidth, SLA, or coverage evidence.",
+        "synthetic": true,
+        "radio_scenario": "5G small-cell candidate",
+        "signal_context_scenario": "industrial-zone coverage review"
+      }
+    }
+  ]
+}

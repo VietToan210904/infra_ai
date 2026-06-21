@@ -37,7 +37,12 @@ REQUIRED_PROPERTIES = (
     "evidence_type",
 )
 
-VALID_SOURCE_TYPES = {"authoritative", "authoritative_planned", "user_uploaded"}
+VALID_SOURCE_TYPES = {
+    "authoritative",
+    "authoritative_planned",
+    "synthetic",
+    "user_uploaded",
+}
 VALID_CONFIDENCE = {"low", "medium", "high"}
 VALID_COMPLETENESS = {"unknown", "partial", "good"}
 VALID_VERIFICATION_STATUS = {
@@ -147,6 +152,8 @@ def validate_feature(
         errors.append(
             f"{label}: source_type must be one of {sorted(VALID_SOURCE_TYPES)}"
         )
+    if source_type == "synthetic":
+        validate_synthetic_feature(label, properties, errors)
 
     source_confidence = properties.get("source_confidence")
     if source_confidence and source_confidence not in VALID_CONFIDENCE:
@@ -165,6 +172,30 @@ def validate_feature(
         errors.append(
             f"{label}: verification_status must be one of "
             f"{sorted(VALID_VERIFICATION_STATUS)}"
+        )
+
+
+def validate_synthetic_feature(
+    label: str,
+    properties: dict[str, Any],
+    errors: list[str],
+) -> None:
+    if properties.get("synthetic") is not True:
+        errors.append(f"{label}: synthetic source_type requires synthetic=true")
+
+    if properties.get("source_confidence") != "low":
+        errors.append(f"{label}: synthetic source_type must use source_confidence=low")
+
+    if properties.get("verification_status") != "needs_review":
+        errors.append(
+            f"{label}: synthetic source_type must use "
+            "verification_status=needs_review"
+        )
+
+    limitation = str(properties.get("data_limitation", "")).lower()
+    if "synthetic" not in limitation:
+        errors.append(
+            f"{label}: synthetic source_type must say synthetic in data_limitation"
         )
 
 

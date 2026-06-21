@@ -1,0 +1,44 @@
+{
+  "type": "FeatureCollection",
+  "name": "synthetic_wri_power_plants_hcmc",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [106.7605, 10.836] },
+      "properties": {
+        "source_id": "syn-wri-power-001",
+        "name": "Synthetic Thu Duc capacity plant context",
+        "asset_type": "power_plant_capacity_scenario",
+        "category": "power",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not WRI, utility, grid-operator, interconnection, permit, or investment evidence.",
+        "synthetic": true,
+        "capacity_mw_scenario": 450,
+        "fuel_scenario": "gas",
+        "candidate_site": "Saigon Hi-Tech Park / Thu Duc"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [106.705, 10.724] },
+      "properties": {
+        "source_id": "syn-wri-power-002",
+        "name": "Synthetic south HCMC generation context",
+        "asset_type": "power_plant_capacity_scenario",
+        "category": "power",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not WRI, utility, grid-operator, interconnection, permit, or investment evidence.",
+        "synthetic": true,
+        "capacity_mw_scenario": 220,
+        "fuel_scenario": "dual fuel",
+        "candidate_site": "Tan Thuan / District 7 area"
+      }
+    }
+  ]
+}

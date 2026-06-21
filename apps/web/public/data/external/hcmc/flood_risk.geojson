@@ -1,0 +1,26 @@
+{
+  "type": "FeatureCollection",
+  "name": "synthetic_flood_risk_hcmc",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[106.705, 10.795], [106.75, 10.795], [106.75, 10.735], [106.705, 10.735], [106.705, 10.795]]]
+      },
+      "properties": {
+        "source_id": "syn-flood-river-001",
+        "name": "Synthetic Saigon River flood review zone",
+        "asset_type": "flood_risk_scenario",
+        "category": "risk_land",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not flood model, authority, engineering, insurance, permit, or investment evidence.",
+        "synthetic": true,
+        "risk_scenario": "high review priority"
+      }
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "type": "FeatureCollection",
+  "name": "synthetic_ai_readiness_assessment_hcmc",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [106.787, 10.864],
+            [106.818, 10.864],
+            [106.818, 10.833],
+            [106.787, 10.833],
+            [106.787, 10.864]
+          ]
+        ]
+      },
+      "properties": {
+        "source_id": "syn-ai-thu-duc-001",
+        "name": "Synthetic Thu Duc AI readiness assessment",
+        "asset_type": "ai_readiness_scenario",
+        "category": "verification",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not workforce, cybersecurity, governance, survey, authority, institutional, or investment evidence.",
+        "verification_status": "needs_review",
+        "evidence_source": "Synthetic demo fixture generated for frontend demonstration",
+        "evidence_type": "reviewed_document",
+        "evidence_date": "2026-06-21",
+        "review_owner": "Demo data generator",
+        "last_reviewed": "2026-06-21",
+        "synthetic": true,
+        "candidate_site": "Saigon Hi-Tech Park / Thu Duc",
+        "scenario_score": 81,
+        "workforce_readiness_scenario": "high",
+        "cybersecurity_readiness_scenario": "needs review",
+        "data_governance_scenario": "partial"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [106.691, 10.787],
+            [106.712, 10.787],
+            [106.712, 10.766],
+            [106.691, 10.766],
+            [106.691, 10.787]
+          ]
+        ]
+      },
+      "properties": {
+        "source_id": "syn-ai-d1-001",
+        "name": "Synthetic District 1 civic AI readiness assessment",
+        "asset_type": "ai_readiness_scenario",
+        "category": "verification",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not workforce, cybersecurity, governance, survey, authority, institutional, or investment evidence.",
+        "verification_status": "needs_review",
+        "evidence_source": "Synthetic demo fixture generated for frontend demonstration",
+        "evidence_type": "reviewed_document",
+        "evidence_date": "2026-06-21",
+        "review_owner": "Demo data generator",
+        "last_reviewed": "2026-06-21",
+        "synthetic": true,
+        "candidate_site": "District 1 civic core",
+        "scenario_score": 73,
+        "workforce_readiness_scenario": "medium",
+        "cybersecurity_readiness_scenario": "needs review",
+        "data_governance_scenario": "partial"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [106.705, 10.752],
+            [106.733, 10.752],
+            [106.733, 10.729],
+            [106.705, 10.729],
+            [106.705, 10.752]
+          ]
+        ]
+      },
+      "properties": {
+        "source_id": "syn-ai-d7-001",
+        "name": "Synthetic District 7 enterprise AI readiness assessment",
+        "asset_type": "ai_readiness_scenario",
+        "category": "verification",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not workforce, cybersecurity, governance, survey, authority, institutional, or investment evidence.",
+        "verification_status": "needs_review",
+        "evidence_source": "Synthetic demo fixture generated for frontend demonstration",
+        "evidence_type": "reviewed_document",
+        "evidence_date": "2026-06-21",
+        "review_owner": "Demo data generator",
+        "last_reviewed": "2026-06-21",
+        "synthetic": true,
+        "candidate_site": "Tan Thuan / District 7 area",
+        "scenario_score": 66,
+        "workforce_readiness_scenario": "medium",
+        "cybersecurity_readiness_scenario": "unknown",
+        "data_governance_scenario": "needs review"
+      }
+    }
+  ]
+}

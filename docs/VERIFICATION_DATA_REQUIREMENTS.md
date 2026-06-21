@@ -4,9 +4,10 @@ InfraAI SiteCompass can show open-data infrastructure context today. It cannot
 verify grid capacity, fibre capacity, cooling feasibility, zoning, permitting,
 construction readiness, or AI readiness from OpenStreetMap alone.
 
-The frontend now includes disabled verification-layer slots. They are marked
-`Needs data` until a city, utility, telecom provider, engineering team, or
-reviewed planning document supplies evidence.
+The frontend currently includes synthetic demo fixtures for the verification
+layer slots. They are marked as synthetic, low-confidence, and `needs_review`
+until a city, utility, telecom provider, engineering team, or reviewed planning
+document supplies real evidence.
 
 ## Files
 
@@ -41,8 +42,8 @@ Every feature should include:
   "name": "Asset or review area name",
   "asset_type": "grid_capacity | fiber_capacity | cooling_feasibility | zoning | permit | construction_readiness | ai_readiness",
   "category": "verification",
-  "source": "Official agency, utility, provider, or reviewed document source",
-  "source_type": "authoritative",
+  "source": "Official agency, utility, provider, reviewed document, or synthetic demo source",
+  "source_type": "authoritative | authoritative_planned | user_uploaded | synthetic",
   "source_confidence": "low | medium | high",
   "data_completeness": "unknown | partial | good",
   "data_limitation": "Specific limitation for this evidence",
@@ -54,6 +55,10 @@ Every feature should include:
   "last_reviewed": "YYYY-MM-DD"
 }
 ```
+
+Synthetic demo features must also include `"synthetic": true`, use
+`"source_confidence": "low"`, and keep
+`"verification_status": "needs_review"`.
 
 ## Layer Evidence
 
@@ -124,10 +129,10 @@ Copy validated files to the frontend:
 python3 scripts/copy_verification_geojson_to_web.py
 ```
 
-After validation, update the matching layer in
-`apps/web/src/data/infrastructureLayerRegistry.ts` from `needs_data` to
-`available`, and set the source/confidence/completeness fields to match the
-actual dataset.
+After validation, copy the files to the frontend. If real evidence replaces a
+synthetic fixture, update the matching layer in
+`apps/web/src/data/infrastructureLayerRegistry.ts` so the label, source,
+source type, confidence, completeness, and limitation match the actual dataset.
 
 ## Responsible Use
 

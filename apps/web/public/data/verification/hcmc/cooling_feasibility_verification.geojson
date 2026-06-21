@@ -1,0 +1,109 @@
+{
+  "type": "FeatureCollection",
+  "name": "synthetic_cooling_feasibility_verification_hcmc",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [106.7225, 10.7875],
+            [106.739, 10.786],
+            [106.7395, 10.7745],
+            [106.724, 10.773],
+            [106.7225, 10.7875]
+          ]
+        ]
+      },
+      "properties": {
+        "source_id": "syn-cooling-thu-thiem-001",
+        "name": "Synthetic Thu Thiem cooling review zone",
+        "asset_type": "cooling_feasibility_scenario",
+        "category": "verification",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not hydrology, environmental, utility, authority, engineering, permit, or investment evidence.",
+        "verification_status": "needs_review",
+        "evidence_source": "Synthetic demo fixture generated for frontend demonstration",
+        "evidence_type": "reviewed_document",
+        "evidence_date": "2026-06-21",
+        "review_owner": "Demo data generator",
+        "last_reviewed": "2026-06-21",
+        "synthetic": true,
+        "candidate_site": "Thu Thiem / District 2 area",
+        "scenario_score": 62,
+        "cooling_mode_scenario": "hybrid air-water review needed",
+        "flood_review_scenario": "required"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.7188, 10.7411]
+      },
+      "properties": {
+        "source_id": "syn-cooling-d7-001",
+        "name": "Synthetic District 7 cooling constraint point",
+        "asset_type": "cooling_feasibility_scenario",
+        "category": "verification",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not hydrology, environmental, utility, authority, engineering, permit, or investment evidence.",
+        "verification_status": "needs_review",
+        "evidence_source": "Synthetic demo fixture generated for frontend demonstration",
+        "evidence_type": "reviewed_document",
+        "evidence_date": "2026-06-21",
+        "review_owner": "Demo data generator",
+        "last_reviewed": "2026-06-21",
+        "synthetic": true,
+        "candidate_site": "Tan Thuan / District 7 area",
+        "scenario_score": 58,
+        "cooling_mode_scenario": "air cooling with heat rejection review",
+        "flood_review_scenario": "required"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [106.792, 10.858],
+            [106.813, 10.858],
+            [106.813, 10.839],
+            [106.792, 10.839],
+            [106.792, 10.858]
+          ]
+        ]
+      },
+      "properties": {
+        "source_id": "syn-cooling-thu-duc-001",
+        "name": "Synthetic Thu Duc dry cooling scenario zone",
+        "asset_type": "cooling_feasibility_scenario",
+        "category": "verification",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not hydrology, environmental, utility, authority, engineering, permit, or investment evidence.",
+        "verification_status": "needs_review",
+        "evidence_source": "Synthetic demo fixture generated for frontend demonstration",
+        "evidence_type": "reviewed_document",
+        "evidence_date": "2026-06-21",
+        "review_owner": "Demo data generator",
+        "last_reviewed": "2026-06-21",
+        "synthetic": true,
+        "candidate_site": "Saigon Hi-Tech Park / Thu Duc",
+        "scenario_score": 67,
+        "cooling_mode_scenario": "air cooling baseline",
+        "flood_review_scenario": "medium"
+      }
+    }
+  ]
+}

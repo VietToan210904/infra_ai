@@ -16,6 +16,11 @@ Expected processed file names:
 Put reviewed files in `data/processed/verification/hcmc/`, validate them, then
 copy them into `apps/web/public/data/verification/hcmc/`.
 
+For demos before real evidence exists, synthetic fixtures can also live in
+`data/processed/verification/hcmc/`. They must use `source_type: synthetic`,
+`synthetic: true`, `source_confidence: low`, and
+`verification_status: needs_review`.
+
 ```bash
 python3 scripts/validate_verification_geojson.py --input data/processed/verification/hcmc
 python3 scripts/copy_verification_geojson_to_web.py

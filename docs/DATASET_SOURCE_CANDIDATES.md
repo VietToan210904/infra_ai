@@ -182,5 +182,6 @@ These are the datasets most likely needed for true verification:
   cooling, water, environmental, and procurement readiness
 - Local AI readiness survey or official city digital-transformation metrics
 
-Until those are supplied, the frontend should keep the corresponding
-verification layers marked `Needs data`.
+Until those are supplied, the frontend can show clearly labeled synthetic demo
+fixtures for missing components, mixed with real OSM and PeeringDB layers. The
+synthetic fixtures must not be treated as verification evidence.

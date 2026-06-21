@@ -640,7 +640,7 @@ function MapOverlayChips({
         {basemapLabel}
       </Badge>
       <Badge variant="outline" className="border-white/15 bg-[#0f1d2a]/80 text-[#edf7f6] backdrop-blur">
-        {isRealMap ? "Open-data layers" : "Token required for live layers"} {activeLayerCount}
+        {isRealMap ? "Visible overlays" : "Token required for live layers"} {activeLayerCount}
       </Badge>
     </div>
   );

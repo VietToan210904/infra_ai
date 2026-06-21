@@ -1,0 +1,48 @@
+{
+  "type": "FeatureCollection",
+  "name": "synthetic_ookla_mobile_performance_hcmc",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[106.79, 10.86], [106.815, 10.86], [106.815, 10.835], [106.79, 10.835], [106.79, 10.86]]]
+      },
+      "properties": {
+        "source_id": "syn-mobile-td-001",
+        "name": "Synthetic Thu Duc mobile performance tile",
+        "asset_type": "mobile_network_performance_scenario",
+        "category": "network",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not Ookla, telecom provider, coverage guarantee, fibre, SLA, or site-level latency evidence.",
+        "synthetic": true,
+        "download_mbps_scenario": 210,
+        "latency_ms_scenario": 18
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[106.715, 10.795], [106.745, 10.795], [106.745, 10.765], [106.715, 10.765], [106.715, 10.795]]]
+      },
+      "properties": {
+        "source_id": "syn-mobile-tt-001",
+        "name": "Synthetic Thu Thiem mobile performance tile",
+        "asset_type": "mobile_network_performance_scenario",
+        "category": "network",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not Ookla, telecom provider, coverage guarantee, fibre, SLA, or site-level latency evidence.",
+        "synthetic": true,
+        "download_mbps_scenario": 165,
+        "latency_ms_scenario": 22
+      }
+    }
+  ]
+}

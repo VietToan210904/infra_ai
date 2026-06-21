@@ -23,6 +23,20 @@ Default limitation:
 OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.
 ```
 
+### Synthetic Demo Fixtures
+
+- Source: repo-generated demo GeoJSON
+- Access method: local files in `data/processed/external/hcmc/` and
+  `data/processed/verification/hcmc/`
+- Source type: synthetic
+- Source confidence: low
+- Data completeness: partial
+
+Synthetic fixtures fill missing AI-infrastructure components so the frontend
+can show a complete planning workflow before real provider or authority data is
+available. They are always labeled synthetic and must not be treated as
+verification evidence.
+
 ## Current Implemented Layer Categories
 
 Power infrastructure:
@@ -38,12 +52,17 @@ Network infrastructure:
 - Telecom-tagged assets: `telecom=*`
 - Existing data-center-like assets where tagged: `telecom=data_center`, `building=data_center`, `man_made=data_center`
 - PeeringDB interconnection facilities where coordinates are available
+- Synthetic fibre corridors, cellular observations, and fixed/mobile network
+  performance placeholders where provider or Ookla/OpenCelliD files are not yet
+  loaded
 
 Innovation and human-capacity context:
 
 - Research institutes: `amenity=research_institute`
 - Research offices: `office=research`
 - IT offices: `office=it`
+- Synthetic workforce, digital-access, AI-literacy, and population-density
+  placeholders for AI-readiness exploration
 
 Public-service infrastructure:
 
@@ -61,6 +80,8 @@ Land, water, and logistics context:
 - Industrial zones: `landuse=industrial`, `industrial=*`
 - Transport corridors: `highway=motorway`, `highway=trunk`, `highway=primary`, `railway=rail`
 - Water context: `natural=water`, `water=reservoir`, `landuse=reservoir`, `waterway=river`, `waterway=canal`
+- Synthetic flood, heat, water-availability, zoning, protected-land, and
+  water-risk placeholders for risk screening
 
 ## Current Limitations
 
@@ -74,24 +95,27 @@ Land, water, and logistics context:
 - No workforce, research, or institutional capacity scoring is included.
 - No permitting, procurement, cybersecurity, or public consultation validation is included.
 - No AI readiness scoring is calculated yet.
+- Synthetic verification layers are demo placeholders only and do not prove site
+  feasibility.
 - Open-data proximity does not mean a site can connect to infrastructure.
 - Open-data infrastructure visibility does not mean construction readiness.
 
 ## Verification Data Requirements
 
-The frontend includes disabled `Needs data` layer slots for:
+The frontend includes synthetic demo fixtures for:
 
-- Verified grid capacity
-- Verified fibre capacity
-- Cooling feasibility
-- Verified zoning
-- Permitting status
-- Construction readiness
-- AI readiness assessment
+- Synthetic grid capacity
+- Synthetic fibre capacity
+- Synthetic cooling feasibility
+- Synthetic zoning
+- Synthetic permitting status
+- Synthetic construction readiness
+- Synthetic AI readiness
 
-These layers are intentionally not generated from OpenStreetMap. They require
-official, provider, engineering, or human-reviewed planning evidence before they
-can be marked available. See
+These layers are intentionally not generated from OpenStreetMap and are not real
+verification evidence. They must be replaced with official, provider,
+engineering, or human-reviewed planning evidence before they can support any
+planning claim. See
 `docs/VERIFICATION_DATA_REQUIREMENTS.md` for the GeoJSON contract, validation
 script, expected file names, and responsible-use rules.
 
@@ -154,6 +178,13 @@ The frontend then fetches:
 - `/data/osm/hcmc/transport_corridors.geojson`
 - `/data/osm/hcmc/water_context.geojson`
 
+Synthetic and external files are copied with:
+
+```bash
+python3 scripts/copy_external_geojson_to_web.py
+python3 scripts/copy_verification_geojson_to_web.py
+```
+
 Run the frontend:
 
 ```bash
@@ -206,7 +237,8 @@ Ookla files can be large. For a quick parser smoke test, use `--max-features`.
 
 ## Validating Future Verification Layers
 
-Place reviewed authority/provider GeoJSON files in:
+Place reviewed authority/provider GeoJSON files, or clearly marked synthetic
+fixtures, in:
 
 ```text
 data/processed/verification/hcmc/
@@ -224,10 +256,10 @@ Copy them to the frontend:
 python3 scripts/copy_verification_geojson_to_web.py
 ```
 
-After validation, update the matching layer config in
-`apps/web/src/data/infrastructureLayerRegistry.ts` from `needs_data` to
-`available`, and set source, confidence, and completeness to match the actual
-dataset.
+After validation, copy the files to the frontend. If a synthetic fixture is
+replaced by real evidence, update the matching layer config in
+`apps/web/src/data/infrastructureLayerRegistry.ts` with the actual source,
+source type, confidence, completeness, label, and limitation.
 
 ## Future Possible Sources
 

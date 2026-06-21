@@ -1,0 +1,46 @@
+{
+  "type": "FeatureCollection",
+  "name": "synthetic_population_density_hcmc",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[106.69, 10.79], [106.72, 10.79], [106.72, 10.765], [106.69, 10.765], [106.69, 10.79]]]
+      },
+      "properties": {
+        "source_id": "syn-pop-d1-001",
+        "name": "Synthetic central service-demand zone",
+        "asset_type": "population_density_scenario",
+        "category": "ai_analysis",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not census, statistical-office, demographic, public-service demand, or investment evidence.",
+        "synthetic": true,
+        "density_scenario": "high"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[106.785, 10.865], [106.82, 10.865], [106.82, 10.835], [106.785, 10.835], [106.785, 10.865]]]
+      },
+      "properties": {
+        "source_id": "syn-pop-td-001",
+        "name": "Synthetic Thu Duc workforce catchment zone",
+        "asset_type": "population_density_scenario",
+        "category": "ai_analysis",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not census, statistical-office, demographic, public-service demand, or investment evidence.",
+        "synthetic": true,
+        "density_scenario": "medium"
+      }
+    }
+  ]
+}

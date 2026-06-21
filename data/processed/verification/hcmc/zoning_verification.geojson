@@ -1,0 +1,117 @@
+{
+  "type": "FeatureCollection",
+  "name": "synthetic_zoning_verification_hcmc",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [106.7895, 10.8585],
+            [106.815, 10.8585],
+            [106.815, 10.837],
+            [106.7895, 10.837],
+            [106.7895, 10.8585]
+          ]
+        ]
+      },
+      "properties": {
+        "source_id": "syn-zoning-thu-duc-001",
+        "name": "Synthetic Thu Duc technology land-use zone",
+        "asset_type": "zoning_scenario",
+        "category": "verification",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not cadastral, ownership, planning authority, permit, legal, or investment evidence.",
+        "verification_status": "needs_review",
+        "evidence_source": "Synthetic demo fixture generated for frontend demonstration",
+        "evidence_type": "reviewed_document",
+        "evidence_date": "2026-06-21",
+        "review_owner": "Demo data generator",
+        "last_reviewed": "2026-06-21",
+        "synthetic": true,
+        "candidate_site": "Saigon Hi-Tech Park / Thu Duc",
+        "scenario_score": 76,
+        "land_use_scenario": "technology-industrial compatible review",
+        "constraint_scenario": "legal confirmation needed"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [106.709, 10.748],
+            [106.728, 10.748],
+            [106.728, 10.734],
+            [106.709, 10.734],
+            [106.709, 10.748]
+          ]
+        ]
+      },
+      "properties": {
+        "source_id": "syn-zoning-d7-001",
+        "name": "Synthetic Tan Thuan industrial review zone",
+        "asset_type": "zoning_scenario",
+        "category": "verification",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not cadastral, ownership, planning authority, permit, legal, or investment evidence.",
+        "verification_status": "needs_review",
+        "evidence_source": "Synthetic demo fixture generated for frontend demonstration",
+        "evidence_type": "reviewed_document",
+        "evidence_date": "2026-06-21",
+        "review_owner": "Demo data generator",
+        "last_reviewed": "2026-06-21",
+        "synthetic": true,
+        "candidate_site": "Tan Thuan / District 7 area",
+        "scenario_score": 70,
+        "land_use_scenario": "industrial-logistics compatible review",
+        "constraint_scenario": "land-control confirmation needed"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [106.723, 10.789],
+            [106.738, 10.789],
+            [106.738, 10.774],
+            [106.723, 10.774],
+            [106.723, 10.789]
+          ]
+        ]
+      },
+      "properties": {
+        "source_id": "syn-zoning-thu-thiem-001",
+        "name": "Synthetic Thu Thiem urban-use review zone",
+        "asset_type": "zoning_scenario",
+        "category": "verification",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not cadastral, ownership, planning authority, permit, legal, or investment evidence.",
+        "verification_status": "needs_review",
+        "evidence_source": "Synthetic demo fixture generated for frontend demonstration",
+        "evidence_type": "reviewed_document",
+        "evidence_date": "2026-06-21",
+        "review_owner": "Demo data generator",
+        "last_reviewed": "2026-06-21",
+        "synthetic": true,
+        "candidate_site": "Thu Thiem / District 2 area",
+        "scenario_score": 48,
+        "land_use_scenario": "urban mixed-use constraint review",
+        "constraint_scenario": "high planning review needed"
+      }
+    }
+  ]
+}

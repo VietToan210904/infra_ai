@@ -1,0 +1,50 @@
+{
+  "type": "FeatureCollection",
+  "name": "synthetic_ookla_fixed_performance_hcmc",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[106.785, 10.865], [106.82, 10.865], [106.82, 10.83], [106.785, 10.83], [106.785, 10.865]]]
+      },
+      "properties": {
+        "source_id": "syn-fixed-td-001",
+        "name": "Synthetic Thu Duc fixed network performance tile",
+        "asset_type": "fixed_network_performance_scenario",
+        "category": "network",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not Ookla, telecom provider, fibre route, SLA, or site-level latency evidence.",
+        "synthetic": true,
+        "download_mbps_scenario": 780,
+        "upload_mbps_scenario": 420,
+        "latency_ms_scenario": 6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[106.69, 10.79], [106.74, 10.79], [106.74, 10.735], [106.69, 10.735], [106.69, 10.79]]]
+      },
+      "properties": {
+        "source_id": "syn-fixed-core-001",
+        "name": "Synthetic central-south fixed network performance tile",
+        "asset_type": "fixed_network_performance_scenario",
+        "category": "network",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not Ookla, telecom provider, fibre route, SLA, or site-level latency evidence.",
+        "synthetic": true,
+        "download_mbps_scenario": 540,
+        "upload_mbps_scenario": 260,
+        "latency_ms_scenario": 9
+      }
+    }
+  ]
+}

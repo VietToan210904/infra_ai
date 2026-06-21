@@ -1,0 +1,46 @@
+{
+  "type": "FeatureCollection",
+  "name": "synthetic_digital_access_gap_hcmc",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[106.66, 10.83], [106.7, 10.83], [106.7, 10.79], [106.66, 10.79], [106.66, 10.83]]]
+      },
+      "properties": {
+        "source_id": "syn-access-gap-west-001",
+        "name": "Synthetic western digital-access review zone",
+        "asset_type": "digital_access_gap_scenario",
+        "category": "ai_analysis",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not broadband authority, household survey, telecom provider, inclusion, or investment evidence.",
+        "synthetic": true,
+        "gap_scenario": "medium"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[106.71, 10.75], [106.74, 10.75], [106.74, 10.725], [106.71, 10.725], [106.71, 10.75]]]
+      },
+      "properties": {
+        "source_id": "syn-access-gap-d7-001",
+        "name": "Synthetic District 7 industrial digital-access review zone",
+        "asset_type": "digital_access_gap_scenario",
+        "category": "ai_analysis",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not broadband authority, household survey, telecom provider, inclusion, or investment evidence.",
+        "synthetic": true,
+        "gap_scenario": "low-medium"
+      }
+    }
+  ]
+}

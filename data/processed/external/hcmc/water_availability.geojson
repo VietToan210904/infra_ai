@@ -1,0 +1,40 @@
+{
+  "type": "FeatureCollection",
+  "name": "synthetic_water_availability_hcmc",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [106.732, 10.777] },
+      "properties": {
+        "source_id": "syn-water-tt-001",
+        "name": "Synthetic Thu Thiem cooling-water review point",
+        "asset_type": "water_availability_scenario",
+        "category": "risk_land",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not water-rights, utility, hydrology, discharge, permit, environmental, or investment evidence.",
+        "synthetic": true,
+        "availability_scenario": "review required"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [106.802, 10.8493] },
+      "properties": {
+        "source_id": "syn-water-td-001",
+        "name": "Synthetic Thu Duc industrial-water review point",
+        "asset_type": "water_availability_scenario",
+        "category": "risk_land",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not water-rights, utility, hydrology, discharge, permit, environmental, or investment evidence.",
+        "synthetic": true,
+        "availability_scenario": "limited cooling assumption"
+      }
+    }
+  ]
+}

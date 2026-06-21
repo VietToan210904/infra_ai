@@ -1,0 +1,46 @@
+{
+  "type": "FeatureCollection",
+  "name": "synthetic_heat_risk_hcmc",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[106.705, 10.755], [106.74, 10.755], [106.74, 10.725], [106.705, 10.725], [106.705, 10.755]]]
+      },
+      "properties": {
+        "source_id": "syn-heat-d7-001",
+        "name": "Synthetic District 7 heat-island review zone",
+        "asset_type": "heat_risk_scenario",
+        "category": "risk_land",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not satellite-derived heat, climate, engineering, cooling-design, or investment evidence.",
+        "synthetic": true,
+        "risk_scenario": "medium-high"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[106.79, 10.86], [106.818, 10.86], [106.818, 10.835], [106.79, 10.835], [106.79, 10.86]]]
+      },
+      "properties": {
+        "source_id": "syn-heat-td-001",
+        "name": "Synthetic Thu Duc heat-load review zone",
+        "asset_type": "heat_risk_scenario",
+        "category": "risk_land",
+        "source": "Synthetic demo dataset",
+        "source_type": "synthetic",
+        "source_confidence": "low",
+        "data_completeness": "partial",
+        "data_limitation": "Synthetic demo data only. Not satellite-derived heat, climate, engineering, cooling-design, or investment evidence.",
+        "synthetic": true,
+        "risk_scenario": "medium"
+      }
+    }
+  ]
+}

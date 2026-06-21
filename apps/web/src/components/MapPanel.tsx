@@ -7,7 +7,14 @@ import {
   useState,
 } from "react";
 import mapboxgl from "mapbox-gl";
-import { Crosshair, MapPin } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronUp,
+  Crosshair,
+  Layers,
+  MapPin,
+  RotateCcw,
+} from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { DEFAULT_CITY } from "@/data/cityConfig";
@@ -33,13 +40,16 @@ interface MapPanelProps {
   onLocationSelect: (location: SelectedLocation) => void;
 }
 
-type BasemapKey = "satellite" | "streets";
+type BasemapKey = "satellite" | "satellite_clean" | "streets";
 
 type InfrastructureMapLayerIds = {
   sourceId: string;
   fillLayerId: string;
+  outlineCasingLayerId: string;
   outlineLayerId: string;
+  lineCasingLayerId: string;
   lineLayerId: string;
+  circleHaloLayerId: string;
   circleLayerId: string;
 };
 
@@ -63,6 +73,12 @@ const pointFilter = [
 
 const registeredPopupLayerIdsByMap = new WeakMap<mapboxgl.Map, Set<string>>();
 
+const basemapOptions: Array<{ key: BasemapKey; label: string }> = [
+  { key: "satellite", label: "Satellite" },
+  { key: "satellite_clean", label: "Satellite only" },
+  { key: "streets", label: "Streets" },
+];
+
 export function MapPanel({
   selectedLocation,
   activeInfrastructureLayerIds,
@@ -70,6 +86,7 @@ export function MapPanel({
   onLocationSelect,
 }: MapPanelProps) {
   const mapboxToken = import.meta.env.VITE_MAPBOX_TOKEN as string | undefined;
+  const [basemap, setBasemap] = useState<BasemapKey>("satellite");
   const selectedCoordinateText = useSelectedCoordinateText(selectedLocation);
 
   return (
@@ -77,9 +94,11 @@ export function MapPanel({
       {mapboxToken ? (
         <RealMap
           activeInfrastructureLayerIds={activeInfrastructureLayerIds}
+          basemap={basemap}
           mapboxToken={mapboxToken}
           selectedLocation={selectedLocation}
           onInfrastructureLayerStateChange={onInfrastructureLayerStateChange}
+          onBasemapChange={setBasemap}
           onLocationSelect={onLocationSelect}
         />
       ) : (
@@ -91,7 +110,7 @@ export function MapPanel({
 
       <MapOverlayChips
         activeLayerCount={activeInfrastructureLayerIds.length}
-        basemapLabel={mapboxToken ? "Mapbox satellite" : "Demo map fallback"}
+        basemapLabel={mapboxToken ? getBasemapLabel(basemap) : "Demo map fallback"}
         isRealMap={Boolean(mapboxToken)}
       />
       <SelectedSiteCard selectedCoordinateText={selectedCoordinateText} />
@@ -101,11 +120,17 @@ export function MapPanel({
 
 function RealMap({
   activeInfrastructureLayerIds,
+  basemap,
   mapboxToken,
   selectedLocation,
   onInfrastructureLayerStateChange,
+  onBasemapChange,
   onLocationSelect,
-}: MapPanelProps & { mapboxToken: string }) {
+}: MapPanelProps & {
+  basemap: BasemapKey;
+  mapboxToken: string;
+  onBasemapChange: (basemap: BasemapKey) => void;
+}) {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const selectedMarkerRef = useRef<mapboxgl.Marker | null>(null);
@@ -122,9 +147,21 @@ function RealMap({
   const activeLayerIdsRef = useRef(activeInfrastructureLayerIds);
   const onLayerStateChangeRef = useRef(onInfrastructureLayerStateChange);
   const onLocationSelectRef = useRef(onLocationSelect);
-  const currentStyleBasemapRef = useRef<BasemapKey>("satellite");
+  const currentStyleBasemapRef = useRef<BasemapKey>(basemap);
   const [mapLoaded, setMapLoaded] = useState(false);
-  const [basemap, setBasemap] = useState<BasemapKey>("satellite");
+  const [loadedFeatureCounts, setLoadedFeatureCounts] = useState<
+    Partial<Record<InfrastructureLayerId, number>>
+  >({});
+
+  const activeLegendLayers = useMemo(
+    () =>
+      activeInfrastructureLayerIds
+        .map((layerId) =>
+          availableInfrastructureLayers.find((layer) => layer.id === layerId)
+        )
+        .filter((layer): layer is InfrastructureLayerConfig => Boolean(layer)),
+    [activeInfrastructureLayerIds]
+  );
 
   useEffect(() => {
     activeLayerIdsRef.current = activeInfrastructureLayerIds;
@@ -172,6 +209,7 @@ function RealMap({
         activeLayerIdsRef.current,
         infrastructureLayerRefs
       );
+      orderInfrastructureLayers(map, infrastructureLayerRefs.current);
     });
 
     map.on("load", () => {
@@ -249,6 +287,10 @@ function RealMap({
 
       const cachedCollection = loadedCollectionsRef.current.get(layerConfig.id);
       if (cachedCollection) {
+        setLoadedFeatureCounts((current) => ({
+          ...current,
+          [layerConfig.id]: cachedCollection.features.length,
+        }));
         const layerIds =
           existingLayerIds ??
           addInfrastructureGeoJsonLayer(
@@ -259,6 +301,7 @@ function RealMap({
             activeLayerIdsRef.current
           );
         setInfrastructureLayerVisibility(map, layerIds, true);
+        orderInfrastructureLayers(map, infrastructureLayerRefs.current);
         return;
       }
 
@@ -269,7 +312,13 @@ function RealMap({
         loadingLayerIdsRef,
         infrastructureLayerRefs,
         activeLayerIdsRef,
-        onLayerStateChangeRef
+        onLayerStateChangeRef,
+        (layerId, featureCount) => {
+          setLoadedFeatureCounts((current) => ({
+            ...current,
+            [layerId]: featureCount,
+          }));
+        }
       );
     });
   }, [activeInfrastructureLayerIds, mapLoaded]);
@@ -319,23 +368,42 @@ function RealMap({
   return (
     <>
       <div ref={mapContainerRef} className="h-full w-full" />
-      <div className="absolute left-4 top-14 z-10 flex rounded-xl border bg-card/95 p-1 shadow-panel backdrop-blur">
-        {(["satellite", "streets"] as BasemapKey[]).map((option) => (
-          <button
-            key={option}
-            type="button"
-            className={[
-              "rounded-lg px-3 py-1.5 text-xs font-medium transition",
-              basemap === option
-                ? "bg-primary text-primary-foreground"
-                : "text-muted-foreground hover:bg-secondary hover:text-foreground",
-            ].join(" ")}
-            onClick={() => setBasemap(option)}
-          >
-            {option === "satellite" ? "Satellite" : "Streets"}
-          </button>
-        ))}
+      <div className="absolute left-4 top-14 z-10 flex flex-wrap items-center gap-2">
+        <div className="flex rounded-xl border bg-card/95 p-1 shadow-panel backdrop-blur">
+          {basemapOptions.map((option) => (
+            <button
+              key={option.key}
+              type="button"
+              className={[
+                "rounded-lg px-3 py-1.5 text-xs font-medium transition",
+                basemap === option.key
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:bg-secondary hover:text-foreground",
+              ].join(" ")}
+              onClick={() => onBasemapChange(option.key)}
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
+        <button
+          type="button"
+          className="grid h-9 w-9 place-items-center rounded-xl border bg-card/95 text-primary shadow-panel backdrop-blur transition hover:bg-secondary"
+          onClick={() => resetMapView(mapRef.current)}
+          title="Reset map view"
+          aria-label="Reset map view"
+        >
+          <RotateCcw className="h-4 w-4" />
+        </button>
       </div>
+
+      {activeLegendLayers.length > 0 && (
+        <InfrastructureMapLegend
+          featureCounts={loadedFeatureCounts}
+          layers={activeLegendLayers}
+        />
+      )}
+
       {!mapLoaded && (
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-card/35">
           <div className="rounded-2xl border bg-card/95 px-4 py-3 text-sm text-muted-foreground shadow-panel backdrop-blur">
@@ -344,6 +412,84 @@ function RealMap({
         </div>
       )}
     </>
+  );
+}
+
+function InfrastructureMapLegend({
+  featureCounts,
+  layers,
+}: {
+  featureCounts: Partial<Record<InfrastructureLayerId, number>>;
+  layers: InfrastructureLayerConfig[];
+}) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const visibleLayers = isExpanded ? layers : layers.slice(0, 7);
+  const hiddenLayerCount = layers.length - visibleLayers.length;
+
+  return (
+    <div
+      className={[
+        "absolute bottom-[4.25rem] right-4 z-10 hidden w-[320px] max-w-[calc(100%-2rem)] rounded-2xl border bg-card/95 p-3 shadow-panel backdrop-blur md:block",
+        isExpanded ? "max-h-[420px]" : "max-h-[270px]",
+      ].join(" ")}
+    >
+      <button
+        type="button"
+        className="flex w-full items-center justify-between gap-3 rounded-xl text-left transition hover:text-primary"
+        onClick={() => setIsExpanded((current) => !current)}
+        aria-expanded={isExpanded}
+      >
+        <span className="flex min-w-0 items-center gap-2 text-xs font-semibold uppercase text-muted-foreground">
+          <Layers className="h-3.5 w-3.5 shrink-0 text-primary" />
+          Visible overlays
+          <span className="rounded-full border bg-background/60 px-1.5 py-0.5 text-[10px] leading-none text-muted-foreground">
+            {layers.length}
+          </span>
+        </span>
+        {isExpanded ? (
+          <ChevronUp className="h-4 w-4 shrink-0 text-muted-foreground" />
+        ) : (
+          <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground" />
+        )}
+      </button>
+
+      <div
+        className={[
+          "mt-3 space-y-2 overflow-y-auto pr-1",
+          isExpanded ? "max-h-[350px]" : "max-h-[190px]",
+        ].join(" ")}
+      >
+        {visibleLayers.map((layer) => (
+          <div
+            key={layer.id}
+            className="flex items-start gap-2 rounded-lg px-1 py-0.5 text-xs"
+          >
+            <span
+              className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full border border-white shadow-[0_0_0_2px_rgb(15_23_42_/0.38)]"
+              style={{ backgroundColor: layer.color }}
+            />
+            <span className="min-w-0 flex-1 whitespace-normal break-words leading-snug font-medium">
+              {layer.label}
+            </span>
+            {typeof featureCounts[layer.id] === "number" && (
+              <span className="shrink-0 tabular-nums text-muted-foreground">
+                {featureCounts[layer.id]}
+              </span>
+            )}
+          </div>
+        ))}
+
+        {hiddenLayerCount > 0 && (
+          <button
+            type="button"
+            className="w-full rounded-lg border bg-background/55 px-2 py-1.5 text-xs font-medium text-primary transition hover:bg-secondary"
+            onClick={() => setIsExpanded(true)}
+          >
+            Show {hiddenLayerCount} more overlays
+          </button>
+        )}
+      </div>
+    </div>
   );
 }
 
@@ -548,7 +694,11 @@ async function loadInfrastructureLayer(
   activeLayerIdsRef: MutableRefObject<InfrastructureLayerId[]>,
   onLayerStateChangeRef: MutableRefObject<
     (layerId: InfrastructureLayerId, state: InfrastructureLayerRuntimeState) => void
-  >
+  >,
+  onLoadedFeatureCount: (
+    layerId: InfrastructureLayerId,
+    featureCount: number
+  ) => void
 ) {
   if (loadingLayerIdsRef.current.has(layerConfig.id)) {
     return;
@@ -567,10 +717,12 @@ async function loadInfrastructureLayer(
       infrastructureLayerRefs,
       activeLayerIdsRef.current
     );
+    orderInfrastructureLayers(map, infrastructureLayerRefs.current);
     onLayerStateChangeRef.current(layerConfig.id, {
       status: "available",
       featureCount: collection.features.length,
     });
+    onLoadedFeatureCount(layerConfig.id, collection.features.length);
   } catch (error) {
     const message =
       error instanceof Error
@@ -645,10 +797,25 @@ function addInfrastructureGeoJsonLayer(
       layout: { visibility },
       paint: {
         "fill-color": layerConfig.color,
-        "fill-opacity": 0.2,
+        "fill-opacity": 0.26,
       },
     });
     registerInfrastructureLayerPopup(map, layerIds.fillLayerId, layerConfig);
+  }
+
+  if (!map.getLayer(layerIds.outlineCasingLayerId)) {
+    map.addLayer({
+      id: layerIds.outlineCasingLayerId,
+      type: "line",
+      source: layerIds.sourceId,
+      filter: polygonFilter,
+      layout: { visibility },
+      paint: {
+        "line-color": "#07111d",
+        "line-opacity": 0.78,
+        "line-width": 4,
+      },
+    });
   }
 
   if (!map.getLayer(layerIds.outlineLayerId)) {
@@ -660,11 +827,29 @@ function addInfrastructureGeoJsonLayer(
       layout: { visibility },
       paint: {
         "line-color": layerConfig.color,
-        "line-opacity": 0.9,
-        "line-width": 1.8,
+        "line-opacity": 0.96,
+        "line-width": 2,
       },
     });
-    registerInfrastructureLayerPopup(map, layerIds.outlineLayerId, layerConfig);
+  }
+
+  if (!map.getLayer(layerIds.lineCasingLayerId)) {
+    map.addLayer({
+      id: layerIds.lineCasingLayerId,
+      type: "line",
+      source: layerIds.sourceId,
+      filter: lineFilter,
+      layout: {
+        "line-cap": "round",
+        "line-join": "round",
+        visibility,
+      },
+      paint: {
+        "line-color": "#07111d",
+        "line-opacity": 0.82,
+        "line-width": layerConfig.id === "transmission_lines" ? 6 : 5,
+      },
+    });
   }
 
   if (!map.getLayer(layerIds.lineLayerId)) {
@@ -680,11 +865,36 @@ function addInfrastructureGeoJsonLayer(
       },
       paint: {
         "line-color": layerConfig.color,
-        "line-opacity": 0.92,
-        "line-width": layerConfig.id === "transmission_lines" ? 2.6 : 2,
+        "line-opacity": 0.98,
+        "line-width": layerConfig.id === "transmission_lines" ? 3 : 2.4,
       },
     });
     registerInfrastructureLayerPopup(map, layerIds.lineLayerId, layerConfig);
+  }
+
+  if (!map.getLayer(layerIds.circleHaloLayerId)) {
+    map.addLayer({
+      id: layerIds.circleHaloLayerId,
+      type: "circle",
+      source: layerIds.sourceId,
+      filter: pointFilter,
+      layout: { visibility },
+      paint: {
+        "circle-color": "#07111d",
+        "circle-opacity": 0.72,
+        "circle-radius": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          9,
+          7,
+          13,
+          10,
+          16,
+          14,
+        ],
+      },
+    });
   }
 
   if (!map.getLayer(layerIds.circleLayerId)) {
@@ -696,21 +906,21 @@ function addInfrastructureGeoJsonLayer(
       layout: { visibility },
       paint: {
         "circle-color": layerConfig.color,
-        "circle-opacity": 0.88,
+        "circle-opacity": 0.96,
         "circle-radius": [
           "interpolate",
           ["linear"],
           ["zoom"],
           9,
-          4,
+          4.8,
           13,
-          7,
+          7.5,
           16,
-          10,
+          10.5,
         ],
         "circle-stroke-color": "#f8fafc",
-        "circle-stroke-opacity": 0.95,
-        "circle-stroke-width": 1.2,
+        "circle-stroke-opacity": 0.98,
+        "circle-stroke-width": 1.6,
       },
     });
     registerInfrastructureLayerPopup(map, layerIds.circleLayerId, layerConfig);
@@ -718,6 +928,28 @@ function addInfrastructureGeoJsonLayer(
 
   infrastructureLayerRefs.current.set(layerConfig.id, layerIds);
   return layerIds;
+}
+
+function orderInfrastructureLayers(
+  map: mapboxgl.Map,
+  infrastructureLayerIds: Map<InfrastructureLayerId, InfrastructureMapLayerIds>
+) {
+  const layers = Array.from(infrastructureLayerIds.values());
+  const orderedLayerIds = [
+    ...layers.map((layerIds) => layerIds.fillLayerId),
+    ...layers.map((layerIds) => layerIds.outlineCasingLayerId),
+    ...layers.map((layerIds) => layerIds.outlineLayerId),
+    ...layers.map((layerIds) => layerIds.lineCasingLayerId),
+    ...layers.map((layerIds) => layerIds.lineLayerId),
+    ...layers.map((layerIds) => layerIds.circleHaloLayerId),
+    ...layers.map((layerIds) => layerIds.circleLayerId),
+  ];
+
+  orderedLayerIds.forEach((layerId) => {
+    if (map.getLayer(layerId)) {
+      map.moveLayer(layerId);
+    }
+  });
 }
 
 function setInfrastructureLayerVisibility(
@@ -785,8 +1017,11 @@ function getInteractiveInfrastructureLayerIds(
   return Array.from(infrastructureLayerIds.values()).flatMap((layerIds) =>
     [
       layerIds.fillLayerId,
+      layerIds.outlineCasingLayerId,
       layerIds.outlineLayerId,
+      layerIds.lineCasingLayerId,
       layerIds.lineLayerId,
+      layerIds.circleHaloLayerId,
       layerIds.circleLayerId,
     ].filter((layerId) => map.getLayer(layerId))
   );
@@ -899,9 +1134,24 @@ function isSameLocation(
 }
 
 function getMapboxStyle(basemap: BasemapKey) {
+  if (basemap === "satellite_clean") {
+    return "mapbox://styles/mapbox/satellite-v9";
+  }
+
   return basemap === "satellite"
     ? "mapbox://styles/mapbox/satellite-streets-v12"
     : "mapbox://styles/mapbox/streets-v12";
+}
+
+function getBasemapLabel(basemap: BasemapKey) {
+  return basemapOptions.find((option) => option.key === basemap)?.label ?? "Mapbox";
+}
+
+function resetMapView(map: mapboxgl.Map | null) {
+  map?.fitBounds(DEFAULT_CITY.bounds, {
+    duration: 650,
+    padding: 26,
+  });
 }
 
 function getInfrastructureMapLayerIds(
@@ -910,8 +1160,11 @@ function getInfrastructureMapLayerIds(
   return {
     sourceId: `infrastructure-${layerId}-source`,
     fillLayerId: `infrastructure-${layerId}-fill`,
+    outlineCasingLayerId: `infrastructure-${layerId}-outline-casing`,
     outlineLayerId: `infrastructure-${layerId}-outline`,
+    lineCasingLayerId: `infrastructure-${layerId}-line-casing`,
     lineLayerId: `infrastructure-${layerId}-line`,
+    circleHaloLayerId: `infrastructure-${layerId}-circle-halo`,
     circleLayerId: `infrastructure-${layerId}-circle`,
   };
 }

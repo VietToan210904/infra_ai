@@ -151,7 +151,7 @@ export function InfrastructureLayerPanel({
                         </Badge>
                       )}
                     </div>
-                    <p className="mt-3 text-xs leading-relaxed text-amber-100/80">
+                    <p className="mt-3 rounded-lg border border-amber-300/70 bg-amber-50/85 px-2.5 py-2 text-xs leading-relaxed text-amber-900">
                       {runtimeState?.message ?? layer.limitation}
                     </p>
                   </button>

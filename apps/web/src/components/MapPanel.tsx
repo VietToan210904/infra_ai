@@ -1,71 +1,70 @@
-import { type MouseEvent, useEffect, useMemo, useRef, useState } from "react";
-import mapboxgl from "mapbox-gl";
-import { Crosshair, MapPin } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import L, { type GeoJSON as LeafletGeoJSON, type LatLngBoundsExpression } from "leaflet";
+import { Crosshair, Info, X } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
+import { DEFAULT_CITY } from "@/data/cityConfig";
 import {
-  SAIGON_BOUNDS,
-  SAIGON_CENTER,
-  candidateZones,
-  syntheticLayerData,
-} from "@/data/mockGeoJson";
-import type { LayerKey, SelectedLocation } from "@/types/site";
+  availableInfrastructureLayers,
+  type InfrastructureFeatureCollection,
+  type InfrastructureFeatureProperties,
+  type InfrastructureLayerConfig,
+  type InfrastructureLayerId,
+  type InfrastructureLayerRuntimeState,
+} from "@/data/infrastructureLayerRegistry";
+import { loadGeoJsonLayer } from "@/lib/loadGeoJsonLayer";
+import type { SelectedLocation } from "@/types/site";
 
 interface MapPanelProps {
   selectedLocation: SelectedLocation | null;
-  activeLayers: LayerKey[];
+  activeInfrastructureLayerIds: InfrastructureLayerId[];
+  onInfrastructureLayerStateChange: (
+    layerId: InfrastructureLayerId,
+    state: InfrastructureLayerRuntimeState
+  ) => void;
   onLocationSelect: (location: SelectedLocation) => void;
 }
 
-const layerStyles: Record<
-  LayerKey,
-  {
-    sourceId: string;
-    layerId: string;
-    outlineLayerId?: string;
-    color: string;
-    kind: "circle" | "fill";
-  }
-> = {
-  education: {
-    sourceId: "education-readiness-source",
-    layerId: "education-readiness-layer",
-    color: "#38bdf8",
-    kind: "circle",
-  },
-  healthcare: {
-    sourceId: "healthcare-readiness-source",
-    layerId: "healthcare-readiness-layer",
-    color: "#34d399",
-    kind: "circle",
-  },
-  government: {
-    sourceId: "government-readiness-source",
-    layerId: "government-readiness-layer",
-    color: "#f59e0b",
-    kind: "circle",
-  },
-  overall_readiness: {
-    sourceId: "overall-readiness-source",
-    layerId: "overall-readiness-fill-layer",
-    outlineLayerId: "overall-readiness-outline-layer",
-    color: "#22c55e",
-    kind: "fill",
-  },
+type BasemapKey = "satellite" | "streets";
+
+const cityBounds: LatLngBoundsExpression = [
+  [DEFAULT_CITY.bbox.south, DEFAULT_CITY.bbox.west],
+  [DEFAULT_CITY.bbox.north, DEFAULT_CITY.bbox.east],
+];
+
+const satelliteTiles = {
+  url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+  attribution:
+    "Tiles © Esri, Maxar, Earthstar Geographics, and the GIS User Community",
+};
+
+const streetTiles = {
+  url: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+  attribution: "© OpenStreetMap contributors",
 };
 
 export function MapPanel({
   selectedLocation,
-  activeLayers,
+  activeInfrastructureLayerIds,
+  onInfrastructureLayerStateChange,
   onLocationSelect,
 }: MapPanelProps) {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
-  const mapRef = useRef<mapboxgl.Map | null>(null);
-  const markerRef = useRef<mapboxgl.Marker | null>(null);
-  const activeLayersRef = useRef(activeLayers);
-  const onLocationSelectRef = useRef(onLocationSelect);
-  const [mapLoaded, setMapLoaded] = useState(false);
-  const mapboxToken = import.meta.env.VITE_MAPBOX_TOKEN as string | undefined;
+  const mapRef = useRef<L.Map | null>(null);
+  const baseLayerRef = useRef<L.TileLayer | null>(null);
+  const markerRef = useRef<L.Marker | null>(null);
+  const geoJsonLayerRefs = useRef(
+    new Map<InfrastructureLayerId, LeafletGeoJSON>()
+  );
+  const loadedCollectionsRef = useRef(
+    new Map<InfrastructureLayerId, InfrastructureFeatureCollection>()
+  );
+  const loadingLayerIdsRef = useRef(new Set<InfrastructureLayerId>());
+  const activeLayerIdsRef = useRef(activeInfrastructureLayerIds);
+  const onLayerStateChangeRef = useRef(onInfrastructureLayerStateChange);
+  const [mapReady, setMapReady] = useState(false);
+  const [basemap, setBasemap] = useState<BasemapKey>("satellite");
+  const [showBasemapNote, setShowBasemapNote] = useState(true);
 
   const selectedCoordinateText = useMemo(() => {
     if (!selectedLocation) {
@@ -76,76 +75,105 @@ export function MapPanel({
   }, [selectedLocation]);
 
   useEffect(() => {
-    activeLayersRef.current = activeLayers;
-  }, [activeLayers]);
+    activeLayerIdsRef.current = activeInfrastructureLayerIds;
+  }, [activeInfrastructureLayerIds]);
 
   useEffect(() => {
-    onLocationSelectRef.current = onLocationSelect;
-  }, [onLocationSelect]);
+    onLayerStateChangeRef.current = onInfrastructureLayerStateChange;
+  }, [onInfrastructureLayerStateChange]);
 
   useEffect(() => {
-    if (!mapboxToken || mapRef.current || !mapContainerRef.current) {
+    if (!mapContainerRef.current || mapRef.current) {
       return;
     }
 
-    mapboxgl.accessToken = mapboxToken;
-
-    const map = new mapboxgl.Map({
-      container: mapContainerRef.current,
-      style: "mapbox://styles/mapbox/standard-satellite",
-      center: [SAIGON_CENTER.lng, SAIGON_CENTER.lat],
-      zoom: 11.7,
-      maxBounds: SAIGON_BOUNDS,
-      attributionControl: false,
+    const map = L.map(mapContainerRef.current, {
+      center: [DEFAULT_CITY.center.lat, DEFAULT_CITY.center.lng],
+      zoom: 11,
+      minZoom: 9,
+      maxZoom: 19,
+      maxBounds: cityBounds,
+      maxBoundsViscosity: 0.85,
+      zoomControl: true,
+      attributionControl: true,
+      scrollWheelZoom: true,
     });
 
-    map.addControl(new mapboxgl.NavigationControl({ visualizePitch: true }), "top-right");
-    map.addControl(new mapboxgl.AttributionControl({ compact: true }), "bottom-right");
-
-    map.on("load", () => {
-      addSyntheticLayers(map, activeLayersRef.current);
-      setMapLoaded(true);
-    });
+    baseLayerRef.current = createTileLayer(basemap).addTo(map);
+    map.fitBounds(cityBounds, { padding: [20, 20] });
 
     map.on("click", (event) => {
-      onLocationSelectRef.current({
-        lat: event.lngLat.lat,
-        lng: event.lngLat.lng,
+      onLocationSelect({
+        lat: event.latlng.lat,
+        lng: event.latlng.lng,
         label: "Candidate AI Infrastructure Site",
       });
     });
 
     mapRef.current = map;
+    const geoJsonLayerMap = geoJsonLayerRefs.current;
+    setMapReady(true);
 
     return () => {
+      geoJsonLayerMap.forEach((layer) => layer.remove());
+      geoJsonLayerMap.clear();
       markerRef.current?.remove();
+      markerRef.current = null;
+      baseLayerRef.current?.remove();
+      baseLayerRef.current = null;
       map.remove();
       mapRef.current = null;
+      setMapReady(false);
     };
-  }, [mapboxToken]);
+  }, [basemap, onLocationSelect]);
 
   useEffect(() => {
     const map = mapRef.current;
-    if (!map || !mapLoaded) {
+    if (!map) {
       return;
     }
 
-    Object.entries(layerStyles).forEach(([key, style]) => {
-      const visibility = activeLayers.includes(key as LayerKey)
-        ? "visible"
-        : "none";
-      if (map.getLayer(style.layerId)) {
-        map.setLayoutProperty(style.layerId, "visibility", visibility);
-      }
-      if (style.outlineLayerId && map.getLayer(style.outlineLayerId)) {
-        map.setLayoutProperty(style.outlineLayerId, "visibility", visibility);
-      }
-    });
-  }, [activeLayers, mapLoaded]);
+    baseLayerRef.current?.remove();
+    baseLayerRef.current = createTileLayer(basemap).addTo(map);
+  }, [basemap]);
 
   useEffect(() => {
     const map = mapRef.current;
-    if (!map || !mapLoaded) {
+    if (!map || !mapReady) {
+      return;
+    }
+
+    availableInfrastructureLayers.forEach((layerConfig) => {
+      const isActive = activeInfrastructureLayerIds.includes(layerConfig.id);
+      const existingLayer = geoJsonLayerRefs.current.get(layerConfig.id);
+
+      if (!isActive) {
+        existingLayer?.remove();
+        return;
+      }
+
+      if (existingLayer) {
+        if (!map.hasLayer(existingLayer)) {
+          existingLayer.addTo(map);
+        }
+        return;
+      }
+
+      const cachedCollection = loadedCollectionsRef.current.get(layerConfig.id);
+      if (cachedCollection) {
+        addInfrastructureGeoJsonLayer(map, layerConfig, cachedCollection);
+        return;
+      }
+
+      void loadInfrastructureLayer(map, layerConfig);
+    });
+    // loadInfrastructureLayer only closes over stable refs and helpers.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeInfrastructureLayerIds, mapReady]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !mapReady) {
       return;
     }
 
@@ -155,50 +183,172 @@ export function MapPanel({
       return;
     }
 
-    const lngLat: [number, number] = [
-      selectedLocation.lng,
+    const latLng: L.LatLngExpression = [
       selectedLocation.lat,
+      selectedLocation.lng,
     ];
 
     if (!markerRef.current) {
-      markerRef.current = new mapboxgl.Marker({ color: "#f59e0b" })
-        .setPopup(
-          new mapboxgl.Popup({ offset: 24 }).setText(
-            "Candidate AI Infrastructure Site"
-          )
-        )
-        .addTo(map);
+      markerRef.current = L.marker(latLng).addTo(map);
+    } else {
+      markerRef.current.setLatLng(latLng);
     }
 
-    markerRef.current.setLngLat(lngLat);
-    map.flyTo({
-      center: lngLat,
-      zoom: Math.max(map.getZoom(), 12.2),
-      essential: true,
-      duration: 650,
-    });
-  }, [mapLoaded, selectedLocation]);
+    markerRef.current.bindPopup("Candidate AI Infrastructure Site");
+    map.flyTo(latLng, Math.max(map.getZoom(), 12), { duration: 0.65 });
+  }, [mapReady, selectedLocation]);
+
+  async function loadInfrastructureLayer(
+    map: L.Map,
+    layerConfig: InfrastructureLayerConfig
+  ) {
+    if (loadingLayerIdsRef.current.has(layerConfig.id)) {
+      return;
+    }
+
+    loadingLayerIdsRef.current.add(layerConfig.id);
+    onLayerStateChangeRef.current(layerConfig.id, { status: "loading" });
+
+    try {
+      const collection = await loadGeoJsonLayer(layerConfig.geoJsonPath);
+      loadedCollectionsRef.current.set(layerConfig.id, collection);
+      addInfrastructureGeoJsonLayer(map, layerConfig, collection);
+      onLayerStateChangeRef.current(layerConfig.id, {
+        status: "available",
+        featureCount: collection.features.length,
+      });
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? `${error.message}. Run the matching ingestion script and copy the GeoJSON files into apps/web/public/data.`
+          : "Unable to load GeoJSON layer.";
+
+      onLayerStateChangeRef.current(layerConfig.id, {
+        status: "error",
+        message,
+      });
+    } finally {
+      loadingLayerIdsRef.current.delete(layerConfig.id);
+    }
+  }
+
+  function addInfrastructureGeoJsonLayer(
+    map: L.Map,
+    layerConfig: InfrastructureLayerConfig,
+    collection: InfrastructureFeatureCollection
+  ) {
+    const geoJsonLayer = L.geoJSON(collection, {
+      pointToLayer: (_feature, latLng) =>
+        L.circleMarker(latLng, {
+          radius: 6,
+          color: "#f8fafc",
+          weight: 1.2,
+          fillColor: layerConfig.color,
+          fillOpacity: 0.88,
+        }),
+      style: (feature) => {
+        const geometryType = feature?.geometry?.type;
+
+        if (geometryType?.includes("Polygon")) {
+          return {
+            color: layerConfig.color,
+            weight: 1.8,
+            opacity: 0.9,
+            fillColor: layerConfig.color,
+            fillOpacity: 0.18,
+          };
+        }
+
+        return {
+          color: layerConfig.color,
+          weight: layerConfig.id === "transmission_lines" ? 2.4 : 1.8,
+          opacity: 0.92,
+        };
+      },
+      onEachFeature: (feature, leafletLayer) => {
+        leafletLayer.on("click", (event) => {
+          L.DomEvent.stopPropagation(event);
+        });
+        leafletLayer.bindPopup(
+          renderInfrastructurePopupHtml(
+            feature.properties as InfrastructureFeatureProperties
+          ),
+          { maxWidth: 360 }
+        );
+      },
+    }).addTo(map);
+
+    geoJsonLayerRefs.current.set(layerConfig.id, geoJsonLayer);
+
+    if (!activeLayerIdsRef.current.includes(layerConfig.id)) {
+      geoJsonLayer.remove();
+    }
+  }
 
   return (
     <div className="relative h-[560px] min-h-[500px] overflow-hidden rounded-xl border bg-background/60 lg:h-[calc(100vh-360px)] lg:min-h-[560px] lg:max-h-[760px]">
-      {!mapboxToken ? (
-        <DemoMapFallback
-          selectedLocation={selectedLocation}
-          onLocationSelect={onLocationSelect}
-        />
-      ) : (
-        <div ref={mapContainerRef} className="h-full w-full" />
+      <div ref={mapContainerRef} className="h-full w-full" />
+
+      {!mapReady && (
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-background/35">
+          <div className="rounded-xl border bg-background/90 px-4 py-3 text-sm text-muted-foreground shadow-panel backdrop-blur">
+            Loading satellite map...
+          </div>
+        </div>
       )}
 
-      <div className="pointer-events-none absolute left-4 top-4 flex flex-wrap gap-2">
-        <Badge variant="secondary">Saigon / Ho Chi Minh City</Badge>
+      <div className="pointer-events-none absolute left-4 top-4 z-[500] flex flex-wrap gap-2">
+        <Badge variant="secondary">{DEFAULT_CITY.label}</Badge>
         <Badge variant="outline">
-          {mapboxToken ? "Satellite layer" : "Demo map layer active"}
+          {basemap === "satellite" ? "Esri satellite imagery" : "OpenStreetMap streets"}
         </Badge>
-        <Badge variant="outline">{activeLayers.length} planning layers</Badge>
+        <Badge variant="outline">OpenStreetMap layers</Badge>
+        <Badge variant="outline">
+          {activeInfrastructureLayerIds.length} visible overlays
+        </Badge>
       </div>
 
-      <div className="absolute bottom-4 left-4 max-w-[330px] rounded-xl border bg-background/90 p-3 shadow-panel backdrop-blur">
+      <div className="absolute left-4 top-14 z-[500] flex rounded-lg border bg-background/90 p-1 shadow-panel backdrop-blur">
+        {(["satellite", "streets"] as BasemapKey[]).map((option) => (
+          <button
+            key={option}
+            type="button"
+            className={`rounded-md px-3 py-1.5 text-xs font-medium transition ${
+              basemap === option
+                ? "bg-primary text-primary-foreground"
+                : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+            }`}
+            onClick={() => {
+              setBasemap(option);
+              setShowBasemapNote(true);
+            }}
+          >
+            {option === "satellite" ? "Satellite" : "Streets"}
+          </button>
+        ))}
+      </div>
+
+      {showBasemapNote && (
+        <div className="absolute right-4 top-4 z-[500] max-w-[320px] rounded-xl border bg-background/92 p-3 text-xs leading-relaxed text-muted-foreground shadow-panel backdrop-blur">
+          <div className="flex items-start gap-2">
+            <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" />
+            <p>
+              No Mapbox account or card is required. Satellite uses public Esri
+              imagery; Streets uses OpenStreetMap tiles.
+            </p>
+            <button
+              type="button"
+              className="ml-1 rounded-md p-1 text-muted-foreground transition hover:bg-secondary hover:text-foreground"
+              onClick={() => setShowBasemapNote(false)}
+              aria-label="Dismiss basemap note"
+            >
+              <X className="h-3.5 w-3.5" />
+            </button>
+          </div>
+        </div>
+      )}
+
+      <div className="absolute bottom-4 left-4 z-[500] max-w-[330px] rounded-xl border bg-background/90 p-3 shadow-panel backdrop-blur">
         <div className="flex items-start gap-2">
           <Crosshair className="mt-0.5 h-4 w-4 text-primary" />
           <div>
@@ -218,216 +368,52 @@ export function MapPanel({
   );
 }
 
-function DemoMapFallback({
-  selectedLocation,
-  onLocationSelect,
-}: {
-  selectedLocation: SelectedLocation | null;
-  onLocationSelect: (location: SelectedLocation) => void;
-}) {
-  function handleMapClick(event: MouseEvent<HTMLDivElement>) {
-    const rect = event.currentTarget.getBoundingClientRect();
-    const x = (event.clientX - rect.left) / rect.width;
-    const y = (event.clientY - rect.top) / rect.height;
-    const [[west, south], [east, north]] = SAIGON_BOUNDS;
+function createTileLayer(basemap: BasemapKey) {
+  const tiles = basemap === "satellite" ? satelliteTiles : streetTiles;
 
-    onLocationSelect({
-      lng: west + x * (east - west),
-      lat: north - y * (north - south),
-      label: "Custom Saigon planning point",
-    });
-  }
+  return L.tileLayer(tiles.url, {
+    attribution: tiles.attribution,
+    maxZoom: 19,
+    crossOrigin: true,
+  });
+}
 
-  const selectedPosition = selectedLocation
-    ? getMapPosition(selectedLocation.lng, selectedLocation.lat)
-    : null;
+function renderInfrastructurePopupHtml(
+  properties: InfrastructureFeatureProperties
+) {
+  const limitation =
+    properties.data_limitation ??
+    "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.";
+  const sourceId =
+    properties.osm_id ??
+    properties.source_id ??
+    properties.peeringdb_id ??
+    "Unknown";
 
-  return (
-    <div
-      className="map-texture relative h-full w-full cursor-crosshair overflow-hidden"
-      onClick={handleMapClick}
-      role="button"
-      tabIndex={0}
-    >
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgb(255_255_255_/_0.04)_1px,transparent_1px),linear-gradient(0deg,rgb(255_255_255_/_0.035)_1px,transparent_1px)] bg-[size:72px_72px]" />
-      <div className="absolute left-[8%] top-[58%] h-16 w-[88%] -rotate-6 rounded-full border border-cyan-100/20 bg-cyan-200/8 blur-[1px]" />
-      <div className="absolute left-[48%] top-[-10%] h-[125%] w-12 rotate-[18deg] rounded-full bg-sky-200/10 blur-[2px]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgb(6_15_26_/_0.22)_78%)]" />
-
-      {[
-        { label: "Thu Duc", x: 67, y: 25 },
-        { label: "Binh Thanh", x: 51, y: 42 },
-        { label: "District 1", x: 47, y: 52 },
-        { label: "Thu Thiem", x: 56, y: 54 },
-        { label: "District 7", x: 49, y: 69 },
-        { label: "Saigon River", x: 61, y: 48 },
-      ].map((district) => (
-        <div
-          key={district.label}
-          className="pointer-events-none absolute rounded-md bg-background/32 px-2 py-1 text-xs font-medium text-slate-200/78 backdrop-blur"
-          style={{ left: `${district.x}%`, top: `${district.y}%` }}
-        >
-          {district.label}
-        </div>
-      ))}
-
-      {candidateZones.map((zone) => {
-        const position = getMapPosition(zone.lng, zone.lat);
-        return (
-          <button
-            key={zone.id}
-            type="button"
-            className="absolute -translate-x-1/2 -translate-y-full rounded-full border border-white/65 bg-amber-300/95 p-1.5 text-slate-950 shadow-[0_8px_18px_rgb(0_0_0_/0.35)] transition hover:scale-105 hover:bg-amber-200"
-            style={{ left: `${position.x}%`, top: `${position.y}%` }}
-            onClick={(event) => {
-              event.stopPropagation();
-              onLocationSelect({
-                lat: zone.lat,
-                lng: zone.lng,
-                label: zone.label,
-              });
-            }}
-            aria-label={`Select ${zone.label}`}
-          >
-            <MapPin className="h-4 w-4" />
-          </button>
-        );
-      })}
-
-      {selectedPosition && (
-        <div
-          className="pointer-events-none absolute -translate-x-1/2 -translate-y-full"
-          style={{ left: `${selectedPosition.x}%`, top: `${selectedPosition.y}%` }}
-        >
-          <div className="relative">
-            <div className="absolute left-1/2 top-1/2 h-10 w-10 -translate-x-1/2 -translate-y-1/2 rounded-full border border-primary/50 bg-primary/15" />
-            <div className="relative rounded-full border border-white bg-primary p-2 text-primary-foreground shadow-[0_10px_24px_rgb(0_0_0_/0.45)]">
-              <MapPin className="h-5 w-5" />
-            </div>
-          </div>
-        </div>
-      )}
+  return `
+    <div class="space-y-2">
+      <strong>${escapeHtml(properties.name || "Unnamed asset")}</strong>
+      <div>Asset type: ${escapeHtml(properties.asset_type || "Unknown")}</div>
+      <div>Category: ${escapeHtml(properties.category || "Infrastructure")}</div>
+      <div>Source: ${escapeHtml(properties.source || "OpenStreetMap")}</div>
+      <div>Confidence: ${escapeHtml(formatMetadataLabel(properties.source_confidence || "medium"))}</div>
+      <div>Completeness: ${escapeHtml(formatMetadataLabel(properties.data_completeness || "unknown"))}</div>
+      <div>Source ID: ${escapeHtml(String(sourceId))}</div>
+      <hr/>
+      <div><strong>Data limitation:</strong> ${escapeHtml(limitation)}</div>
     </div>
-  );
+  `;
 }
 
-function getMapPosition(lng: number, lat: number) {
-  const [[west, south], [east, north]] = SAIGON_BOUNDS;
-  const x = ((lng - west) / (east - west)) * 100;
-  const y = ((north - lat) / (north - south)) * 100;
-
-  return {
-    x: Math.max(4, Math.min(96, x)),
-    y: Math.max(8, Math.min(92, y)),
-  };
+function formatMetadataLabel(value: unknown) {
+  return String(value).replace(/_/g, " ");
 }
 
-function addSyntheticLayers(map: mapboxgl.Map, activeLayers: LayerKey[]) {
-  (Object.keys(layerStyles) as LayerKey[]).forEach((key) => {
-    const style = layerStyles[key];
-    const visibility = activeLayers.includes(key) ? "visible" : "none";
-
-    if (!map.getSource(style.sourceId)) {
-      map.addSource(style.sourceId, {
-        type: "geojson",
-        data: syntheticLayerData[key],
-      });
-    }
-
-    if (style.kind === "circle" && !map.getLayer(style.layerId)) {
-      map.addLayer({
-        id: style.layerId,
-        type: "circle",
-        source: style.sourceId,
-        layout: { visibility },
-        paint: {
-          "circle-color": style.color,
-          "circle-radius": [
-            "interpolate",
-            ["linear"],
-            ["zoom"],
-            10,
-            5,
-            14,
-            10,
-          ],
-          "circle-opacity": 0.86,
-          "circle-stroke-color": "#f8fafc",
-          "circle-stroke-width": 1.4,
-        },
-      });
-      registerLayerPopup(map, style.layerId);
-    }
-
-    if (style.kind === "fill" && !map.getLayer(style.layerId)) {
-      map.addLayer({
-        id: style.layerId,
-        type: "fill",
-        source: style.sourceId,
-        layout: { visibility },
-        paint: {
-          "fill-color": [
-            "interpolate",
-            ["linear"],
-            ["get", "readinessScore"],
-            60,
-            "#f59e0b",
-            75,
-            "#22c55e",
-            90,
-            "#14b8a6",
-          ],
-          "fill-opacity": 0.28,
-        },
-      });
-
-      if (style.outlineLayerId && !map.getLayer(style.outlineLayerId)) {
-        map.addLayer({
-          id: style.outlineLayerId,
-          type: "line",
-          source: style.sourceId,
-          layout: { visibility },
-          paint: {
-            "line-color": style.color,
-            "line-width": 2,
-            "line-opacity": 0.8,
-          },
-        });
-      }
-
-      registerLayerPopup(map, style.layerId);
-    }
-  });
-}
-
-function registerLayerPopup(map: mapboxgl.Map, layerId: string) {
-  map.on("mouseenter", layerId, () => {
-    map.getCanvas().style.cursor = "pointer";
-  });
-
-  map.on("mouseleave", layerId, () => {
-    map.getCanvas().style.cursor = "";
-  });
-
-  map.on("click", layerId, (event) => {
-    const feature = event.features?.[0];
-    if (!feature) {
-      return;
-    }
-
-    const properties = feature.properties as
-      | {
-          name?: string;
-          readinessScore?: number;
-          confidence?: string;
-        }
-      | undefined;
-
-    new mapboxgl.Popup({ offset: 16 })
-      .setLngLat(event.lngLat)
-      .setHTML(
-        `<strong>${properties?.name ?? "Synthetic MVP layer"}</strong><br/>Readiness score: ${properties?.readinessScore ?? "N/A"}<br/>Confidence: ${properties?.confidence ?? "N/A"}`
-      )
-      .addTo(map);
-  });
+function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }

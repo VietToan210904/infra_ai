@@ -1,0 +1,2032 @@
+{
+  "type": "FeatureCollection",
+  "name": "telecom_assets",
+  "metadata": {
+    "source": "OpenStreetMap",
+    "source_type": "open_data",
+    "source_confidence": "medium",
+    "data_completeness": "unknown",
+    "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions."
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1769692356",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "tower",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.7024604,
+          10.786217
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1769692433",
+        "osm_type": "node",
+        "name": "Ho Chi Minh City Television",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "tower",
+          "operator": "Ho Chi Minh City Television",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.703388,
+          10.7867215
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "2701278541",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "tower",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.6675868,
+          10.9818146
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "2701396117",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "tower",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.6734641,
+          10.9728876
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "2749509945",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "tower",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          107.0667628,
+          10.359973
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "2934003328",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "tower",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.704665,
+          10.7278595
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "3115060360",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "tower",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.7903155,
+          10.8520279
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "3120390799",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "tower",
+          "tower:construction": "lattice",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.7406161,
+          10.7951571
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "3300601078",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "tower",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.7979832,
+          11.0613072
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "4851518930",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "tower",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.6624591,
+          10.8161713
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "4851518931",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "tower",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.6621801,
+          10.8155864
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "5352258775",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Telecom mast",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "mast"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.6754926,
+          10.7763579
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "6811490292",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "tower",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.6730256,
+          10.7786015
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "6977104151",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Telecom mast",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "mast"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.4942687,
+          11.0158372
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "7046704136",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "tower",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.9615978,
+          10.4131988
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "7046704653",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "tower",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.9701252,
+          10.4115982
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "7477722830",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "communication:4g": "yes",
+          "communication:5g": "yes",
+          "communication:mobile_phone": "yes",
+          "man_made": "tower",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          107.0527205,
+          10.5850322
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "7500135759",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Telecom mast",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "mast",
+          "tower:type": "lighting"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.7013699,
+          10.7763821
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "8213479732",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "communication:mobile_phone": "yes",
+          "man_made": "mast",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          107.0653349,
+          10.5314578
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "8213479733",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "communication:mobile_phone": "yes",
+          "man_made": "mast",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          107.0651686,
+          10.5314973
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "9378252413",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "tower",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.8703095,
+          10.9362017
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "9553925727",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "tower",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.8632321,
+          10.9555838
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "9568760149",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "tower",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.8444853,
+          10.9591316
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "9568888118",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "tower",
+          "tower:construction": "lattice",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.8290329,
+          10.9561765
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "9655870045",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "tower",
+          "tower:construction": "lattice",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          107.0344874,
+          11.0880386
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "9657841583",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "tower",
+          "tower:construction": "lattice",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          107.0354649,
+          11.098632
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "9660475069",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "communication:television": "yes",
+          "man_made": "tower",
+          "tower:construction": "lattice",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.8692513,
+          10.9457583
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "9660475070",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "communication:television": "yes",
+          "man_made": "tower",
+          "tower:construction": "lattice",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.8692028,
+          10.9456926
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "9660480129",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "tower",
+          "tower:construction": "lattice",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.8325382,
+          10.9631016
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "9759487407",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "tower",
+          "tower:construction": "lattice",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.8249169,
+          10.952431
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "9781194309",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "tower",
+          "tower:construction": "lattice",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.9138762,
+          11.0333248
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "9907386813",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "mast",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.8502157,
+          10.9788889
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "9907386814",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "mast",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.8497064,
+          10.9781858
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "9913876246",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "tower",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.8484927,
+          10.9761784
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "9952213358",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "mast",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.8462523,
+          10.9400896
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "10104751591",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "communication:radio": "yes",
+          "man_made": "mast",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.848549,
+          11.1254871
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "10617212399",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "tower",
+          "tower:construction": "lattice",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.7413482,
+          10.8831145
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "10633927524",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Telecom mast",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "direction": "230",
+          "man_made": "mast",
+          "tower:type": "lighting"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.6980949,
+          10.7331182
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "10633927525",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Telecom mast",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "direction": "130",
+          "man_made": "mast",
+          "tower:type": "lighting"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.6974278,
+          10.7331192
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "10633927526",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Telecom mast",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "direction": "330",
+          "man_made": "mast",
+          "tower:type": "lighting"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.6980999,
+          10.7321296
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "10633927527",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Telecom mast",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "direction": "30",
+          "man_made": "mast",
+          "tower:type": "lighting"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.6974055,
+          10.7321333
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "10725548628",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Telecom mast",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "mast"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.6889219,
+          10.782468
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "10790387834",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Telecom mast",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "mast",
+          "tower:type": "lighting"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.7248029,
+          10.7939853
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "10790387835",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Telecom mast",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "mast",
+          "tower:type": "lighting"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.7244886,
+          10.7928437
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "10899445625",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "mast",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.7368528,
+          10.9053378
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "11921265760",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "tower",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.7823289,
+          10.9212304
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "12060483853",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "tower",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.6572695,
+          10.7772228
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "12717632163",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "height": "30",
+          "man_made": "mast",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.3861919,
+          10.5691822
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "12717632164",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "height": "30",
+          "man_made": "mast",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.387656,
+          10.5687829
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "12717632165",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "height": "30",
+          "man_made": "mast",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.3878858,
+          10.5688899
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "12717671703",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "height": "30",
+          "man_made": "mast",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.399637,
+          10.5785955
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "12717671704",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "height": "30",
+          "man_made": "mast",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.3811896,
+          10.5608753
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "12717692221",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Telecom mast",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "height": "30",
+          "man_made": "mast",
+          "tower:type": "lighting"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.3680637,
+          10.5467656
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "12717692222",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Telecom mast",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "height": "30",
+          "man_made": "mast",
+          "tower:type": "lighting"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.3695189,
+          10.5466627
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "12717692223",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Telecom mast",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "height": "30",
+          "man_made": "mast",
+          "tower:type": "lighting"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.3687202,
+          10.5485236
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "12717692224",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Telecom mast",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "height": "30",
+          "man_made": "mast",
+          "tower:type": "lighting"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.3691222,
+          10.5461908
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "12717692225",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Telecom mast",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "height": "30",
+          "man_made": "mast",
+          "tower:type": "lighting"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.3680153,
+          10.54791
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "12717698852",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "height": "30",
+          "man_made": "mast",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.3760999,
+          10.5549048
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "12717719883",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "tower",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.358356,
+          10.35253
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "12717851774",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "tower",
+          "tower:construction": "lattice",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.8084637,
+          10.8248997
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "12718142234",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Telecom mast",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "mast"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.3512175,
+          10.3523543
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "12793080279",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "tower",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.4860911,
+          10.9671611
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "12957836658",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "mast",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.8540467,
+          10.9701409
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "12969594004",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "tower",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.7293145,
+          10.7813167
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "13124851077",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "tower",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.7051542,
+          11.1452589
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "13438294157",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Telecom mast",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "mast",
+          "tower:type": "lighting"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          107.0797896,
+          10.4597279
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "13438951371",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Telecom mast",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "mast"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.6819387,
+          11.0581326
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "13519782383",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "man_made": "tower",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.7222697,
+          10.7609894
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "13618968503",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "communication:radio": "yes",
+          "man_made": "mast",
+          "tower:construction": "mast",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.661768,
+          10.8021437
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "13618968504",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "communication:radio": "yes",
+          "man_made": "mast",
+          "tower:construction": "mast",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.6620343,
+          10.8027333
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "13706443147",
+        "osm_type": "node",
+        "name": "",
+        "asset_type": "Communication tower",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "image": "https://photos.app.goo.gl/RnXdwe8wDok24KVR6",
+          "man_made": "mast",
+          "tower:type": "communication"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.6611889,
+          10.8041449
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "191881072",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Telecom asset: data_center",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "landuse": "commercial",
+          "telecom": "data_center"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.6943009,
+              10.7901618
+            ],
+            [
+              106.6943577,
+              10.7901744
+            ],
+            [
+              106.6955837,
+              10.7890139
+            ],
+            [
+              106.6957858,
+              10.7888226
+            ],
+            [
+              106.6956178,
+              10.7886494
+            ],
+            [
+              106.6955777,
+              10.788608
+            ],
+            [
+              106.6952593,
+              10.7882796
+            ],
+            [
+              106.6938077,
+              10.7896655
+            ],
+            [
+              106.6943009,
+              10.7901618
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1175244806",
+        "osm_type": "way",
+        "name": "Tòa nhà VNPT IDC Tân Thuận",
+        "asset_type": "Telecom asset: data_center",
+        "category": "Network Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "addr:housenumber": "Lô VA",
+          "addr:street": "Đường số 24",
+          "building": "yes",
+          "building:levels": "7",
+          "name": "Tòa nhà VNPT IDC Tân Thuận",
+          "name:en": "VNPT IDC Tan Thuan",
+          "operator": "VNPT",
+          "telecom": "data_center"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.7408404,
+              10.7735893
+            ],
+            [
+              106.7408285,
+              10.7731526
+            ],
+            [
+              106.7408688,
+              10.7731515
+            ],
+            [
+              106.7409491,
+              10.7731494
+            ],
+            [
+              106.7411873,
+              10.7731431
+            ],
+            [
+              106.7411928,
+              10.7733433
+            ],
+            [
+              106.7411949,
+              10.773423
+            ],
+            [
+              106.7410685,
+              10.7734263
+            ],
+            [
+              106.7410588,
+              10.7734266
+            ],
+            [
+              106.7410631,
+              10.7735834
+            ],
+            [
+              106.7408404,
+              10.7735893
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

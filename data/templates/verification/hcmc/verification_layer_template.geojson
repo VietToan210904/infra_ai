@@ -1,0 +1,30 @@
+{
+  "type": "FeatureCollection",
+  "name": "verification_layer_template",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.7009, 10.7769]
+      },
+      "properties": {
+        "name": "Example verified asset",
+        "asset_type": "example_verification_asset",
+        "category": "verification",
+        "source": "Replace with official agency, utility, provider, or reviewed document source",
+        "source_type": "authoritative",
+        "source_confidence": "medium",
+        "data_completeness": "partial",
+        "data_limitation": "Replace with source-specific limitations and review conditions.",
+        "verification_status": "needs_review",
+        "evidence_source": "Replace with source URL, document ID, provider dataset name, or upload reference",
+        "evidence_type": "official_dataset",
+        "evidence_date": "YYYY-MM-DD",
+        "review_owner": "Replace with reviewer or team",
+        "last_reviewed": "YYYY-MM-DD",
+        "notes": "Remove this example feature before publishing real verification data."
+      }
+    }
+  ]
+}

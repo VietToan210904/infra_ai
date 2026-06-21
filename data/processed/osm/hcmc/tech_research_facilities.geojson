@@ -1,0 +1,2884 @@
+{
+  "type": "FeatureCollection",
+  "name": "tech_research_facilities",
+  "metadata": {
+    "source": "OpenStreetMap",
+    "source_type": "open_data",
+    "source_confidence": "medium",
+    "data_completeness": "unknown",
+    "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions."
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "980138582",
+        "osm_type": "node",
+        "name": "Dịch Vụ Sửa Chữa Bảo Trì Máy Vi Tính Hợp Phát",
+        "asset_type": "Technology support facility",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "craft": "electronics_repair",
+          "name": "Dịch Vụ Sửa Chữa Bảo Trì Máy Vi Tính Hợp Phát",
+          "shop": "computer_repair"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.4174236,
+          10.5383693
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "2995930074",
+        "osm_type": "node",
+        "name": "Viện Khoa Học Xã Hội Vùng Nam Bộ",
+        "asset_type": "Research institute",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "addr:city": "HCMC",
+          "addr:district": "Phú Nhuận",
+          "addr:housenumber": "270",
+          "addr:street": "Nguyễn Trọng Tuyển",
+          "addr:subdistrict": "Phường 8",
+          "amenity": "research_institute",
+          "name": "Viện Khoa Học Xã Hội Vùng Nam Bộ"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.6721402,
+          10.7980161
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "4273152097",
+        "osm_type": "node",
+        "name": "Phân viện Công nghệ thực phẩm tại Thành phố Hồ Chí Minh",
+        "asset_type": "Research institute",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "amenity": "research_institute",
+          "name": "Phân viện Công nghệ thực phẩm tại Thành phố Hồ Chí Minh"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.700515,
+          10.7926157
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "4327908308",
+        "osm_type": "node",
+        "name": "Công Ty TNHH Niteco",
+        "asset_type": "IT office",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "addr:city": "Ho Chi Minh City",
+          "addr:district": "Tân Bình",
+          "addr:housenumber": "364",
+          "addr:street": "Cộng Hoà",
+          "addr:subdistrict": "Phường 13",
+          "name": "Công Ty TNHH Niteco",
+          "office": "it"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.6407242,
+          10.80185
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "4423874047",
+        "osm_type": "node",
+        "name": "Phú Nguyễn Computer",
+        "asset_type": "IT office",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "description": "Cửa hàng công nghệ - tin học Phú Nguyễn",
+          "name": "Phú Nguyễn Computer",
+          "office": "it"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          107.0650624,
+          10.5870763
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "4870022735",
+        "osm_type": "node",
+        "name": "Vu Thi Thu Huong",
+        "asset_type": "IT office",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "addr:street": "A24 ok",
+          "name": "Vu Thi Thu Huong",
+          "office": "it"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.7652333,
+          10.8239156
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "5350664336",
+        "osm_type": "node",
+        "name": "Codelivery",
+        "asset_type": "IT office",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "name": "Codelivery",
+          "office": "it",
+          "opening_hours": "Mo-Su 09:00-21:00",
+          "website": "https://codelivery.tech"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.6990634,
+          10.8046782
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "5953220911",
+        "osm_type": "node",
+        "name": "Tiệm Điện Cơ Hữu Thịnh",
+        "asset_type": "Technology support facility",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "addr:city": "Ho Chi Minh",
+          "addr:district": "Go vap",
+          "addr:housenumber": "149/14",
+          "addr:postcode": "700000",
+          "addr:province": "Ho Chi Minh",
+          "addr:street": "Nguyễn Duy Cung",
+          "addr:subdistrict": "Phường 12",
+          "craft": "electronics_repair",
+          "email": "dcht.diencohuuthinh@gmail.com",
+          "name": "Tiệm Điện Cơ Hữu Thịnh",
+          "opening_hours": "Mo-Su 08:00-20:30",
+          "operator": "Giađình",
+          "payment:cash": "yes",
+          "phone": "+84907104459",
+          "website": "https://www.diencohuuthinh.com/"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.6430559,
+          10.8390598
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "6259407676",
+        "osm_type": "node",
+        "name": "Công Ty Nashtech",
+        "asset_type": "IT office",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "addr:city": "Ho Chi Minh City",
+          "addr:district": "Tân Bình",
+          "addr:housenumber": "364",
+          "addr:street": "Đường Cộng Hòa",
+          "addr:subdistrict": "Phường 13",
+          "contact:email": "info@nashtechglobal.com",
+          "contact:phone": "+84 28 3810 6200",
+          "name": "Công Ty Nashtech",
+          "office": "it",
+          "opening_hours": "Mo-Fr 09:00-18:00",
+          "website": "https://www.nashtechglobal.com/"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.6407719,
+          10.8013706
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "7461343334",
+        "osm_type": "node",
+        "name": "Công Ty TNHH TM Công Nghệ Intekco",
+        "asset_type": "IT office",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "addr:city": "Hồ Chí Minh City",
+          "addr:district": "3",
+          "addr:housenumber": "62A",
+          "addr:postcode": "700000",
+          "addr:province": "Hồ Chí Minh",
+          "addr:street": "Phạm Ngọc Thạch",
+          "addr:subdistrict": "6",
+          "email": "info@intekco.com",
+          "name": "Công Ty TNHH TM Công Nghệ Intekco",
+          "office": "it",
+          "opening_hours": "Mo-Sa 09:00-18:00",
+          "phone": "+84938532529",
+          "ref:vatin": "0314478083",
+          "start_date": "2017-06-23",
+          "website": "www.intekco.com"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.6923637,
+          10.786227
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "8621522411",
+        "osm_type": "node",
+        "name": "Công Thiết Kế App BMD Solutions",
+        "asset_type": "IT office",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "image": "https://bmd.com.vn/wp-content/uploads/2020/01/bmd_logo.png",
+          "name": "Công Thiết Kế App BMD Solutions",
+          "office": "it"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.6521545,
+          10.7899863
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "9769282535",
+        "osm_type": "node",
+        "name": "VNTTS",
+        "asset_type": "IT office",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "addr:city": "Bình Dương",
+          "addr:district": "Thủ Dầu Một",
+          "addr:province": "Bình Dương",
+          "addr:street": "Nam Kỳ Khởi Nghĩa",
+          "addr:subdistrict": "Định Hòa",
+          "name": "VNTTS",
+          "office": "it",
+          "opening_hours": "Mo-Su 08:00-17:00",
+          "website": "https://vntts.vn"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.6679548,
+          11.0519832
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "11301379038",
+        "osm_type": "node",
+        "name": "Center for Biodiversity conservation and Endangered Species",
+        "asset_type": "Research office",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "addr:city": "Thành phố Thủ Đức",
+          "addr:district": "Thủ Đức",
+          "addr:housenumber": "176",
+          "addr:postcode": "70000",
+          "addr:province": "Hồ Chí Minh",
+          "addr:street": "D, KĐT Lakeview City",
+          "addr:subdistrict": "An Phú",
+          "description": "Center for Biodiversity conservation and Endangered Species (CBES) is established by an assembly of experienced researchers and conservationists who have devoted their careers for the protection of Vietnam’s nature.",
+          "email": "info@cbes.vn",
+          "image": "https://cbes.vn/wp-content/uploads/2022/01/falvicon-e1645033974970.png.webp",
+          "name": "Center for Biodiversity conservation and Endangered Species",
+          "name:vi": "Trung tâm Bảo tồn Đa dạng Sinh học và Loài nguy cấp",
+          "office": "research",
+          "opening_hours": "Mo-Fr 08:30-18:00",
+          "phone": "+84 86 2422 086",
+          "short_name": "CBES",
+          "website": "https://cbes.vn/"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.7757852,
+          10.7938169
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "11399549723",
+        "osm_type": "node",
+        "name": "DXC Technology Việt Nam",
+        "asset_type": "IT office",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "name": "DXC Technology Việt Nam",
+          "office": "it"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.6413858,
+          10.8020575
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "13441787292",
+        "osm_type": "node",
+        "name": "Công ty TNHH Dịch vụ Apollo Việt Nam",
+        "asset_type": "IT office",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "name": "Công ty TNHH Dịch vụ Apollo Việt Nam",
+          "note": "Previously SBI building was named after this company. But it should just be a point (as SBI building has multiple companies inside). It was 5 years ago. I separate here as a point, but still need someone to survey if the company still operates or not.",
+          "office": "it"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.6255291,
+          10.8546473
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "13469956791",
+        "osm_type": "node",
+        "name": "Hồng Hưng",
+        "asset_type": "Technology support facility",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "addr:housenumber": "272",
+          "addr:street": "Đường Trần Hưng Ðạo",
+          "craft": "electronics_repair",
+          "name": "Hồng Hưng"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.6639645,
+          10.7523259
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "299218020",
+        "osm_type": "way",
+        "name": "Ozerside",
+        "asset_type": "IT office",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "addr:housenumber": "69/4",
+          "addr:street": "Đường D2",
+          "name": "Ozerside",
+          "office": "it"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.7152496,
+              10.8035041
+            ],
+            [
+              106.7152952,
+              10.8036622
+            ],
+            [
+              106.7152094,
+              10.8036859
+            ],
+            [
+              106.7151531,
+              10.8035305
+            ],
+            [
+              106.7152496,
+              10.8035041
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "420287617",
+        "osm_type": "way",
+        "name": "Viện Y tế Công cộng Thành phố Hồ Chí Minh",
+        "asset_type": "Research institute",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "addr:city": "Phường Hưng Phú",
+          "addr:district": "Quận 8",
+          "addr:housenumber": "159",
+          "addr:province": "Thành phố Hồ Chí Minh",
+          "addr:street": "Hưng Phú",
+          "addr:subdistrict": "Phường Hưng Phú",
+          "amenity": "research_institute",
+          "landuse": "commercial",
+          "name": "Viện Y tế Công cộng Thành phố Hồ Chí Minh"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.679124,
+              10.7498958
+            ],
+            [
+              106.6791809,
+              10.7497012
+            ],
+            [
+              106.6790441,
+              10.7496257
+            ],
+            [
+              106.6791539,
+              10.749405
+            ],
+            [
+              106.6790842,
+              10.7493639
+            ],
+            [
+              106.6791079,
+              10.7492085
+            ],
+            [
+              106.6791109,
+              10.7491198
+            ],
+            [
+              106.6790667,
+              10.7490265
+            ],
+            [
+              106.6785435,
+              10.7487127
+            ],
+            [
+              106.6785384,
+              10.7487096
+            ],
+            [
+              106.6762771,
+              10.7475428
+            ],
+            [
+              106.6758676,
+              10.7482881
+            ],
+            [
+              106.6765326,
+              10.7488034
+            ],
+            [
+              106.677002,
+              10.7491144
+            ],
+            [
+              106.6779495,
+              10.7496453
+            ],
+            [
+              106.678219,
+              10.7497742
+            ],
+            [
+              106.6786149,
+              10.7499243
+            ],
+            [
+              106.6789889,
+              10.7500046
+            ],
+            [
+              106.6790581,
+              10.7498804
+            ],
+            [
+              106.679124,
+              10.7498958
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "516639159",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Research office",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "building": "yes",
+          "office": "research"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.6192286,
+              10.8502297
+            ],
+            [
+              106.6191406,
+              10.8501895
+            ],
+            [
+              106.6191297,
+              10.8502127
+            ],
+            [
+              106.6190371,
+              10.8501704
+            ],
+            [
+              106.6189892,
+              10.8502716
+            ],
+            [
+              106.6189006,
+              10.8502311
+            ],
+            [
+              106.6189435,
+              10.8501404
+            ],
+            [
+              106.6188723,
+              10.8501078
+            ],
+            [
+              106.6188812,
+              10.8500891
+            ],
+            [
+              106.618777,
+              10.8500415
+            ],
+            [
+              106.618925,
+              10.8497289
+            ],
+            [
+              106.6193695,
+              10.8499318
+            ],
+            [
+              106.6192286,
+              10.8502297
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "516639160",
+        "osm_type": "way",
+        "name": "Trung Tâm Công Nghệ Sinh Học Thành phố Hồ Chí Minh",
+        "asset_type": "Research office",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "building": "yes",
+          "name": "Trung Tâm Công Nghệ Sinh Học Thành phố Hồ Chí Minh",
+          "office": "research"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.6186178,
+              10.8498255
+            ],
+            [
+              106.6185373,
+              10.8497888
+            ],
+            [
+              106.6185256,
+              10.8498095
+            ],
+            [
+              106.6184077,
+              10.8497579
+            ],
+            [
+              106.6183622,
+              10.8498484
+            ],
+            [
+              106.6182629,
+              10.8498037
+            ],
+            [
+              106.6183096,
+              10.849704
+            ],
+            [
+              106.6182664,
+              10.8496891
+            ],
+            [
+              106.6182816,
+              10.8496615
+            ],
+            [
+              106.6181917,
+              10.8496203
+            ],
+            [
+              106.6183622,
+              10.8492751
+            ],
+            [
+              106.6187941,
+              10.8494723
+            ],
+            [
+              106.6186178,
+              10.8498255
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "725219783",
+        "osm_type": "way",
+        "name": "Viện Khoa học sự sống",
+        "asset_type": "Research institute",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "amenity": "research_institute",
+          "email": "vanthu@ils.vast.vn",
+          "fax": "+84 28 3897 8791",
+          "landuse": "commercial",
+          "name": "Viện Khoa học sự sống",
+          "old_name": "Viện Sinh học Nhiệt đới",
+          "operator": "Viện Hàn lâm Khoa học và Công nghệ Việt Nam",
+          "phone": "+84 28 3897 8798",
+          "website": "http://ils.ac.vn/"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.7948837,
+              10.8648277
+            ],
+            [
+              106.7965252,
+              10.8658498
+            ],
+            [
+              106.7962946,
+              10.8665294
+            ],
+            [
+              106.796552,
+              10.866561
+            ],
+            [
+              106.7969651,
+              10.8666347
+            ],
+            [
+              106.7973513,
+              10.8667717
+            ],
+            [
+              106.7976249,
+              10.8669376
+            ],
+            [
+              106.7977232,
+              10.8659599
+            ],
+            [
+              106.797772,
+              10.8649981
+            ],
+            [
+              106.7972685,
+              10.8647
+            ],
+            [
+              106.7971972,
+              10.8647855
+            ],
+            [
+              106.7967272,
+              10.864868
+            ],
+            [
+              106.7967308,
+              10.8645492
+            ],
+            [
+              106.7957796,
+              10.8646539
+            ],
+            [
+              106.7948837,
+              10.8648277
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "801902444",
+        "osm_type": "way",
+        "name": "Viện Hàn lâm Khoa học và Công nghệ Việt Nam tại Thành phố Hồ Chí Minh",
+        "asset_type": "Research institute",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "addr:housenumber": "01",
+          "addr:street": "Mạc Đĩnh Chi",
+          "amenity": "research_institute",
+          "landuse": "commercial",
+          "name": "Viện Hàn lâm Khoa học và Công nghệ Việt Nam tại Thành phố Hồ Chí Minh"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.7016463,
+              10.7826269
+            ],
+            [
+              106.7014865,
+              10.7827764
+            ],
+            [
+              106.7014532,
+              10.7828064
+            ],
+            [
+              106.7011465,
+              10.7824773
+            ],
+            [
+              106.7012541,
+              10.7823754
+            ],
+            [
+              106.7012402,
+              10.7823288
+            ],
+            [
+              106.7011526,
+              10.7822005
+            ],
+            [
+              106.7014627,
+              10.7819183
+            ],
+            [
+              106.7016463,
+              10.7826269
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "801950694",
+        "osm_type": "way",
+        "name": "Viện Khoa học Xã hội tại Thành phố Hồ Chí Minh",
+        "asset_type": "Research office",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "building": "yes",
+          "name": "Viện Khoa học Xã hội tại Thành phố Hồ Chí Minh",
+          "office": "research"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.7007427,
+              10.7778251
+            ],
+            [
+              106.7006026,
+              10.777949
+            ],
+            [
+              106.7004164,
+              10.7777491
+            ],
+            [
+              106.7004097,
+              10.7777188
+            ],
+            [
+              106.7004234,
+              10.7777015
+            ],
+            [
+              106.7005442,
+              10.7775933
+            ],
+            [
+              106.7007427,
+              10.7778251
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "804925975",
+        "osm_type": "way",
+        "name": "Viện Nghiên cứu Giáo dục",
+        "asset_type": "Research office",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "building": "yes",
+          "name": "Viện Nghiên cứu Giáo dục",
+          "office": "research"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.7021353,
+              10.7790076
+            ],
+            [
+              106.7020241,
+              10.7788829
+            ],
+            [
+              106.7021545,
+              10.7787706
+            ],
+            [
+              106.7022559,
+              10.7788842
+            ],
+            [
+              106.7021861,
+              10.7789442
+            ],
+            [
+              106.7021961,
+              10.7789553
+            ],
+            [
+              106.7021353,
+              10.7790076
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1041022607",
+        "osm_type": "way",
+        "name": "Viện Khoa học An toàn Vệ sinh lao động Thành phố Hồ Chí Minh",
+        "asset_type": "Research office",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "addr:housenumber": "348",
+          "addr:street": "Nguyễn Thái Sơn",
+          "building": "yes",
+          "name": "Viện Khoa học An toàn Vệ sinh lao động Thành phố Hồ Chí Minh",
+          "office": "research"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.6862975,
+              10.8235624
+            ],
+            [
+              106.6863664,
+              10.823652
+            ],
+            [
+              106.6864358,
+              10.8236005
+            ],
+            [
+              106.6864432,
+              10.8236101
+            ],
+            [
+              106.6865872,
+              10.8235033
+            ],
+            [
+              106.6865642,
+              10.8234733
+            ],
+            [
+              106.6865814,
+              10.8234605
+            ],
+            [
+              106.6865394,
+              10.8234059
+            ],
+            [
+              106.6865222,
+              10.8234187
+            ],
+            [
+              106.6865109,
+              10.8234041
+            ],
+            [
+              106.6862975,
+              10.8235624
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1080023303",
+        "osm_type": "way",
+        "name": "Phân viện Chăn nuôi Nam Bộ",
+        "asset_type": "Research institute",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "amenity": "research_institute",
+          "landuse": "commercial",
+          "name": "Phân viện Chăn nuôi Nam Bộ"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.8138231,
+              10.8854506
+            ],
+            [
+              106.8152383,
+              10.8859272
+            ],
+            [
+              106.8154368,
+              10.886022
+            ],
+            [
+              106.8160537,
+              10.8861063
+            ],
+            [
+              106.8164024,
+              10.8855584
+            ],
+            [
+              106.8165029,
+              10.8853095
+            ],
+            [
+              106.8165566,
+              10.8852779
+            ],
+            [
+              106.8166612,
+              10.8850014
+            ],
+            [
+              106.8166907,
+              10.8848354
+            ],
+            [
+              106.8166853,
+              10.8847037
+            ],
+            [
+              106.8166451,
+              10.8845799
+            ],
+            [
+              106.8162052,
+              10.8838846
+            ],
+            [
+              106.8161328,
+              10.883932
+            ],
+            [
+              106.8159397,
+              10.8836817
+            ],
+            [
+              106.8144173,
+              10.8836712
+            ],
+            [
+              106.8143576,
+              10.8838539
+            ],
+            [
+              106.8138231,
+              10.8854506
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1152894038",
+        "osm_type": "way",
+        "name": "Thư viện Pháp luật",
+        "asset_type": "IT office",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "building": "yes",
+          "name": "Thư viện Pháp luật",
+          "office": "it"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.6890738,
+              10.7794045
+            ],
+            [
+              106.6889762,
+              10.7793059
+            ],
+            [
+              106.6890299,
+              10.7792546
+            ],
+            [
+              106.6891276,
+              10.7793532
+            ],
+            [
+              106.6890738,
+              10.7794045
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1154681659",
+        "osm_type": "way",
+        "name": "Viện Khoa học xã hội vùng Nam Bộ",
+        "asset_type": "Research institute",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "addr:city": "Thành Phố Hồ Chí Minh",
+          "addr:district": "Quận 1",
+          "addr:housenumber": "49",
+          "addr:street": "Nguyễn Thị Minh Khai",
+          "addr:subdistrict": "Bến Nghé",
+          "amenity": "research_institute",
+          "name": "Viện Khoa học xã hội vùng Nam Bộ"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.6961551,
+              10.7806929
+            ],
+            [
+              106.696089,
+              10.7806224
+            ],
+            [
+              106.6959917,
+              10.7805185
+            ],
+            [
+              106.6963008,
+              10.780239
+            ],
+            [
+              106.6964648,
+              10.7804112
+            ],
+            [
+              106.6961551,
+              10.7806929
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1186015390",
+        "osm_type": "way",
+        "name": "Viện Khoa học Kỹ thuật Nông nghiệp miền Nam",
+        "asset_type": "Research institute",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "addr:housenumber": "121",
+          "addr:street": "Nguyễn Bỉnh Khiêm",
+          "amenity": "research_institute",
+          "name": "Viện Khoa học Kỹ thuật Nông nghiệp miền Nam"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.6991184,
+              10.7918917
+            ],
+            [
+              106.6993907,
+              10.7919905
+            ],
+            [
+              106.6995516,
+              10.7920353
+            ],
+            [
+              106.6996522,
+              10.7920458
+            ],
+            [
+              106.699738,
+              10.7920129
+            ],
+            [
+              106.6999097,
+              10.7918587
+            ],
+            [
+              106.6997849,
+              10.7917231
+            ],
+            [
+              106.699838,
+              10.7916743
+            ],
+            [
+              106.6994885,
+              10.7913067
+            ],
+            [
+              106.6994412,
+              10.7912938
+            ],
+            [
+              106.6993838,
+              10.7912333
+            ],
+            [
+              106.6991708,
+              10.7914282
+            ],
+            [
+              106.6992282,
+              10.7914887
+            ],
+            [
+              106.6991681,
+              10.7915469
+            ],
+            [
+              106.6993236,
+              10.7917221
+            ],
+            [
+              106.6991184,
+              10.7918917
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1196987523",
+        "osm_type": "way",
+        "name": "Viện Sốt rét - Ký sinh trùng - Côn trùng Thành phố Hồ Chí Minh",
+        "asset_type": "Research institute",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "addr:housenumber": "485",
+          "addr:street": "Đường Trần Hưng Ðạo",
+          "amenity": "research_institute",
+          "landuse": "commercial",
+          "name": "Viện Sốt rét - Ký sinh trùng - Côn trùng Thành phố Hồ Chí Minh"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.6830903,
+              10.7557157
+            ],
+            [
+              106.6835648,
+              10.755855
+            ],
+            [
+              106.6836399,
+              10.755826
+            ],
+            [
+              106.683884,
+              10.7551804
+            ],
+            [
+              106.683433,
+              10.7550565
+            ],
+            [
+              106.6830903,
+              10.7557157
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1210180652",
+        "osm_type": "way",
+        "name": "Viện Khoa học Vật liệu ứng dụng",
+        "asset_type": "Research institute",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "addr:housenumber": "01B",
+          "addr:street": "Đường Thạnh Lộc 29",
+          "amenity": "research_institute",
+          "name": "Viện Khoa học Vật liệu ứng dụng",
+          "operator": "Viện Hàn lâm Khoa học và Công nghệ Việt Nam"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.6788844,
+              10.8768252
+            ],
+            [
+              106.6791481,
+              10.8769486
+            ],
+            [
+              106.6791767,
+              10.8769612
+            ],
+            [
+              106.679203,
+              10.8769728
+            ],
+            [
+              106.6793385,
+              10.8770321
+            ],
+            [
+              106.6794073,
+              10.8770641
+            ],
+            [
+              106.6795061,
+              10.8771179
+            ],
+            [
+              106.6795505,
+              10.8771413
+            ],
+            [
+              106.6796035,
+              10.8771691
+            ],
+            [
+              106.6798254,
+              10.8772861
+            ],
+            [
+              106.679851,
+              10.8773556
+            ],
+            [
+              106.6795142,
+              10.8779558
+            ],
+            [
+              106.6794723,
+              10.8779102
+            ],
+            [
+              106.6794405,
+              10.8778592
+            ],
+            [
+              106.6793637,
+              10.8777298
+            ],
+            [
+              106.6792991,
+              10.8776826
+            ],
+            [
+              106.6792313,
+              10.8776454
+            ],
+            [
+              106.6792524,
+              10.8776083
+            ],
+            [
+              106.6792143,
+              10.8775874
+            ],
+            [
+              106.6791725,
+              10.8775767
+            ],
+            [
+              106.6789259,
+              10.8774401
+            ],
+            [
+              106.6787351,
+              10.8773344
+            ],
+            [
+              106.6786859,
+              10.8773072
+            ],
+            [
+              106.6785812,
+              10.8772492
+            ],
+            [
+              106.6786811,
+              10.8770729
+            ],
+            [
+              106.6786939,
+              10.8770554
+            ],
+            [
+              106.6787046,
+              10.8770408
+            ],
+            [
+              106.6788234,
+              10.8768443
+            ],
+            [
+              106.6788844,
+              10.8768252
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1210180656",
+        "osm_type": "way",
+        "name": "Viện Cơ học và Tin học ứng dụng",
+        "asset_type": "Research institute",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "addr:housenumber": "291",
+          "addr:street": "Đường Điện Biên Phủ",
+          "amenity": "research_institute",
+          "building": "yes",
+          "name": "Viện Cơ học và Tin học ứng dụng",
+          "operator": "Viện Hàn lâm Khoa học và Công nghệ Việt Nam"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.6854036,
+              10.7778463
+            ],
+            [
+              106.6854494,
+              10.777889
+            ],
+            [
+              106.6854634,
+              10.7778746
+            ],
+            [
+              106.6855553,
+              10.7779603
+            ],
+            [
+              106.6854525,
+              10.7780667
+            ],
+            [
+              106.6854316,
+              10.7780472
+            ],
+            [
+              106.6853984,
+              10.7780395
+            ],
+            [
+              106.6853678,
+              10.7780221
+            ],
+            [
+              106.6853466,
+              10.7779955
+            ],
+            [
+              106.6853345,
+              10.7779613
+            ],
+            [
+              106.6853124,
+              10.7779407
+            ],
+            [
+              106.6854036,
+              10.7778463
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1229208507",
+        "osm_type": "way",
+        "name": "Viện Kiểm nghiệm Thuốc Thành phố Hồ Chí Minh",
+        "asset_type": "Research institute",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "addr:housenumber": "200",
+          "addr:street": "Đường Cô Bắc",
+          "amenity": "research_institute",
+          "landuse": "commercial",
+          "name": "Viện Kiểm nghiệm Thuốc Thành phố Hồ Chí Minh"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.6936556,
+              10.7639942
+            ],
+            [
+              106.6936174,
+              10.763995
+            ],
+            [
+              106.6933475,
+              10.7643315
+            ],
+            [
+              106.6933237,
+              10.7644182
+            ],
+            [
+              106.6932394,
+              10.764526
+            ],
+            [
+              106.6935636,
+              10.7647901
+            ],
+            [
+              106.6936707,
+              10.7646693
+            ],
+            [
+              106.6938554,
+              10.7644574
+            ],
+            [
+              106.6939905,
+              10.7642902
+            ],
+            [
+              106.6938019,
+              10.7641286
+            ],
+            [
+              106.6936556,
+              10.7639942
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1229647040",
+        "osm_type": "way",
+        "name": "Công ty TNHH Khoa học TSL",
+        "asset_type": "Research office",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "building": "yes",
+          "building:levels": "4",
+          "name": "Công ty TNHH Khoa học TSL",
+          "office": "research"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.6383401,
+              10.8036688
+            ],
+            [
+              106.6387579,
+              10.8037611
+            ],
+            [
+              106.6388087,
+              10.8035392
+            ],
+            [
+              106.6384546,
+              10.8034611
+            ],
+            [
+              106.6384316,
+              10.8034661
+            ],
+            [
+              106.6384106,
+              10.8034764
+            ],
+            [
+              106.6383951,
+              10.803489
+            ],
+            [
+              106.6383828,
+              10.8035043
+            ],
+            [
+              106.6383758,
+              10.8035201
+            ],
+            [
+              106.638371,
+              10.8035343
+            ],
+            [
+              106.6383401,
+              10.8036688
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1229647041",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Research institute",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "amenity": "research_institute"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.6381491,
+              10.8036692
+            ],
+            [
+              106.6382301,
+              10.803543
+            ],
+            [
+              106.6382949,
+              10.8034487
+            ],
+            [
+              106.6383674,
+              10.8033633
+            ],
+            [
+              106.6384458,
+              10.8032917
+            ],
+            [
+              106.6385239,
+              10.8032256
+            ],
+            [
+              106.6384816,
+              10.8034371
+            ],
+            [
+              106.6388786,
+              10.8035246
+            ],
+            [
+              106.6388236,
+              10.8038218
+            ],
+            [
+              106.6381491,
+              10.8036692
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1238200049",
+        "osm_type": "way",
+        "name": "Trung tâm Nghiên cứu và Phát triển Cây Điều",
+        "asset_type": "Research office",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "barrier": "fence",
+          "landuse": "commercial",
+          "name": "Trung tâm Nghiên cứu và Phát triển Cây Điều",
+          "office": "research"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.5847666,
+              11.0700582
+            ],
+            [
+              106.5854356,
+              11.0711166
+            ],
+            [
+              106.5854249,
+              11.0711236
+            ],
+            [
+              106.5833147,
+              11.0724834
+            ],
+            [
+              106.5850033,
+              11.0748018
+            ],
+            [
+              106.5840842,
+              11.0754652
+            ],
+            [
+              106.5857151,
+              11.0778065
+            ],
+            [
+              106.5877831,
+              11.0748326
+            ],
+            [
+              106.5887323,
+              11.0740345
+            ],
+            [
+              106.5882448,
+              11.0733803
+            ],
+            [
+              106.588211,
+              11.0732032
+            ],
+            [
+              106.5881617,
+              11.072892
+            ],
+            [
+              106.5881405,
+              11.0728026
+            ],
+            [
+              106.5881129,
+              11.0727182
+            ],
+            [
+              106.5880699,
+              11.0726213
+            ],
+            [
+              106.5875309,
+              11.0714331
+            ],
+            [
+              106.5875487,
+              11.0712907
+            ],
+            [
+              106.5883821,
+              11.0707923
+            ],
+            [
+              106.5884322,
+              11.0707598
+            ],
+            [
+              106.5884642,
+              11.0707287
+            ],
+            [
+              106.5884818,
+              11.0706928
+            ],
+            [
+              106.5884828,
+              11.0706585
+            ],
+            [
+              106.5884752,
+              11.0706141
+            ],
+            [
+              106.5872508,
+              11.068631
+            ],
+            [
+              106.5861455,
+              11.069266
+            ],
+            [
+              106.5847666,
+              11.0700582
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1320370247",
+        "osm_type": "way",
+        "name": "Viện nghiên cứu dầu và cây có dầu",
+        "asset_type": "Research office",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "addr:city": "Thành phố Hồ Chí Minh",
+          "addr:district": "Quận 1",
+          "addr:housenumber": "171-175",
+          "addr:street": "Hàm Nghi",
+          "addr:subdistrict": "Phường Nguyễn Thái Bình",
+          "building": "yes",
+          "building:levels": "7",
+          "name": "Viện nghiên cứu dầu và cây có dầu",
+          "name:en": "Research institute for oil and oil plants",
+          "office": "research"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.6994356,
+              10.7708268
+            ],
+            [
+              106.699431,
+              10.7706793
+            ],
+            [
+              106.6994303,
+              10.7706533
+            ],
+            [
+              106.6994669,
+              10.7706519
+            ],
+            [
+              106.6995054,
+              10.7706505
+            ],
+            [
+              106.6995461,
+              10.7706492
+            ],
+            [
+              106.6995527,
+              10.7708231
+            ],
+            [
+              106.6994356,
+              10.7708268
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1348489481",
+        "osm_type": "way",
+        "name": "Công ty AI POWER",
+        "asset_type": "IT office",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "addr:city": "Thành phố Hồ Chí Minh",
+          "addr:district": "Quận Tân Bình",
+          "addr:housenumber": "25/1",
+          "addr:postcode": "741039",
+          "addr:province": "Thành phố Hồ Chí Minh",
+          "addr:street": "Hẻm 25 Cửu Long",
+          "addr:subdistrict": "Phường 2",
+          "building": "yes",
+          "name": "Công ty AI POWER",
+          "office": "it"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.6663386,
+              10.8104024
+            ],
+            [
+              106.666436,
+              10.8104019
+            ],
+            [
+              106.6665241,
+              10.8103957
+            ],
+            [
+              106.6665217,
+              10.8102034
+            ],
+            [
+              106.6665195,
+              10.8101357
+            ],
+            [
+              106.6664545,
+              10.810116
+            ],
+            [
+              106.6664197,
+              10.8101026
+            ],
+            [
+              106.6664238,
+              10.8102569
+            ],
+            [
+              106.6663313,
+              10.8102653
+            ],
+            [
+              106.6663386,
+              10.8104024
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1419353338",
+        "osm_type": "way",
+        "name": "Viện Môi trường và Tài nguyên",
+        "asset_type": "Research institute",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "amenity": "research_institute",
+          "name": "Viện Môi trường và Tài nguyên",
+          "name:en": "Institute for Environment and Resources",
+          "name:vi": "Viện Môi trường và Tài nguyên",
+          "operator": "Đại học Quốc gia Thành phố Hồ Chí Minh",
+          "operator:type": "university",
+          "website": "https://hcmier.edu.vn/vn/"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.7866151,
+              10.8797691
+            ],
+            [
+              106.7861644,
+              10.8782203
+            ],
+            [
+              106.7872202,
+              10.8779821
+            ],
+            [
+              106.7875034,
+              10.8786438
+            ],
+            [
+              106.7875423,
+              10.8796807
+            ],
+            [
+              106.7869231,
+              10.8796922
+            ],
+            [
+              106.7866151,
+              10.8797691
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1419354843",
+        "osm_type": "way",
+        "name": "Khu Công nghệ Phần mềm",
+        "asset_type": "Research institute",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "addr:province": "Hồ Chí Minh",
+          "amenity": "research_institute",
+          "name": "Khu Công nghệ Phần mềm",
+          "name:en": "Information Technology Park",
+          "name:vi": "Khu Công nghệ Phần mềm",
+          "operator": "Đại học Quốc gia Thành phố Hồ Chí Minh",
+          "operator:type": "university",
+          "website": "https://itp.vn/"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.7952181,
+              10.869816
+            ],
+            [
+              106.7942467,
+              10.869849
+            ],
+            [
+              106.7941066,
+              10.8693207
+            ],
+            [
+              106.7937928,
+              10.8689006
+            ],
+            [
+              106.7935388,
+              10.8686731
+            ],
+            [
+              106.7934099,
+              10.868464
+            ],
+            [
+              106.793195,
+              10.868176
+            ],
+            [
+              106.7930437,
+              10.8679192
+            ],
+            [
+              106.7929075,
+              10.8677514
+            ],
+            [
+              106.792827,
+              10.8675247
+            ],
+            [
+              106.7928569,
+              10.8671762
+            ],
+            [
+              106.7928009,
+              10.8667231
+            ],
+            [
+              106.794413,
+              10.8667524
+            ],
+            [
+              106.7944989,
+              10.8667763
+            ],
+            [
+              106.7945512,
+              10.8668093
+            ],
+            [
+              106.794611,
+              10.8669304
+            ],
+            [
+              106.7950481,
+              10.8681167
+            ],
+            [
+              106.7951608,
+              10.8685158
+            ],
+            [
+              106.7951894,
+              10.8687731
+            ],
+            [
+              106.7952181,
+              10.869816
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1419397097",
+        "osm_type": "way",
+        "name": "Trung tâm Công nghệ Sinh học Thành phố Hồ Chí Minh",
+        "asset_type": "Research institute",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "addr:housenumber": "2374",
+          "addr:province": "Thành phố Hồ Chí Minh",
+          "addr:street": "Đỗ Mười",
+          "addr:subdistrict": "Trung Mỹ Tây",
+          "amenity": "research_institute",
+          "name": "Trung tâm Công nghệ Sinh học Thành phố Hồ Chí Minh",
+          "operator": "Ban Quản lý Khu Công nghệ cao Thành phố Hồ Chí Minh",
+          "operator:type": "government",
+          "website": "https://hcmbiotech.com.vn/vi/"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.6199271,
+              10.846933
+            ],
+            [
+              106.6187975,
+              10.8492725
+            ],
+            [
+              106.6206105,
+              10.850128
+            ],
+            [
+              106.620539,
+              10.8502708
+            ],
+            [
+              106.6204528,
+              10.8504693
+            ],
+            [
+              106.6203538,
+              10.8507334
+            ],
+            [
+              106.6202315,
+              10.8510569
+            ],
+            [
+              106.6202025,
+              10.8512634
+            ],
+            [
+              106.6201929,
+              10.8514088
+            ],
+            [
+              106.6197834,
+              10.8513426
+            ],
+            [
+              106.6196265,
+              10.8519169
+            ],
+            [
+              106.6195835,
+              10.8519976
+            ],
+            [
+              106.6185925,
+              10.8530121
+            ],
+            [
+              106.6174474,
+              10.8524725
+            ],
+            [
+              106.6173369,
+              10.8523877
+            ],
+            [
+              106.6171911,
+              10.8522904
+            ],
+            [
+              106.6170481,
+              10.8521458
+            ],
+            [
+              106.6167834,
+              10.8518232
+            ],
+            [
+              106.6167013,
+              10.8516661
+            ],
+            [
+              106.6159014,
+              10.8504185
+            ],
+            [
+              106.6159354,
+              10.8502934
+            ],
+            [
+              106.6160486,
+              10.8502128
+            ],
+            [
+              106.616176,
+              10.8500848
+            ],
+            [
+              106.6163402,
+              10.8499402
+            ],
+            [
+              106.6164881,
+              10.8497899
+            ],
+            [
+              106.6165741,
+              10.8496468
+            ],
+            [
+              106.6173698,
+              10.8499991
+            ],
+            [
+              106.6183748,
+              10.8478838
+            ],
+            [
+              106.6183543,
+              10.8478342
+            ],
+            [
+              106.6176575,
+              10.8474691
+            ],
+            [
+              106.6183057,
+              10.8460822
+            ],
+            [
+              106.6183991,
+              10.8459592
+            ],
+            [
+              106.6185149,
+              10.8458161
+            ],
+            [
+              106.6190813,
+              10.8462674
+            ],
+            [
+              106.6194542,
+              10.8465756
+            ],
+            [
+              106.6199271,
+              10.846933
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1425706708",
+        "osm_type": "way",
+        "name": "Trung tâm Nghiên cứu Tiên tiến và Đổi mới sáng tạo",
+        "asset_type": "Research institute",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "amenity": "research_institute",
+          "name": "Trung tâm Nghiên cứu Tiên tiến và Đổi mới sáng tạo",
+          "name:en": "Progressive Research Center"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.7908719,
+              10.8798832
+            ],
+            [
+              106.7908596,
+              10.8786561
+            ],
+            [
+              106.7896009,
+              10.8785996
+            ],
+            [
+              106.7891495,
+              10.8783352
+            ],
+            [
+              106.7886448,
+              10.8783009
+            ],
+            [
+              106.7881828,
+              10.8796472
+            ],
+            [
+              106.7889562,
+              10.8798218
+            ],
+            [
+              106.7908719,
+              10.8798832
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1429659954",
+        "osm_type": "way",
+        "name": "Viện Công nghệ Hóa học",
+        "asset_type": "Research institute",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "addr:city": "Phường An Phú Đông",
+          "addr:housenumber": "1A",
+          "addr:postcode": "71515",
+          "addr:province": "Thành phố Hồ Chí Minh",
+          "addr:street": "Thạnh Lộc 29",
+          "addr:subdistrict": "Khu phố 46",
+          "amenity": "research_institute",
+          "layer": "1",
+          "name": "Viện Công nghệ Hóa học",
+          "operator": "Viện Hàn lâm"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.6783823,
+              10.8772331
+            ],
+            [
+              106.6783065,
+              10.8771485
+            ],
+            [
+              106.6782529,
+              10.8771064
+            ],
+            [
+              106.6778692,
+              10.8771819
+            ],
+            [
+              106.6778588,
+              10.877184
+            ],
+            [
+              106.6781064,
+              10.8764684
+            ],
+            [
+              106.6783325,
+              10.8765749
+            ],
+            [
+              106.6783756,
+              10.8765952
+            ],
+            [
+              106.6784114,
+              10.8766121
+            ],
+            [
+              106.6786692,
+              10.8767334
+            ],
+            [
+              106.6786862,
+              10.8767894
+            ],
+            [
+              106.6786106,
+              10.8769077
+            ],
+            [
+              106.6785818,
+              10.8769528
+            ],
+            [
+              106.6785621,
+              10.8769837
+            ],
+            [
+              106.6784371,
+              10.8771793
+            ],
+            [
+              106.6783823,
+              10.8772331
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1472147451",
+        "osm_type": "way",
+        "name": "MacUS",
+        "asset_type": "Technology support facility",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "addr:housenumber": "549",
+          "addr:street": "Đường Nguyễn Trãi",
+          "building": "yes",
+          "computer:repair": "yes",
+          "craft": "electronics_repair",
+          "name": "MacUS"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.6685081,
+              10.754249
+            ],
+            [
+              106.6684781,
+              10.7542441
+            ],
+            [
+              106.6684688,
+              10.7543125
+            ],
+            [
+              106.6684986,
+              10.7543185
+            ],
+            [
+              106.6685081,
+              10.754249
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1498696742",
+        "osm_type": "way",
+        "name": "Trung tâm Dịch vụ Phân tích thí nghiệm và Tiêu chuẩn-Đo lường-Chất lượng Thành phố Hồ Chí Minh",
+        "asset_type": "Research office",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "addr:housenumber": "2",
+          "addr:street": "Nguyễn Văn Thủ",
+          "email": "casehcm@case.vn",
+          "name": "Trung tâm Dịch vụ Phân tích thí nghiệm và Tiêu chuẩn-Đo lường-Chất lượng Thành phố Hồ Chí Minh",
+          "name:en": "Center of Analytical Services, Experimentation and Standards, Metrology, Quality of Ho Chi Minh City",
+          "office": "research",
+          "opening_hours": "Mo-Sa 07:30-11:30,13:00-17:00; PH closed",
+          "phone": "+84 28 3829 5087;+84 28 3829 1744;+84 1800 1105",
+          "website": "https://case.vn"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.7011181,
+              10.7922755
+            ],
+            [
+              106.7013388,
+              10.7925075
+            ],
+            [
+              106.7011642,
+              10.7926677
+            ],
+            [
+              106.7009788,
+              10.7924728
+            ],
+            [
+              106.7009977,
+              10.7924554
+            ],
+            [
+              106.7008869,
+              10.792339
+            ],
+            [
+              106.7010134,
+              10.7922229
+            ],
+            [
+              106.7010889,
+              10.7923023
+            ],
+            [
+              106.7011181,
+              10.7922755
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1529565508",
+        "osm_type": "way",
+        "name": "Bách Hợp",
+        "asset_type": "Technology support facility",
+        "category": "Innovation and Human Capacity",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "addr:housenumber": "822",
+          "addr:street": "Đường Trần Hưng Ðạo",
+          "building": "yes",
+          "craft": "electronics_repair",
+          "name": "Bách Hợp"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.6755935,
+              10.7539539
+            ],
+            [
+              106.6755579,
+              10.7539441
+            ],
+            [
+              106.6755607,
+              10.7541323
+            ],
+            [
+              106.675595,
+              10.7541405
+            ],
+            [
+              106.6755935,
+              10.7539539
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

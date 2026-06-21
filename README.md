@@ -1,87 +1,168 @@
 # InfraAI SiteCompass
 
-InfraAI SiteCompass is a satellite-map AI readiness dashboard for public-sector AI infrastructure planning in Saigon / Ho Chi Minh City, Vietnam.
+InfraAI SiteCompass is an open-ended satellite-map AI infrastructure planning
+assistant for Saigon / Ho Chi Minh City. It is not limited to data center
+planning: data center feasibility is one planning intent inside a broader
+Community AI Readiness Blueprint workflow.
 
-A public-sector technology leader can choose a candidate location on a satellite map and generate a mocked decision-support blueprint for either a public-sector AI compute hub or a regional AI data center. The MVP evaluates physical infrastructure, digital access, AI literacy, sector readiness, governance, environmental constraints, and phased investment priorities.
+City leaders can click a location or choose a candidate zone, inspect Mapbox
+satellite infrastructure overlays, run readiness analysis, simulate scenarios,
+and ask planning questions about compute, connectivity, power, data platforms,
+AI literacy, governance, cybersecurity, and sector readiness.
+
+## Challenge Alignment
+
+The product supports Community AI Readiness Blueprint planning by:
+
+- identifying readiness across education, workforce, healthcare, government, and nonprofits
+- surfacing digital access, AI literacy, infrastructure, data-quality, and governance gaps
+- recommending priority investments for long-term resilience
+- producing scorecards, sector dashboards, strategic roadmaps, and policy-oriented recommendations
+- including confidence levels, uncertainty, non-goals, guardrails, and human review warnings
 
 ## Repository Layout
 
-This repo is organized as a production-oriented monorepo:
-
-- `apps/web` - current React/Vite frontend MVP.
-- `apps/api` - reserved for the future FastAPI backend.
-- `services/agents` - reserved for future agent workflows, prompts, tools, evaluators, and memory.
+- `apps/web` - React/Vite/TypeScript frontend with Mapbox satellite planning UI.
+- `apps/api` - FastAPI backend for readiness analysis, planning chat, and MCP tools.
+- `services/agents` - Python intent router, shared agent tools, guardrails, agent review, and optional OpenAI adapter.
 - `services/data-pipelines` - public/open-data ingestion and geospatial processing helpers.
-- `packages/contracts` - reserved for OpenAPI specs, JSON schemas, and generated shared client types.
-- `packages/shared` - reserved for truly shared frontend-safe code.
+- `packages/contracts` - reserved for future OpenAPI specs and generated client types.
+- `packages/shared` - reserved for frontend-safe shared code.
 - `data` - shared mock, seed, processed GeoJSON, and sample data.
-- `infra` - reserved for Docker, compose, Terraform, and Kubernetes deployment files.
 - `docs` - architecture, API, deployment, data-source, and responsible-AI docs.
 - `scripts` - repeatable dev, CI, and data helper scripts.
 
 ## Tech Stack
 
-- React
-- TypeScript
-- Vite
-- shadcn/ui-style component system
-- Tailwind CSS
+- React, TypeScript, Vite
 - Mapbox GL JS
-- lucide-react icons
-- Mock API functions now, FastAPI integration later
+- shadcn/ui-style local primitives
+- FastAPI, Pydantic, Python agents
+- Model Context Protocol server for external tool clients
+- Optional OpenAI Python SDK for grounded explanations
 
-## Local Setup
+## User Flow
 
-Install dependencies from the repo root:
+1. Add a public Mapbox token in `.env`.
+2. Start the FastAPI backend.
+3. Start the Vite frontend.
+4. Click a map location or choose a candidate zone.
+5. Select a planning focus and scenario.
+6. Run readiness analysis.
+7. Ask the planning assistant open-ended questions.
 
-```bash
-npm install
-```
+Example questions:
 
-Create a local frontend environment file at the repo root:
+- Can we build AI infrastructure here?
+- Can we build a data center here?
+- Where should we place edge AI nodes?
+- Which area needs fiber upgrade first?
+- Is this area ready for healthcare AI?
+- What should we invest in first?
+- Generate a strategic AI readiness roadmap.
 
-```bash
-cp apps/web/.env.example .env
-```
+## How The AI Recommends
 
-Add your Mapbox public token:
+The deterministic Python scorer owns all numeric readiness values. The backend
+first reads local OSM and PeeringDB GeoJSON for the visible layers, calculates
+nearby feature evidence around the selected point, and excludes synthetic layers
+from numeric scoring. Agents then inspect evidence, compare scenarios, rank
+investments, apply guardrails, and review score reliability. OpenAI can explain
+those tool outputs, but it must not invent scores or approve real-world
+decisions.
 
-```bash
-VITE_MAPBOX_TOKEN=your_mapbox_public_token
-VITE_API_BASE_URL=http://localhost:8000
-```
+Readiness reports include an `agentReview` section with score reliability,
+evidence strengths, evidence gaps, uncertainty notes, challenged assumptions,
+next validation steps, matched evidence citations, score drivers, and excluded
+synthetic context.
 
-Run the Vite dev server from the repo root:
+Planning intents include:
 
-```bash
-npm run dev
-```
+- general AI infrastructure readiness
+- data center feasibility
+- public AI compute hub
+- edge AI nodes
+- cloud-first strategy
+- fiber/connectivity upgrade
+- power/grid readiness
+- city data platform
+- AI literacy program
+- governance/cybersecurity readiness
+- sector-specific readiness
 
-Build for production:
+Legacy frontend values are still accepted:
 
-```bash
-npm run build
-```
+- `PUBLIC_AI_COMPUTE_HUB` maps to `PUBLIC_COMPUTE_HUB`
+- `REGIONAL_AI_DATA_CENTER` maps to `DATA_CENTER_FEASIBILITY`
 
-Lint:
+## Scoring Criteria
 
-```bash
-npm run lint
-```
+General infrastructure readiness uses:
 
-## Real Open-Data Map Layers
+- 25% power
+- 20% connectivity
+- 15% compute ecosystem
+- 15% cooling/water
+- 10% physical feasibility
+- 10% data maturity
+- 5% governance
 
-The frontend displays Mapbox basemaps plus static HCMC infrastructure GeoJSON
-served from `apps/web/public/data/`.
+Sector readiness uses:
 
-Implemented open-data overlay groups include:
+- 25% infrastructure readiness
+- 20% digital access
+- 20% data maturity
+- 15% AI literacy
+- 10% governance
+- 10% use-case feasibility
 
-- Power infrastructure: power plants, substations, transmission lines
-- Network infrastructure: telecom assets, existing data-center-like assets, PeeringDB facilities and internet exchanges
-- Innovation and public-service context: tech/research, education, healthcare, government, and public safety facilities
-- Land, water, and logistics context: industrial zones, transport corridors, and water context
+Confidence uses:
 
-Generate or refresh HCMC OpenStreetMap layers:
+- 40% data completeness
+- 25% data freshness
+- 20% source reliability
+- 15% geographic resolution
+
+The backend also calculates intent-specific scores for data center feasibility,
+edge AI nodes, public compute hubs, cloud-first strategy, fiber upgrades,
+AI literacy investment, governance/cybersecurity, power/grid readiness, city
+data platforms, and sector-specific readiness.
+
+## Scenario Simulator
+
+Supported scenarios:
+
+- Build now
+- Upgrade fiber first
+- Validate grid capacity first
+- Launch AI literacy training
+- Cloud-first instead of local infrastructure
+- Delay investment
+- Governance first
+- Edge pilot first
+- Open data platform first
+
+Each scenario modifies relevant component scores transparently in the backend
+and returns the same frontend-compatible report shape.
+
+## Data And Map Layers
+
+The frontend displays Mapbox basemaps plus static HCMC GeoJSON served from
+`apps/web/public/data/`.
+
+Implemented overlay groups include:
+
+- power infrastructure
+- network infrastructure
+- innovation, education, healthcare, government, and public-safety context
+- land, water, climate-risk, population, workforce, digital-access, and AI-readiness context
+
+Some layers are real/open data, and some are clearly labeled synthetic demo
+fixtures. Synthetic data supports UI and planning demonstration only. It cannot
+prove AI infrastructure feasibility and is excluded from numeric readiness
+scoring.
+
+Refresh HCMC OpenStreetMap layers:
 
 ```bash
 python3 services/data-pipelines/ingest_osm_overpass.py --city hcmc
@@ -95,106 +176,93 @@ python3 services/data-pipelines/ingest_peeringdb.py --city hcmc
 python3 scripts/copy_external_geojson_to_web.py
 ```
 
-Verification layers for grid capacity, fibre capacity, cooling feasibility,
-zoning, permitting, construction readiness, and AI readiness are included as
-disabled `Needs data` slots until official/provider evidence is supplied. See
-`docs/VERIFICATION_DATA_REQUIREMENTS.md`.
+## Local Setup
 
-## shadcn/ui Notes
-
-The frontend includes local shadcn-compatible primitives in `apps/web/src/components/ui` and an `apps/web/components.json` config. The MVP uses:
-
-- Button
-- Card
-- Badge
-- Select
-- Input/Textarea primitives
-- Table
-- Progress
-- Alert
-- Separator
-- ScrollArea
-- Skeleton
-- Tooltip
-- Accordion
-
-To add more shadcn components later, run the command from `apps/web`:
+Install frontend dependencies from the repo root:
 
 ```bash
-npx shadcn@latest add component-name
+npm install
 ```
 
-## Features Completed
+Create a local frontend environment file at the repo root:
 
-- Saigon / Ho Chi Minh City satellite map centered at `[106.7009, 10.7769]`
-- Mapbox satellite and streets basemaps
-- HCMC-focused map bounds
-- Click-to-select candidate location with marker and popup
-- Saigon preset candidate zones:
-  - Saigon Hi-Tech Park / Thu Duc
-  - Thu Thiem / District 2 area
-  - Tan Thuan / District 7 area
-  - District 1 civic core
-- Infrastructure type selector:
-  - Public-sector AI compute hub
-  - Regional AI data center
-- Scenario selector with deterministic mock result adjustments
-- Real open-data HCMC infrastructure overlays with layer visibility toggles
-- Mock `analyzeSite(payload)` API function with 500ms delay
-- Readiness report panel with:
-  - Suitability score
-  - Confidence badge
-  - Recommendation
-  - Component score bars
-  - Sector readiness table
-  - Bottlenecks
-  - Priority investments
-  - Strategic roadmap
-  - Human review warning
-- AI agent chat panel that explains the current mock report without inventing new scores
-
-## Data Disclaimer
-
-Map overlays are based on open data and may be incomplete or outdated. Analysis
-outputs are still mocked for MVP workflows and are not authoritative
-infrastructure, zoning, environmental, grid, healthcare, education, government,
-or permitting datasets.
-
-InfraAI SiteCompass does not approve construction, issue permits, allocate funding, guarantee grid capacity, or replace engineering and environmental review.
-
-## Future FastAPI Endpoints
-
-### `POST /api/analyze-site`
-
-Request:
-
-```json
-{
-  "lat": 10.7769,
-  "lng": 106.7009,
-  "infrastructureType": "PUBLIC_AI_COMPUTE_HUB",
-  "activeLayers": [
-    "power_plants",
-    "substations",
-    "transmission_lines",
-    "telecom_assets"
-  ],
-  "scenario": "BUILD_NOW"
-}
+```bash
+cp apps/web/.env.example .env
 ```
 
-### `POST /api/agent/chat`
+Add your public Mapbox token and API base URL:
 
-Request:
-
-```json
-{
-  "message": "Can we build AI infrastructure here?",
-  "lat": 10.7769,
-  "lng": 106.7009,
-  "infrastructureType": "PUBLIC_AI_COMPUTE_HUB",
-  "currentAnalysis": {}
-}
+```bash
+VITE_MAPBOX_TOKEN=your_mapbox_public_token
+VITE_API_BASE_URL=http://localhost:8000
 ```
 
-The frontend mock functions live in `apps/web/src/api/siteApi.ts`, so replacing them with FastAPI calls should be localized.
+Install and run the backend from the repo root:
+
+```bash
+python -m pip install -e "apps/api[dev]" -e "services/agents[dev]"
+python -m uvicorn app.main:app --app-dir apps/api --reload
+```
+
+The backend also mounts MCP tools at:
+
+```text
+http://localhost:8000/mcp
+```
+
+Use an MCP-compatible client or inspector for that endpoint. The browser
+frontend continues to use the REST endpoints.
+
+Run the Vite dev server:
+
+```bash
+npm run dev
+```
+
+Build and lint:
+
+```bash
+npm run build
+npm run lint
+```
+
+## Optional OpenAI Explanations
+
+OpenAI is optional and backend-only. To enable LLM explanations, copy
+`apps/api/.env.example` to `apps/api/.env` and set:
+
+```bash
+OPENAI_API_KEY=your_key
+OPENAI_MODEL=your_model
+ENABLE_LLM_EXPLANATIONS=true
+```
+
+If OpenAI is disabled, missing, or unavailable, the backend returns the
+deterministic rule-based agent response with the same API shape.
+
+Check backend LLM status:
+
+```bash
+curl http://localhost:8000/health
+```
+
+The `llmReady` field is `true` only when `ENABLE_LLM_EXPLANATIONS=true`,
+`OPENAI_API_KEY` is present, and `OPENAI_MODEL` is present.
+
+## Responsible AI And Non-Goals
+
+InfraAI SiteCompass does not approve construction, issue permits, allocate
+public funding, guarantee grid capacity, or replace engineering, environmental,
+cybersecurity, or community review.
+
+The current system is a decision-support prototype. It uses synthetic and
+open-data planning context, so all outputs require human review and authoritative
+provider, utility, environmental, land, cybersecurity, and community validation.
+
+## Current Limitations
+
+- Full GeoJSON proximity scoring is deferred.
+- Utility/provider capacity validation is not implemented.
+- Real permitting, environmental, land ownership, and construction readiness evidence is not authoritative.
+- OpenAI explanations are optional and never the source of numeric scores.
+- The frontend falls back to local deterministic mock analysis when the backend is not available.

@@ -12,6 +12,7 @@ import {
   HeartPulse,
   Landmark,
   HandHeart,
+  Bot,
 } from "lucide-react";
 
 import { HumanReviewWarning } from "@/components/HumanReviewWarning";
@@ -21,6 +22,7 @@ import { Progress } from "@/components/ui/progress";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
+import { planningFocusLabels } from "@/data/planningOptions";
 import type { SelectedLocation, SiteAnalysisResult, SectorReadiness, ComponentScores } from "@/types/site";
 
 interface ReadinessReportPanelProps {
@@ -173,6 +175,19 @@ function HorizontalBar({ label, score, icon }: { label: string; score: number; i
   );
 }
 
+function GapSummaryItem({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-xl border bg-background/35 p-3">
+      <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">
+        {label}
+      </p>
+      <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+        {value}
+      </p>
+    </div>
+  );
+}
+
 // ── Gauge Chart ────────────────────────────────────────────────────────────
 
 
@@ -271,7 +286,15 @@ const sectorMeta: Record<string, { icon: React.ReactNode; color: string }> = {
 
 // ── Sector Card with appropriate chart ────────────────────────────────────
 
-function SectorCard({ sector, index }: { sector: SectorReadiness; index: number }) {
+function SectorCard({
+  sector,
+  index,
+  evidence,
+}: {
+  sector: SectorReadiness;
+  index: number;
+  evidence: SiteAnalysisResult["matchedEvidence"];
+}) {
   const meta = sectorMeta[sector.name] ?? { icon: <Building className="h-4 w-4" />, color: "#94a3b8" };
   const variant = getReadinessVariant(sector.score);
 
@@ -316,6 +339,29 @@ function SectorCard({ sector, index }: { sector: SectorReadiness; index: number 
             <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">Use cases</p>
             <UseCasePills useCases={sector.suggestedUseCases} />
           </div>
+          <div className="rounded-lg border bg-card/40 p-2">
+            <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">
+              Evidence
+            </p>
+            {evidence.length > 0 ? (
+              <ul className="mt-1.5 space-y-1 text-xs leading-relaxed text-muted-foreground">
+                {evidence.slice(0, 2).map((item) => (
+                  <li key={`${sector.name}-${item.layerId}-${item.name}`}>
+                    {item.name} ({item.layerLabel}
+                    {item.distanceKm !== null
+                      ? `, ${item.distanceKm.toFixed(2)} km`
+                      : ""}
+                    )
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
+                No direct sector-specific evidence was active for this sector.
+                Treat the score as a proxy until better data is added.
+              </p>
+            )}
+          </div>
         </div>
       </div>
     </div>
@@ -344,7 +390,7 @@ export function ReadinessReportPanel({
           <Badge variant="secondary">{scenarioLabel}</Badge>
         </div>
         <p className="text-sm leading-relaxed text-muted-foreground">
-          Executive summary for infrastructure, civic readiness, and next-step review.
+          Scorecard for infrastructure, sector readiness, gaps, and strategic next steps.
         </p>
       </CardHeader>
 
@@ -393,6 +439,184 @@ export function ReadinessReportPanel({
                 </p>
               </section>
 
+              <WhyThisScoreSection analysis={analysis} />
+
+              <section className="space-y-3 rounded-[20px] border bg-background/35 p-4">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <h3 className="flex items-center gap-2 text-sm font-semibold">
+                    <Bot className="h-4 w-4 text-primary" />
+                    Agent review
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    <Badge variant={analysis.agentReview.scoreReliability === "High" ? "success" : analysis.agentReview.scoreReliability === "Medium" ? "warning" : "outline"}>
+                      {analysis.agentReview.scoreReliability} reliability
+                    </Badge>
+                    <Badge variant="outline">
+                      {analysis.agentReview.usedLlm ? "LLM-assisted" : "Rule-based"}
+                    </Badge>
+                  </div>
+                </div>
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  {analysis.agentReview.summary}
+                </p>
+                <div className="grid gap-3 md:grid-cols-2">
+                  <AgentReviewList
+                    title="Evidence strengths"
+                    items={analysis.agentReview.evidenceStrengths}
+                  />
+                  <AgentReviewList
+                    title="Evidence gaps"
+                    items={analysis.agentReview.evidenceGaps}
+                  />
+                  <AgentReviewList
+                    title="Challenged assumptions"
+                    items={analysis.agentReview.challengedAssumptions}
+                  />
+                  <AgentReviewList
+                    title="Next validation steps"
+                    items={analysis.agentReview.nextValidationSteps}
+                  />
+                </div>
+                <AgentReviewList
+                  title="Uncertainty notes"
+                  items={analysis.agentReview.uncertaintyNotes}
+                />
+                {analysis.agentReview.evidenceCitations.length > 0 && (
+                  <AgentReviewList
+                    title="Evidence citations"
+                    items={analysis.agentReview.evidenceCitations}
+                  />
+                )}
+                {analysis.agentReview.excludedEvidenceNotes.length > 0 && (
+                  <AgentReviewList
+                    title="Excluded evidence notes"
+                    items={analysis.agentReview.excludedEvidenceNotes}
+                  />
+                )}
+              </section>
+
+              <section className="space-y-3 rounded-[20px] border bg-background/35 p-4">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <h3 className="flex items-center gap-2 text-sm font-semibold">
+                    <MapPin className="h-4 w-4 text-primary" />
+                    Evidence used for scoring
+                  </h3>
+                  <Badge variant="outline">
+                    {analysis.evidenceSummary.scoredLayerCount} scored layers
+                  </Badge>
+                </div>
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  {analysis.evidenceSummary.summary}
+                </p>
+                <div className="grid gap-3 md:grid-cols-4">
+                  <EvidenceMetric
+                    label="Active layers"
+                    value={analysis.evidenceSummary.activeLayerCount}
+                  />
+                  <EvidenceMetric
+                    label="Real/open layers"
+                    value={analysis.evidenceSummary.realOpenLayerCount}
+                  />
+                  <EvidenceMetric
+                    label="Synthetic excluded"
+                    value={analysis.evidenceSummary.syntheticLayerCount}
+                  />
+                  <EvidenceMetric
+                    label="Nearest evidence"
+                    value={
+                      analysis.evidenceSummary.nearestEvidenceKm === null
+                        ? "n/a"
+                        : `${analysis.evidenceSummary.nearestEvidenceKm.toFixed(2)} km`
+                    }
+                  />
+                </div>
+                <p className="rounded-xl border bg-card/40 p-3 text-sm leading-relaxed text-muted-foreground">
+                  {analysis.evidenceSummary.confidenceImpact}
+                </p>
+              </section>
+
+              <section className="space-y-3">
+                <div>
+                  <h3 className="text-sm font-semibold">Evidence-backed score drivers</h3>
+                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                    Each component score below shows the evidence used, the nearest
+                    matched assets, and the data caveat. Feature counts indicate
+                    mapped proximity, not verified capacity or feasibility.
+                  </p>
+                </div>
+                <div className="grid gap-3 md:grid-cols-2">
+                  {analysis.scoreDrivers.map((driver) => (
+                    <ScoreDriverCard
+                      key={driver.component}
+                      driver={driver}
+                      evidence={evidenceForDriver(analysis, driver)}
+                    />
+                  ))}
+                </div>
+              </section>
+
+              <section className="space-y-3">
+                <h3 className="text-sm font-semibold">Nearest matched evidence</h3>
+                {analysis.matchedEvidence.length > 0 ? (
+                  <div className="space-y-2">
+                    {analysis.matchedEvidence.slice(0, 6).map((evidence) => (
+                      <EvidenceCard
+                        key={`${evidence.layerId}-${evidence.name}-${evidence.distanceKm}`}
+                        evidence={evidence}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <p className="rounded-xl border bg-background/35 p-3 text-sm text-muted-foreground">
+                    No nearby real/open evidence features were matched for the active layers.
+                  </p>
+                )}
+              </section>
+
+              <section className="grid gap-3 md:grid-cols-2">
+                <AgentReviewList
+                  title="Excluded synthetic context"
+                  items={
+                    analysis.excludedSyntheticLayers.length > 0
+                      ? analysis.excludedSyntheticLayers.map(
+                          (layer) => `${layer.layerLabel}: ${layer.reason}`
+                        )
+                      : ["No synthetic layers were active or excluded from scoring."]
+                  }
+                />
+                <AgentReviewList
+                  title="Validation checklist"
+                  items={analysis.dataGaps}
+                />
+              </section>
+
+              <section className="grid gap-3 md:grid-cols-2">
+                <div className="rounded-xl border bg-background/35 p-3">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">
+                    Planning focus
+                  </p>
+                  <p className="mt-1 text-sm font-medium">
+                    {planningFocusLabels[analysis.intent]}
+                  </p>
+                </div>
+                <div className="rounded-xl border bg-background/35 p-3">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">
+                    Recommended path
+                  </p>
+                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                    {analysis.recommendedInfrastructurePath}
+                  </p>
+                </div>
+                <div className="rounded-xl border bg-background/35 p-3 md:col-span-2">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">
+                    Query summary
+                  </p>
+                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                    {analysis.querySummary}
+                  </p>
+                </div>
+              </section>
+
               <Separator />
 
               {/* ── Infrastructure radar ── */}
@@ -412,8 +636,38 @@ export function ReadinessReportPanel({
                       <HorizontalBar label="Compute ecosystem" score={analysis.componentScores.computeEcosystem} icon={<TrendingUp className="h-3 w-3" />} />
                       <HorizontalBar label="Sector demand" score={analysis.componentScores.sectorDemand} icon={<Users className="h-3 w-3" />} />
                       <HorizontalBar label="Governance" score={analysis.componentScores.governance} icon={<Landmark className="h-3 w-3" />} />
+                      <HorizontalBar label="Digital access" score={analysis.componentScores.digitalAccess} icon={<Wifi className="h-3 w-3" />} />
+                      <HorizontalBar label="AI literacy" score={analysis.componentScores.aiLiteracy} icon={<BookOpen className="h-3 w-3" />} />
+                      <HorizontalBar label="Data maturity" score={analysis.componentScores.dataMaturity} icon={<FileText className="h-3 w-3" />} />
+                      <HorizontalBar label="Equity" score={analysis.componentScores.equity} icon={<HandHeart className="h-3 w-3" />} />
+                      <HorizontalBar label="Resilience" score={analysis.componentScores.resilience} icon={<ShieldAlert className="h-3 w-3" />} />
                     </div>
                   </div>
+                </div>
+              </section>
+
+              <section className="space-y-3">
+                <h3 className="text-sm font-semibold">Confidence and data quality</h3>
+                <p className="rounded-xl border bg-background/35 p-3 text-sm leading-relaxed text-muted-foreground">
+                  {analysis.confidenceExplanation}
+                </p>
+                <div className="grid gap-3 md:grid-cols-2">
+                  <HorizontalBar label="Data completeness" score={analysis.componentScores.dataCompleteness} icon={<FileText className="h-3 w-3" />} />
+                  <HorizontalBar label="Data freshness" score={analysis.componentScores.dataFreshness} icon={<TrendingUp className="h-3 w-3" />} />
+                  <HorizontalBar label="Source reliability" score={analysis.componentScores.sourceReliability} icon={<ShieldAlert className="h-3 w-3" />} />
+                  <HorizontalBar label="Geographic resolution" score={analysis.componentScores.geographicResolution} icon={<MapPin className="h-3 w-3" />} />
+                </div>
+              </section>
+
+              <Separator />
+
+              <section className="space-y-3">
+                <h3 className="text-sm font-semibold">Gap summary</h3>
+                <div className="grid gap-3 md:grid-cols-2">
+                  <GapSummaryItem label="Digital access gap" value={analysis.gapSummary.digitalAccess} />
+                  <GapSummaryItem label="AI literacy gap" value={analysis.gapSummary.aiLiteracy} />
+                  <GapSummaryItem label="Infrastructure gap" value={analysis.gapSummary.infrastructure} />
+                  <GapSummaryItem label="Data-quality gap" value={analysis.gapSummary.dataQuality} />
                 </div>
               </section>
 
@@ -427,7 +681,12 @@ export function ReadinessReportPanel({
                 </h3>
                 <div className="space-y-3">
                   {analysis.sectors.map((sector, i) => (
-                    <SectorCard key={sector.name} sector={sector} index={i} />
+                    <SectorCard
+                      key={sector.name}
+                      sector={sector}
+                      index={i}
+                      evidence={sectorEvidence(analysis, sector.name)}
+                    />
                   ))}
                 </div>
               </section>
@@ -438,11 +697,11 @@ export function ReadinessReportPanel({
               <section className="space-y-3">
                 <h3 className="flex items-center gap-2 text-sm font-semibold">
                   <ShieldAlert className="h-4 w-4 text-amber-300" />
-                  Main risks
+                  Main risks and guardrails
                 </h3>
                 <ul className="space-y-2 text-sm text-muted-foreground">
-                  {analysis.bottlenecks.map((risk) => (
-                    <li key={risk} className="rounded-xl border bg-background/35 p-3">
+                  {[...analysis.bottlenecks, ...analysis.warnings].map((risk, index) => (
+                    <li key={`${risk}-${index}`} className="rounded-xl border bg-background/35 p-3">
                       {risk}
                     </li>
                   ))}
@@ -528,12 +787,264 @@ function EmptyReportState({ selectedLocation }: { selectedLocation: SelectedLoca
         <h3 className="mt-4 text-base font-semibold">
           {selectedLocation
             ? "Run analysis to generate the readiness report"
-            : "Choose a site on the map to generate a readiness report."}
+            : "Click a location or choose a candidate zone to generate a readiness report."}
         </h3>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-          The report will summarize infrastructure readiness, civic demand, main risks, and recommended first steps for a public-sector review.
+          The report will summarize compute, connectivity, power, data, governance,
+          AI literacy, sector readiness, and recommended first steps.
         </p>
       </div>
+    </div>
+  );
+}
+
+function AgentReviewList({ title, items }: { title: string; items: string[] }) {
+  return (
+    <div className="rounded-xl border bg-card/40 p-3">
+      <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">
+        {title}
+      </p>
+      <ul className="mt-2 space-y-1.5 text-sm leading-relaxed text-muted-foreground">
+        {items.map((item) => (
+          <li key={item} className="flex gap-2">
+            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function EvidenceMetric({
+  label,
+  value,
+}: {
+  label: string;
+  value: number | string;
+}) {
+  return (
+    <div className="rounded-xl border bg-card/40 p-3">
+      <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">
+        {label}
+      </p>
+      <p className="mt-1 text-lg font-semibold text-primary">{value}</p>
+    </div>
+  );
+}
+
+function WhyThisScoreSection({ analysis }: { analysis: SiteAnalysisResult }) {
+  const sortedDrivers = [...analysis.scoreDrivers].sort((a, b) => b.score - a.score);
+  const strongest = sortedDrivers.slice(0, 3);
+  const weakest = [...analysis.scoreDrivers].sort((a, b) => a.score - b.score).slice(0, 3);
+
+  return (
+    <section className="space-y-3 rounded-[20px] border bg-background/35 p-4">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h3 className="text-sm font-semibold">Why this score?</h3>
+          <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+            The overall {analysis.suitability.score}/100 score is calculated from
+            component scores, active real/open evidence layers, scenario
+            assumptions, and data-quality confidence. Synthetic layers are shown
+            as context but excluded from numeric scoring.
+          </p>
+        </div>
+        <Badge variant={readinessVariantFromLevel(analysis.suitability.level)}>
+          {analysis.suitability.level}
+        </Badge>
+      </div>
+
+      <div className="grid gap-3 md:grid-cols-3">
+        <EvidenceMetric
+          label="Matched evidence"
+          value={analysis.evidenceSummary.matchedFeatureCount}
+        />
+        <EvidenceMetric
+          label="Scored layers"
+          value={analysis.evidenceSummary.scoredLayerCount}
+        />
+        <EvidenceMetric
+          label="Synthetic excluded"
+          value={analysis.evidenceSummary.syntheticLayerCount}
+        />
+      </div>
+
+      <div className="grid gap-3 md:grid-cols-2">
+        <DriverSummaryList title="What raises the score" drivers={strongest} />
+        <DriverSummaryList title="What lowers the score" drivers={weakest} />
+      </div>
+
+      <div className="rounded-xl border border-amber-300/40 bg-amber-50/70 p-3 text-sm leading-relaxed text-amber-950">
+        <span className="font-semibold">Important:</span> matched features are
+        evidence volume and proximity. They do not prove grid capacity, fiber
+        service level, cooling availability, land rights, permits, or project
+        feasibility.
+      </div>
+    </section>
+  );
+}
+
+function DriverSummaryList({
+  title,
+  drivers,
+}: {
+  title: string;
+  drivers: SiteAnalysisResult["scoreDrivers"];
+}) {
+  return (
+    <div className="rounded-xl border bg-card/40 p-3">
+      <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">
+        {title}
+      </p>
+      <ul className="mt-2 space-y-2 text-sm text-muted-foreground">
+        {drivers.map((driver) => (
+          <li key={driver.component} className="flex items-start gap-2">
+            <span
+              className="mt-1.5 h-2 w-2 shrink-0 rounded-full"
+              style={{ backgroundColor: getScoreColor(driver.score) }}
+            />
+            <span>
+              <span className="font-medium text-foreground">
+                {driver.component}: {driver.score}/100
+              </span>
+              {driver.nearestEvidenceKm !== null
+                ? `; nearest evidence ${driver.nearestEvidenceKm.toFixed(2)} km`
+                : "; no direct nearby evidence"}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function readinessVariantFromLevel(level: string): "success" | "warning" | "outline" {
+  if (level.toLowerCase().includes("strong")) return "success";
+  if (level.toLowerCase().includes("moderate")) return "warning";
+  return "outline";
+}
+
+function ScoreDriverCard({
+  driver,
+  evidence,
+}: {
+  driver: SiteAnalysisResult["scoreDrivers"][number];
+  evidence: SiteAnalysisResult["matchedEvidence"];
+}) {
+  return (
+    <div className="rounded-xl border bg-background/35 p-3">
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <p className="text-sm font-semibold">{driver.component}</p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            {driver.evidenceCount} nearby feature(s)
+            {driver.nearestEvidenceKm !== null
+              ? `; nearest ${driver.nearestEvidenceKm.toFixed(2)} km`
+              : ""}
+          </p>
+        </div>
+        <Badge variant={getReadinessVariant(driver.score)}>{driver.score}</Badge>
+      </div>
+      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+        {driver.explanation}
+      </p>
+      {driver.supportingLayers.length > 0 && (
+        <p className="mt-2 text-xs text-slate-500">
+          Layers: {driver.supportingLayers.join(", ")}
+        </p>
+      )}
+      <div className="mt-3 rounded-lg border bg-card/40 p-2">
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">
+          Evidence behind this component
+        </p>
+        {evidence.length > 0 ? (
+          <ul className="mt-2 space-y-1.5 text-xs leading-relaxed text-muted-foreground">
+            {evidence.slice(0, 3).map((item) => (
+              <li key={`${item.layerId}-${item.name}`} className="flex gap-2">
+                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                <span>
+                  {item.name} ({item.layerLabel}
+                  {item.distanceKm !== null
+                    ? `, ${item.distanceKm.toFixed(2)} km`
+                    : ""}
+                  ; confidence {item.sourceConfidence}; completeness{" "}
+                  {item.dataCompleteness})
+                </span>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+            No direct real/open evidence feature was matched for this component.
+            This score is a proxy or baseline until a relevant authoritative
+            dataset is added.
+          </p>
+        )}
+      </div>
+      {driver.excludedSyntheticLayers.length > 0 && (
+        <p className="mt-2 rounded-lg border border-amber-300/40 bg-amber-50/70 p-2 text-xs leading-relaxed text-amber-950">
+          Synthetic context excluded from scoring:{" "}
+          {driver.excludedSyntheticLayers.join(", ")}.
+        </p>
+      )}
+    </div>
+  );
+}
+
+function evidenceForDriver(
+  analysis: SiteAnalysisResult,
+  driver: SiteAnalysisResult["scoreDrivers"][number]
+) {
+  return analysis.matchedEvidence.filter((item) =>
+    driver.supportingLayers.includes(item.layerLabel)
+  );
+}
+
+function sectorEvidence(analysis: SiteAnalysisResult, sectorName: string) {
+  const normalized = sectorName.toLowerCase();
+  const layerTokens =
+    normalized === "education"
+      ? ["education"]
+      : normalized === "healthcare"
+        ? ["healthcare"]
+        : normalized === "government"
+          ? ["government", "public safety"]
+          : normalized === "workforce"
+            ? ["education", "tech", "research"]
+            : normalized === "nonprofits"
+              ? ["healthcare", "education", "government"]
+              : [];
+
+  return analysis.matchedEvidence.filter((item) =>
+    layerTokens.some((token) => item.layerLabel.toLowerCase().includes(token))
+  );
+}
+
+function EvidenceCard({
+  evidence,
+}: {
+  evidence: SiteAnalysisResult["matchedEvidence"][number];
+}) {
+  return (
+    <div className="rounded-xl border bg-background/35 p-3">
+      <div className="flex flex-wrap items-start justify-between gap-2">
+        <div>
+          <p className="text-sm font-semibold">{evidence.name}</p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            {evidence.layerLabel} · {evidence.assetType} · {evidence.source}
+          </p>
+        </div>
+        <Badge variant="outline">
+          {evidence.distanceKm === null
+            ? evidence.relation
+            : `${evidence.distanceKm.toFixed(2)} km`}
+        </Badge>
+      </div>
+      <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+        Confidence: {evidence.sourceConfidence}; completeness:{" "}
+        {evidence.dataCompleteness}. {evidence.dataLimitation}
+      </p>
     </div>
   );
 }

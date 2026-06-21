@@ -14,6 +14,9 @@ export const scenarioLabels: Record<ScenarioType, string> = {
   AI_LITERACY_TRAINING: "Launch AI literacy training",
   CLOUD_FIRST: "Cloud-first instead of local infrastructure",
   DELAY_INVESTMENT: "Delay investment",
+  GOVERNANCE_FIRST: "Governance first",
+  EDGE_PILOT_FIRST: "Edge pilot first",
+  OPEN_DATA_PLATFORM_FIRST: "Open data platform first",
 };
 
 const scenarioOptions = Object.entries(scenarioLabels) as Array<

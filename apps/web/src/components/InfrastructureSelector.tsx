@@ -5,25 +5,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { InfrastructureType } from "@/types/site";
-
-const infrastructureOptions: Array<{
-  value: InfrastructureType;
-  label: string;
-}> = [
-  {
-    value: "PUBLIC_AI_COMPUTE_HUB",
-    label: "Public-sector AI compute hub",
-  },
-  {
-    value: "REGIONAL_AI_DATA_CENTER",
-    label: "Regional AI data center",
-  },
-];
+import { planningFocusOptions } from "@/data/planningOptions";
+import type { InfrastructureIntent } from "@/types/site";
 
 interface InfrastructureSelectorProps {
-  value: InfrastructureType;
-  onChange: (value: InfrastructureType) => void;
+  value: InfrastructureIntent;
+  onChange: (value: InfrastructureIntent) => void;
 }
 
 export function InfrastructureSelector({
@@ -33,16 +20,19 @@ export function InfrastructureSelector({
   return (
     <div className="space-y-2">
       <label className="text-xs font-medium uppercase text-muted-foreground">
-        Infrastructure type
+        Planning focus
       </label>
-      <Select value={value} onValueChange={(next) => onChange(next as InfrastructureType)}>
-        <SelectTrigger aria-label="Infrastructure type">
+      <Select
+        value={value}
+        onValueChange={(next) => onChange(next as InfrastructureIntent)}
+      >
+        <SelectTrigger aria-label="Planning focus">
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
-          {infrastructureOptions.map((option) => (
-            <SelectItem key={option.value} value={option.value}>
-              {option.label}
+          {planningFocusOptions.map(([optionValue, label]) => (
+            <SelectItem key={optionValue} value={optionValue}>
+              {label}
             </SelectItem>
           ))}
         </SelectContent>

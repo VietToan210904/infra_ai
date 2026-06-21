@@ -28,7 +28,7 @@ import {
 import { candidateZones } from "@/data/mockGeoJson";
 import { cn } from "@/lib/utils";
 import type {
-  InfrastructureType,
+  InfrastructureIntent,
   ScenarioType,
   SelectedLocation,
   SiteAnalysisResult,
@@ -37,8 +37,8 @@ import type {
 function App() {
   const [selectedLocation, setSelectedLocation] =
     useState<SelectedLocation | null>(null);
-  const [infrastructureType, setInfrastructureType] =
-    useState<InfrastructureType>("PUBLIC_AI_COMPUTE_HUB");
+  const [infrastructureIntent, setInfrastructureIntent] =
+    useState<InfrastructureIntent>("GENERAL_AI_INFRASTRUCTURE");
   const [scenario, setScenario] = useState<ScenarioType>("BUILD_NOW");
   const [activeInfrastructureLayerIds, setActiveInfrastructureLayerIds] =
     useState<InfrastructureLayerId[]>(defaultVisibleInfrastructureLayerIds);
@@ -56,7 +56,12 @@ function App() {
   }, []);
 
   const runAnalysis = useCallback(
-    async (overrides?: Partial<{ infrastructureType: InfrastructureType; scenario: ScenarioType }>) => {
+    async (
+      overrides?: Partial<{
+        infrastructureIntent: InfrastructureIntent;
+        scenario: ScenarioType;
+      }>
+    ) => {
       if (!selectedLocation) {
         return;
       }
@@ -67,21 +72,20 @@ function App() {
         const result = await analyzeSite({
           lat: selectedLocation.lat,
           lng: selectedLocation.lng,
-          infrastructureType:
-            overrides?.infrastructureType ?? infrastructureType,
+          intent: overrides?.infrastructureIntent ?? infrastructureIntent,
           activeLayers: activeInfrastructureLayerIds,
           scenario: overrides?.scenario ?? scenario,
         });
         setAnalysis(result);
       } catch {
-        setAnalysisError("Unable to generate the mock readiness blueprint.");
+        setAnalysisError("Unable to generate the readiness blueprint.");
       } finally {
         setIsAnalyzing(false);
       }
     },
     [
       activeInfrastructureLayerIds,
-      infrastructureType,
+      infrastructureIntent,
       scenario,
       selectedLocation,
     ]
@@ -105,10 +109,10 @@ function App() {
     []
   );
 
-  function handleInfrastructureChange(next: InfrastructureType) {
-    setInfrastructureType(next);
+  function handleInfrastructureChange(next: InfrastructureIntent) {
+    setInfrastructureIntent(next);
     if (analysis) {
-      void runAnalysis({ infrastructureType: next });
+      void runAnalysis({ infrastructureIntent: next });
     }
   }
 
@@ -133,7 +137,7 @@ function App() {
     selectedZone?.description ?? "User-selected point inside the Saigon planning area.";
   const selectedCoordinates = selectedLocation
     ? `${selectedLocation.lat.toFixed(5)}, ${selectedLocation.lng.toFixed(5)}`
-    : "Choose a candidate site or click the map";
+    : "Click a location or choose a candidate zone";
 
   return (
     <main className="min-h-screen w-full overflow-x-hidden bg-transparent xl:h-screen xl:overflow-hidden">
@@ -149,7 +153,7 @@ function App() {
                   InfraAI SiteCompass
                 </h1>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  Open-data infrastructure readiness planning
+                  Open-ended AI infrastructure planning
                 </p>
               </div>
             </div>
@@ -167,11 +171,12 @@ function App() {
               <div>
                 <div className="flex items-center gap-2 text-base font-semibold">
                   <Satellite className="h-4 w-4 text-primary" />
-                  Infrastructure satellite map
+                  AI infrastructure satellite map
                 </div>
                 <p className="mt-1 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-                  Toggle open-data infrastructure layers and inspect mapped city
-                  assets before future scoring or AI recommendations are added.
+                  Satellite map plus sector readiness and scenario simulation
+                  for compute, connectivity, power, data, governance, AI
+                  literacy, and sector planning.
                 </p>
               </div>
               <Badge variant="outline">Planning region: {DEFAULT_CITY.label}</Badge>
@@ -231,7 +236,7 @@ function App() {
 
             <div className="grid gap-3 lg:grid-cols-2">
               <InfrastructureSelector
-                value={infrastructureType}
+                value={infrastructureIntent}
                 onChange={handleInfrastructureChange}
               />
               <ScenarioSelector
@@ -253,7 +258,7 @@ function App() {
                     <p className="mt-1 max-w-2xl text-sm leading-relaxed text-muted-foreground">
                       {selectedLocation
                         ? selectedSiteContext
-                        : "Choose a candidate site or click the map to begin a planning review."}
+                        : "Click a location or choose a candidate zone to begin a planning review."}
                     </p>
                   </div>
                   <div className="grid gap-2 text-sm sm:grid-cols-2">
@@ -273,7 +278,7 @@ function App() {
                   ) : (
                     <Play className="h-4 w-4" />
                   )}
-                  Analyze site
+                  Analyze readiness
                 </Button>
               </div>
 
@@ -295,6 +300,9 @@ function App() {
             <AgentChatPanel
               selectedLocation={selectedLocation}
               analysis={analysis}
+              activeLayers={activeInfrastructureLayerIds}
+              planningFocus={infrastructureIntent}
+              scenario={scenario}
             />
           </section>
 
@@ -315,7 +323,7 @@ function App() {
           </span>
           <span className="flex items-center gap-2">
             <BarChart3 className="h-3.5 w-3.5 text-primary" />
-            FastAPI-ready endpoints: analyze site and planning chat
+            FastAPI backend: readiness analysis and planning chat
           </span>
         </footer>
       </div>

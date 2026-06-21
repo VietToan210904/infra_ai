@@ -1,4 +1,11 @@
-import { FormEvent, useMemo, useState } from "react";
+import {
+  type FormEvent,
+  type KeyboardEvent,
+  type ReactNode,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { MessageSquareText, SendHorizontal, UserRound } from "lucide-react";
 
 import { chatWithAgent } from "@/api/siteApi";
@@ -15,36 +22,50 @@ import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import type {
   ChatMessage,
+  InfrastructureIntent,
+  ScenarioType,
   SelectedLocation,
   SiteAnalysisResult,
 } from "@/types/site";
 
 const suggestedQuestions = [
-  "Assess this location",
-  "What infrastructure is missing?",
-  "Compare public benefits",
-  "What should the city do first?",
+  "What is around this location?",
+  "What facilities are nearby?",
+  "Can we build AI infrastructure here?",
+  "Can we build a data center here?",
+  "Where should we place edge AI nodes?",
+  "What should we invest in first?",
+  "Is this area ready for healthcare AI?",
+  "What if we upgrade fiber?",
+  "Generate a strategic roadmap.",
 ];
 
 interface AgentChatPanelProps {
   selectedLocation: SelectedLocation | null;
   analysis: SiteAnalysisResult | null;
+  activeLayers: string[];
+  planningFocus: InfrastructureIntent;
+  scenario: ScenarioType;
 }
 
 export function AgentChatPanel({
   selectedLocation,
   analysis,
+  activeLayers,
+  planningFocus,
+  scenario,
 }: AgentChatPanelProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: "initial-agent-message",
       role: "assistant",
       content:
-        "Select a candidate site, then ask the planning assistant to explain the infrastructure tradeoffs in plain language.",
+        "Click a location or choose a candidate zone, then ask about nearby infrastructure, facilities, risks, and AI readiness.",
     },
   ]);
   const [input, setInput] = useState("");
   const [isThinking, setIsThinking] = useState(false);
+  const [waitSeconds, setWaitSeconds] = useState(0);
 
   const statusLabel = useMemo(() => {
     if (!selectedLocation) {
@@ -55,6 +76,29 @@ export function AgentChatPanel({
     }
     return `${analysis.suitability.score}/100 readiness`;
   }, [analysis, selectedLocation]);
+
+  const thinkingMessage = useMemo(() => {
+    if (waitSeconds >= 12) {
+      return "OpenAI is taking longer than usual. The backend will return a tool-grounded fallback if needed...";
+    }
+    if (waitSeconds >= 5) {
+      return "Waiting for backend evidence tools and the LLM explanation...";
+    }
+    return "Checking selected map evidence and score drivers...";
+  }, [waitSeconds]);
+
+  useEffect(() => {
+    if (!isThinking) {
+      setWaitSeconds(0);
+      return undefined;
+    }
+
+    const intervalId = window.setInterval(() => {
+      setWaitSeconds((current) => current + 1);
+    }, 1000);
+
+    return () => window.clearInterval(intervalId);
+  }, [isThinking]);
 
   async function sendMessage(message: string) {
     const trimmed = message.trim();
@@ -71,12 +115,18 @@ export function AgentChatPanel({
     setMessages((current) => [...current, userMessage]);
     setInput("");
     setIsThinking(true);
+    setWaitSeconds(0);
 
     try {
       const response = await chatWithAgent(
         trimmed,
-        analysis,
-        Boolean(selectedLocation)
+        {
+          selectedLocation,
+          analysis,
+          activeLayers,
+          scenario,
+          planningFocus,
+        }
       );
       setMessages((current) => [...current, response]);
     } finally {
@@ -85,6 +135,14 @@ export function AgentChatPanel({
   }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    void sendMessage(input);
+  }
+
+  function handleInputKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
+    if (event.key !== "Enter" || event.shiftKey) {
+      return;
+    }
     event.preventDefault();
     void sendMessage(input);
   }
@@ -101,7 +159,8 @@ export function AgentChatPanel({
         </div>
         <p className="text-sm leading-relaxed text-muted-foreground">
           Ask for a plain-language explanation of risks, sequencing, and public
-          benefit.
+          benefit across compute, connectivity, data, governance, AI literacy,
+          and sector readiness.
         </p>
       </CardHeader>
       <CardContent className="flex min-h-0 flex-1 flex-col gap-4">
@@ -137,13 +196,16 @@ export function AgentChatPanel({
                 )}
                 <div
                   className={cn(
-                    "max-w-[86%] rounded-2xl border px-4 py-3 text-sm leading-relaxed shadow-sm",
+                    "max-w-[86%] overflow-hidden rounded-2xl border px-4 py-3 text-sm leading-relaxed shadow-sm",
                     message.role === "assistant"
                       ? "border-border bg-card text-foreground"
                       : "border-primary bg-primary text-primary-foreground"
                   )}
                 >
-                  {message.content}
+                  <ChatMessageContent
+                    content={message.content}
+                    isAssistant={message.role === "assistant"}
+                  />
                 </div>
                 {message.role === "user" && (
                   <div className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border bg-primary/10">
@@ -154,7 +216,7 @@ export function AgentChatPanel({
             ))}
             {isThinking && (
               <div className="rounded-xl border bg-card px-3 py-2 text-xs text-muted-foreground shadow-sm">
-                Reviewing the current readiness report...
+                {thinkingMessage}
               </div>
             )}
           </div>
@@ -164,7 +226,8 @@ export function AgentChatPanel({
           <Textarea
             value={input}
             onChange={(event) => setInput(event.target.value)}
-            placeholder="Ask about this site's infrastructure readiness..."
+            onKeyDown={handleInputKeyDown}
+            placeholder="Ask about the selected map location, nearby facilities, or readiness..."
             className="min-h-[64px] resize-none rounded-xl"
           />
           <Button
@@ -180,4 +243,99 @@ export function AgentChatPanel({
       </CardContent>
     </Card>
   );
+}
+
+function ChatMessageContent({
+  content,
+  isAssistant,
+}: {
+  content: string;
+  isAssistant: boolean;
+}) {
+  if (!isAssistant) {
+    return <span className="whitespace-pre-wrap break-words">{content}</span>;
+  }
+
+  return (
+    <div className="space-y-2 break-words">
+      {renderAssistantContent(content)}
+    </div>
+  );
+}
+
+function renderAssistantContent(content: string) {
+  const blocks: ReactNode[] = [];
+  const listItems: ReactNode[] = [];
+
+  function flushList() {
+    if (!listItems.length) {
+      return;
+    }
+    blocks.push(
+      <ul
+        key={`list-${blocks.length}`}
+        className="ml-4 list-disc space-y-1 text-[13px] leading-relaxed"
+      >
+        {listItems.splice(0).map((item, index) => (
+          <li key={index}>{item}</li>
+        ))}
+      </ul>
+    );
+  }
+
+  content.split(/\r?\n/).forEach((rawLine, index) => {
+    const line = rawLine.trim();
+
+    if (!line) {
+      flushList();
+      return;
+    }
+
+    const heading = line.match(/^#{1,4}\s+(.+)$/);
+    if (heading) {
+      flushList();
+      blocks.push(
+        <p
+          key={`heading-${index}`}
+          className="pt-1 text-[13px] font-semibold text-primary"
+        >
+          {renderInlineMarkdown(heading[1])}
+        </p>
+      );
+      return;
+    }
+
+    const bullet = line.match(/^[-*]\s+(.+)$/);
+    if (bullet) {
+      listItems.push(renderInlineMarkdown(bullet[1]));
+      return;
+    }
+
+    flushList();
+    blocks.push(
+      <p key={`paragraph-${index}`} className="text-[13px] leading-relaxed">
+        {renderInlineMarkdown(stripMarkdownRule(line))}
+      </p>
+    );
+  });
+
+  flushList();
+  return blocks.length ? blocks : content;
+}
+
+function renderInlineMarkdown(text: string) {
+  return text.split(/(\*\*[^*]+\*\*)/g).map((part, index) => {
+    if (part.startsWith("**") && part.endsWith("**")) {
+      return (
+        <strong key={index} className="font-semibold text-foreground">
+          {part.slice(2, -2)}
+        </strong>
+      );
+    }
+    return <span key={index}>{part}</span>;
+  });
+}
+
+function stripMarkdownRule(line: string) {
+  return line.replace(/^[-=]{3,}$/, "");
 }

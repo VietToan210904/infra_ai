@@ -1,0 +1,199 @@
+{
+  "type": "FeatureCollection",
+  "name": "peeringdb_facilities",
+  "metadata": {
+    "source": "PeeringDB",
+    "source_type": "open_data",
+    "source_confidence": "medium",
+    "data_completeness": "unknown",
+    "data_limitation": "PeeringDB is user-maintained interconnection data. It does not verify site-level fibre capacity, bandwidth, latency, redundancy, contracts, or service availability."
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.649661,
+          10.796619
+        ]
+      },
+      "properties": {
+        "source_id": "8755",
+        "name": "Viettel HHT",
+        "asset_type": "Interconnection facility",
+        "category": "Network Infrastructure",
+        "source": "PeeringDB",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "PeeringDB is user-maintained interconnection data. It does not verify site-level fibre capacity, bandwidth, latency, redundancy, contracts, or service availability.",
+        "organization": "Viettel Group",
+        "address": "H158/2A Hoang Hoa Tham Tan Binh",
+        "city": "Ho Chi Minh City",
+        "country": "VN",
+        "website": "https://viettelidc.com.vn/en/home",
+        "net_count": 11,
+        "ix_count": 0,
+        "carrier_count": 0,
+        "created": "2020-06-16T01:22:36Z",
+        "updated": "2025-09-26T22:55:05Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.742932,
+          10.755807
+        ]
+      },
+      "properties": {
+        "source_id": "14005",
+        "name": "FPT Fornix HCM 01",
+        "asset_type": "Interconnection facility",
+        "category": "Network Infrastructure",
+        "source": "PeeringDB",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "PeeringDB is user-maintained interconnection data. It does not verify site-level fibre capacity, bandwidth, latency, redundancy, contracts, or service availability.",
+        "organization": "FPT Telecom",
+        "address": "Unit 37-39A, Road 19-22, Tan Thuan EPZ, Tan Thuan Ward, Ho Chi Minh, Vietnam",
+        "city": "Ho Chi Minh",
+        "country": "VN",
+        "website": "https://fornix.fpt.work/intro/",
+        "net_count": 12,
+        "ix_count": 0,
+        "carrier_count": 0,
+        "created": "2023-08-25T01:27:55Z",
+        "updated": "2025-09-26T23:02:45Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.742932,
+          10.755807
+        ]
+      },
+      "properties": {
+        "source_id": "14897",
+        "name": "STT VNG Ho Chi Minh City 1",
+        "asset_type": "Interconnection facility",
+        "category": "Network Infrastructure",
+        "source": "PeeringDB",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "PeeringDB is user-maintained interconnection data. It does not verify site-level fibre capacity, bandwidth, latency, redundancy, contracts, or service availability.",
+        "organization": "ST Telemedia Global Data Centres (STT GDC)",
+        "address": "No.40, Street 19, Tan Thuan EPZ, Tan Thuan Dong, District 7, Ho Chi Minh City, Vietnam",
+        "city": "Ho Chi Minh City",
+        "country": "VN",
+        "website": "https://www.sttelemediagdc.com/vn-en/locations",
+        "net_count": 2,
+        "ix_count": 0,
+        "carrier_count": 0,
+        "created": "2024-05-15T10:13:40Z",
+        "updated": "2025-09-26T23:05:28Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.801199,
+          10.859343
+        ]
+      },
+      "properties": {
+        "source_id": "15939",
+        "name": "CMC SHTP (Ho Chi Minh)",
+        "asset_type": "Interconnection facility",
+        "category": "Network Infrastructure",
+        "source": "PeeringDB",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "PeeringDB is user-maintained interconnection data. It does not verify site-level fibre capacity, bandwidth, latency, redundancy, contracts, or service availability.",
+        "organization": "CMC Telecom",
+        "address": "D1 Street, Tan Phu Ward, Thu Duc, Ho Chi Minh City, Vietnam",
+        "city": "Ho Chi Minh",
+        "country": "VN",
+        "website": "https://cmctelecom.vn/",
+        "net_count": 2,
+        "ix_count": 0,
+        "carrier_count": 0,
+        "created": "2025-03-24T09:53:46Z",
+        "updated": "2025-09-26T23:08:31Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.746207,
+          10.768547
+        ]
+      },
+      "properties": {
+        "source_id": "15940",
+        "name": "CMC Tan Thuan (Ho Chi Minh)",
+        "asset_type": "Interconnection facility",
+        "category": "Network Infrastructure",
+        "source": "PeeringDB",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "PeeringDB is user-maintained interconnection data. It does not verify site-level fibre capacity, bandwidth, latency, redundancy, contracts, or service availability.",
+        "organization": "CMC Telecom",
+        "address": "CMC CREATIVE SPACE, Export Processing Zone, Street No. 19, Tan Thuan Dong, District 7, Ho Chi Minh City 700000, Vietnam",
+        "city": "Ho Chi Minh",
+        "country": "VN",
+        "website": "https://cmctelecom.vn/",
+        "net_count": 5,
+        "ix_count": 0,
+        "carrier_count": 0,
+        "created": "2025-03-24T09:56:02Z",
+        "updated": "2025-09-26T23:08:31Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.801908,
+          10.849967
+        ]
+      },
+      "properties": {
+        "source_id": "16356",
+        "name": "FPT Fornix HCM 02",
+        "asset_type": "Interconnection facility",
+        "category": "Network Infrastructure",
+        "source": "PeeringDB",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "PeeringDB is user-maintained interconnection data. It does not verify site-level fibre capacity, bandwidth, latency, redundancy, contracts, or service availability.",
+        "organization": "FPT Telecom",
+        "address": "Lot T2-T5, street D1, Ho Chi Minh Hightech Park, Tang Nhon Phu A Ward, District 9, Ho Chi Minh City, Vietnam",
+        "city": "Ho Chi Minh City",
+        "country": "VN",
+        "website": "https://fornix.fpt.work/intro/",
+        "net_count": 1,
+        "ix_count": 0,
+        "carrier_count": 0,
+        "created": "2025-08-13T03:57:17Z",
+        "updated": "2025-09-26T23:09:35Z"
+      }
+    }
+  ]
+}

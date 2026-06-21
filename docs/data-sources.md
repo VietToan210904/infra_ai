@@ -1,13 +1,11 @@
 # Data Sources
 
-The current MVP uses synthetic HCMC/Saigon data.
+The current map source documentation lives in `docs/DATA_SOURCES.md`.
 
-Future data work should document:
+The first implemented sources are OpenStreetMap via Overpass and PeeringDB.
+Current frontend layers cover power, network, public-service, innovation,
+land/water, and transport context for Ho Chi Minh City / Saigon.
 
-- source name
-- license
-- refresh cadence
-- confidence assumptions
-- transformation steps
-- sensitive infrastructure aggregation rules
-
+These layers support early visual inspection only. They do not verify grid
+capacity, fibre availability, bandwidth, latency, zoning, water/cooling
+feasibility, permitting, construction readiness, or AI readiness.

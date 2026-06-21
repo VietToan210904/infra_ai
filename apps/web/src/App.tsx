@@ -10,30 +10,29 @@ import {
 
 import { analyzeSite } from "@/api/siteApi";
 import { AgentChatPanel } from "@/components/AgentChatPanel";
+import { DataTransparencyNotice } from "@/components/DataTransparencyNotice";
+import { InfrastructureLayerPanel } from "@/components/InfrastructureLayerPanel";
 import { InfrastructureSelector } from "@/components/InfrastructureSelector";
-import { LayerTogglePanel } from "@/components/LayerTogglePanel";
 import { MapPanel } from "@/components/MapPanel";
 import { ReadinessReportPanel } from "@/components/ReadinessReportPanel";
 import { ScenarioSelector, scenarioLabels } from "@/components/ScenarioSelector";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { DEFAULT_CITY } from "@/data/cityConfig";
+import {
+  defaultVisibleInfrastructureLayerIds,
+  type InfrastructureLayerId,
+  type InfrastructureLayerRuntimeState,
+} from "@/data/infrastructureLayerRegistry";
 import { candidateZones } from "@/data/mockGeoJson";
 import { cn } from "@/lib/utils";
 import type {
   InfrastructureType,
-  LayerKey,
   ScenarioType,
   SelectedLocation,
   SiteAnalysisResult,
 } from "@/types/site";
-
-const defaultActiveLayers: LayerKey[] = [
-  "education",
-  "healthcare",
-  "government",
-  "overall_readiness",
-];
 
 function App() {
   const [selectedLocation, setSelectedLocation] =
@@ -41,8 +40,11 @@ function App() {
   const [infrastructureType, setInfrastructureType] =
     useState<InfrastructureType>("PUBLIC_AI_COMPUTE_HUB");
   const [scenario, setScenario] = useState<ScenarioType>("BUILD_NOW");
-  const [activeLayers, setActiveLayers] =
-    useState<LayerKey[]>(defaultActiveLayers);
+  const [activeInfrastructureLayerIds, setActiveInfrastructureLayerIds] =
+    useState<InfrastructureLayerId[]>(defaultVisibleInfrastructureLayerIds);
+  const [infrastructureLayerStates, setInfrastructureLayerStates] = useState<
+    Partial<Record<InfrastructureLayerId, InfrastructureLayerRuntimeState>>
+  >({});
   const [analysis, setAnalysis] = useState<SiteAnalysisResult | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisError, setAnalysisError] = useState<string | null>(null);
@@ -67,7 +69,7 @@ function App() {
           lng: selectedLocation.lng,
           infrastructureType:
             overrides?.infrastructureType ?? infrastructureType,
-          activeLayers,
+          activeLayers: activeInfrastructureLayerIds,
           scenario: overrides?.scenario ?? scenario,
         });
         setAnalysis(result);
@@ -77,16 +79,31 @@ function App() {
         setIsAnalyzing(false);
       }
     },
-    [activeLayers, infrastructureType, scenario, selectedLocation]
+    [
+      activeInfrastructureLayerIds,
+      infrastructureType,
+      scenario,
+      selectedLocation,
+    ]
   );
 
-  function handleLayerToggle(layer: LayerKey) {
-    setActiveLayers((current) =>
-      current.includes(layer)
-        ? current.filter((item) => item !== layer)
-        : [...current, layer]
+  function handleInfrastructureLayerToggle(layerId: InfrastructureLayerId) {
+    setActiveInfrastructureLayerIds((current) =>
+      current.includes(layerId)
+        ? current.filter((item) => item !== layerId)
+        : [...current, layerId]
     );
   }
+
+  const handleInfrastructureLayerStateChange = useCallback(
+    (layerId: InfrastructureLayerId, state: InfrastructureLayerRuntimeState) => {
+      setInfrastructureLayerStates((current) => ({
+        ...current,
+        [layerId]: state,
+      }));
+    },
+    []
+  );
 
   function handleInfrastructureChange(next: InfrastructureType) {
     setInfrastructureType(next);
@@ -132,15 +149,15 @@ function App() {
                   InfraAI SiteCompass
                 </h1>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  Saigon infrastructure readiness planning
+                  Open-data infrastructure readiness planning
                 </p>
               </div>
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <Badge variant="outline">Demo data</Badge>
+            <Badge variant="outline">Open data</Badge>
             <Badge variant="warning">Human review required</Badge>
-            <Badge variant="secondary">Satellite layer</Badge>
+            <Badge variant="secondary">Mapbox satellite</Badge>
           </div>
         </header>
 
@@ -150,21 +167,26 @@ function App() {
               <div>
                 <div className="flex items-center gap-2 text-base font-semibold">
                   <Satellite className="h-4 w-4 text-primary" />
-                  Site selection map
+                  Infrastructure satellite map
                 </div>
                 <p className="mt-1 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-                  Review candidate locations within Ho Chi Minh City and prepare
-                  a first-pass infrastructure readiness report.
+                  Toggle open-data infrastructure layers and inspect mapped city
+                  assets before future scoring or AI recommendations are added.
                 </p>
               </div>
-              <Badge variant="outline">Planning region: Saigon</Badge>
+              <Badge variant="outline">Planning region: {DEFAULT_CITY.label}</Badge>
             </div>
 
             <MapPanel
               selectedLocation={selectedLocation}
-              activeLayers={activeLayers}
+              activeInfrastructureLayerIds={activeInfrastructureLayerIds}
+              onInfrastructureLayerStateChange={
+                handleInfrastructureLayerStateChange
+              }
               onLocationSelect={handleLocationSelect}
             />
+
+            <DataTransparencyNotice />
 
             <section className="space-y-3">
               <div className="flex items-center justify-between gap-3">
@@ -262,9 +284,10 @@ function App() {
               )}
             </section>
 
-            <LayerTogglePanel
-              activeLayers={activeLayers}
-              onToggleLayer={handleLayerToggle}
+            <InfrastructureLayerPanel
+              activeLayerIds={activeInfrastructureLayerIds}
+              layerStates={infrastructureLayerStates}
+              onToggleLayer={handleInfrastructureLayerToggle}
             />
           </section>
 

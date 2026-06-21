@@ -1,0 +1,12 @@
+{
+  "type": "FeatureCollection",
+  "name": "peeringdb_exchanges",
+  "metadata": {
+    "source": "PeeringDB",
+    "source_type": "open_data",
+    "source_confidence": "medium",
+    "data_completeness": "unknown",
+    "data_limitation": "PeeringDB is user-maintained interconnection data. It does not verify site-level fibre capacity, bandwidth, latency, redundancy, contracts, or service availability."
+  },
+  "features": []
+}

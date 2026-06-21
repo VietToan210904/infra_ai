@@ -1,0 +1,4364 @@
+{
+  "type": "FeatureCollection",
+  "name": "power_plants",
+  "metadata": {
+    "source": "OpenStreetMap",
+    "source_type": "open_data",
+    "source_confidence": "medium",
+    "data_completeness": "unknown",
+    "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions."
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "400202736",
+        "osm_type": "way",
+        "name": "Nhà máy Nhiệt điện Nhơn Trạch 1",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "barrier": "fence",
+          "landuse": "industrial",
+          "name": "Nhà máy Nhiệt điện Nhơn Trạch 1",
+          "operator": "Petrovietnam Power Corporation",
+          "plant:method": "combustion",
+          "plant:output:electricity": "450 MW",
+          "plant:source": "gas",
+          "plant:type": "combined_cycle",
+          "power": "plant",
+          "source": "https://www.pvpower.vn/en/about-us/projects/"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.8376388,
+              10.6462018
+            ],
+            [
+              106.8389393,
+              10.6463286
+            ],
+            [
+              106.8396126,
+              10.6463943
+            ],
+            [
+              106.8396806,
+              10.6463463
+            ],
+            [
+              106.8397531,
+              10.6463051
+            ],
+            [
+              106.8398316,
+              10.6462704
+            ],
+            [
+              106.8399134,
+              10.6462437
+            ],
+            [
+              106.8399975,
+              10.6462254
+            ],
+            [
+              106.840083,
+              10.6462155
+            ],
+            [
+              106.8402202,
+              10.6461956
+            ],
+            [
+              106.8402887,
+              10.6461847
+            ],
+            [
+              106.8403566,
+              10.6461707
+            ],
+            [
+              106.840468,
+              10.6461404
+            ],
+            [
+              106.8405767,
+              10.6461015
+            ],
+            [
+              106.8406819,
+              10.6460544
+            ],
+            [
+              106.8407336,
+              10.6460289
+            ],
+            [
+              106.8407831,
+              10.6459994
+            ],
+            [
+              106.8408392,
+              10.6459587
+            ],
+            [
+              106.8408911,
+              10.6459129
+            ],
+            [
+              106.8409382,
+              10.6458623
+            ],
+            [
+              106.8409801,
+              10.6458075
+            ],
+            [
+              106.8410164,
+              10.6457489
+            ],
+            [
+              106.8410943,
+              10.6456345
+            ],
+            [
+              106.8411788,
+              10.6455245
+            ],
+            [
+              106.8413376,
+              10.6439311
+            ],
+            [
+              106.8417054,
+              10.6402408
+            ],
+            [
+              106.8416028,
+              10.6402163
+            ],
+            [
+              106.8414991,
+              10.6401966
+            ],
+            [
+              106.8413946,
+              10.6401816
+            ],
+            [
+              106.8413023,
+              10.6401724
+            ],
+            [
+              106.841211,
+              10.640157
+            ],
+            [
+              106.841182,
+              10.64015
+            ],
+            [
+              106.8411209,
+              10.6401354
+            ],
+            [
+              106.8410325,
+              10.6401078
+            ],
+            [
+              106.8409272,
+              10.6400658
+            ],
+            [
+              106.8408247,
+              10.6400175
+            ],
+            [
+              106.8407256,
+              10.6399628
+            ],
+            [
+              106.8406302,
+              10.6399021
+            ],
+            [
+              106.84056,
+              10.6398518
+            ],
+            [
+              106.8404924,
+              10.6397983
+            ],
+            [
+              106.8403593,
+              10.6396886
+            ],
+            [
+              106.8402561,
+              10.6395966
+            ],
+            [
+              106.8401594,
+              10.6394981
+            ],
+            [
+              106.8400696,
+              10.6393934
+            ],
+            [
+              106.8399895,
+              10.6392864
+            ],
+            [
+              106.8399167,
+              10.6391746
+            ],
+            [
+              106.8396711,
+              10.6387055
+            ],
+            [
+              106.8396382,
+              10.6387039
+            ],
+            [
+              106.8395841,
+              10.6387014
+            ],
+            [
+              106.8395949,
+              10.6385846
+            ],
+            [
+              106.8394015,
+              10.6382124
+            ],
+            [
+              106.8392878,
+              10.6392176
+            ],
+            [
+              106.8391979,
+              10.6400129
+            ],
+            [
+              106.8391871,
+              10.640117
+            ],
+            [
+              106.8397249,
+              10.640171
+            ],
+            [
+              106.8393537,
+              10.6438379
+            ],
+            [
+              106.8378913,
+              10.6436956
+            ],
+            [
+              106.8376388,
+              10.6462018
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "638295011",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              107.0193028,
+              10.6658165
+            ],
+            [
+              107.0196435,
+              10.6648517
+            ],
+            [
+              107.0183909,
+              10.664401
+            ],
+            [
+              107.01904,
+              10.6629592
+            ],
+            [
+              107.0168996,
+              10.6621895
+            ],
+            [
+              107.0166421,
+              10.6619997
+            ],
+            [
+              107.0152902,
+              10.6625269
+            ],
+            [
+              107.0180154,
+              10.6646989
+            ],
+            [
+              107.0175004,
+              10.6659641
+            ],
+            [
+              107.0190453,
+              10.6664702
+            ],
+            [
+              107.0193028,
+              10.6658165
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1198852921",
+        "osm_type": "way",
+        "name": "Nhà máy thủy điện Trị An",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "landuse": "industrial",
+          "name": "Nhà máy thủy điện Trị An",
+          "operator": "Công ty Thủy điện Trị An",
+          "plant:output:electricity": "400 MW",
+          "plant:source": "hydro",
+          "power": "plant",
+          "wikidata": "Q7839833"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.9824229,
+              11.1070468
+            ],
+            [
+              106.9825292,
+              11.1070593
+            ],
+            [
+              106.9826526,
+              11.1070728
+            ],
+            [
+              106.9826429,
+              11.1071664
+            ],
+            [
+              106.9829269,
+              11.1071946
+            ],
+            [
+              106.9829363,
+              11.1071037
+            ],
+            [
+              106.982976,
+              11.107108
+            ],
+            [
+              106.9829626,
+              11.1071207
+            ],
+            [
+              106.9830029,
+              11.1071692
+            ],
+            [
+              106.9830609,
+              11.1071173
+            ],
+            [
+              106.9831673,
+              11.1071289
+            ],
+            [
+              106.9832405,
+              11.1071369
+            ],
+            [
+              106.984005,
+              11.1078581
+            ],
+            [
+              106.9847016,
+              11.107054
+            ],
+            [
+              106.9845039,
+              11.1068763
+            ],
+            [
+              106.9843483,
+              11.1067342
+            ],
+            [
+              106.9842437,
+              11.1066106
+            ],
+            [
+              106.9840747,
+              11.1063763
+            ],
+            [
+              106.9838226,
+              11.1059946
+            ],
+            [
+              106.9837528,
+              11.1058446
+            ],
+            [
+              106.9837126,
+              11.1057367
+            ],
+            [
+              106.9836885,
+              11.1056367
+            ],
+            [
+              106.9836751,
+              11.1055288
+            ],
+            [
+              106.9836777,
+              11.1054077
+            ],
+            [
+              106.9837311,
+              11.104841
+            ],
+            [
+              106.983785,
+              11.1044181
+            ],
+            [
+              106.9837931,
+              11.1042575
+            ],
+            [
+              106.9837958,
+              11.1039785
+            ],
+            [
+              106.9838006,
+              11.103937
+            ],
+            [
+              106.9833022,
+              11.1038996
+            ],
+            [
+              106.9832672,
+              11.1042903
+            ],
+            [
+              106.9832018,
+              11.1048082
+            ],
+            [
+              106.9831458,
+              11.1053764
+            ],
+            [
+              106.9831037,
+              11.1057367
+            ],
+            [
+              106.9830072,
+              11.1057262
+            ],
+            [
+              106.9825754,
+              11.1056235
+            ],
+            [
+              106.9825572,
+              11.1058642
+            ],
+            [
+              106.9827901,
+              11.1058886
+            ],
+            [
+              106.9827762,
+              11.1060166
+            ],
+            [
+              106.9827615,
+              11.1061518
+            ],
+            [
+              106.9825227,
+              11.1061268
+            ],
+            [
+              106.9824992,
+              11.1063437
+            ],
+            [
+              106.9824499,
+              11.1067982
+            ],
+            [
+              106.9824229,
+              11.1070468
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1204890361",
+        "osm_type": "way",
+        "name": "Nhà máy Nhiệt điện Thủ Đức",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "landuse": "industrial",
+          "name": "Nhà máy Nhiệt điện Thủ Đức",
+          "plant:method": "combustion",
+          "plant:output:electricity": "240 MW",
+          "plant:source": "coal",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.7580817,
+              10.8299998
+            ],
+            [
+              106.7585626,
+              10.8299919
+            ],
+            [
+              106.7592949,
+              10.8296204
+            ],
+            [
+              106.7594183,
+              10.8292891
+            ],
+            [
+              106.7586161,
+              10.8292905
+            ],
+            [
+              106.7586137,
+              10.8290273
+            ],
+            [
+              106.7585215,
+              10.8290281
+            ],
+            [
+              106.7585179,
+              10.8286321
+            ],
+            [
+              106.7585647,
+              10.8286317
+            ],
+            [
+              106.7585633,
+              10.8284789
+            ],
+            [
+              106.758525,
+              10.8284792
+            ],
+            [
+              106.758521,
+              10.8280476
+            ],
+            [
+              106.7591164,
+              10.8280421
+            ],
+            [
+              106.7595296,
+              10.8280386
+            ],
+            [
+              106.7596924,
+              10.8280372
+            ],
+            [
+              106.7596821,
+              10.8267713
+            ],
+            [
+              106.7578941,
+              10.826775
+            ],
+            [
+              106.7578982,
+              10.8272184
+            ],
+            [
+              106.7575434,
+              10.8272216
+            ],
+            [
+              106.7575394,
+              10.8267782
+            ],
+            [
+              106.7565383,
+              10.8267871
+            ],
+            [
+              106.7565416,
+              10.8271468
+            ],
+            [
+              106.7561949,
+              10.8271498
+            ],
+            [
+              106.7561916,
+              10.8267902
+            ],
+            [
+              106.7557709,
+              10.8267939
+            ],
+            [
+              106.7558077,
+              10.8307726
+            ],
+            [
+              106.7580886,
+              10.8307523
+            ],
+            [
+              106.7580817,
+              10.8299998
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1316619213",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:method": "photovoltaic",
+          "plant:output:electricity": "yes",
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.6165798,
+              11.1057299
+            ],
+            [
+              106.6165823,
+              11.1051636
+            ],
+            [
+              106.616919,
+              11.1051651
+            ],
+            [
+              106.6169201,
+              11.1049342
+            ],
+            [
+              106.6167728,
+              11.1049335
+            ],
+            [
+              106.6167747,
+              11.1045318
+            ],
+            [
+              106.6161456,
+              11.1045289
+            ],
+            [
+              106.6161426,
+              11.1051692
+            ],
+            [
+              106.6162465,
+              11.1051696
+            ],
+            [
+              106.616244,
+              11.1057285
+            ],
+            [
+              106.6165798,
+              11.1057299
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1317937609",
+        "osm_type": "way",
+        "name": "Nhà máy điện Nhơn Trạch 3 & 4",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "barrier": "fence",
+          "landuse": "industrial",
+          "name": "Nhà máy điện Nhơn Trạch 3 & 4",
+          "operator": "Petrovietnam Power Corporation",
+          "plant:method": "combustion",
+          "plant:output:electricity": "1624 MW",
+          "plant:source": "gas",
+          "plant:type": "combined_cycle",
+          "power": "plant",
+          "start_date": "2026-01-05"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.837198,
+              10.6461588
+            ],
+            [
+              106.8336993,
+              10.6457911
+            ],
+            [
+              106.8336618,
+              10.6457305
+            ],
+            [
+              106.8348527,
+              10.6338101
+            ],
+            [
+              106.8370575,
+              10.6340473
+            ],
+            [
+              106.8374652,
+              10.6344691
+            ],
+            [
+              106.8382162,
+              10.6363091
+            ],
+            [
+              106.8379906,
+              10.6380714
+            ],
+            [
+              106.837198,
+              10.6461588
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1320783855",
+        "osm_type": "way",
+        "name": "Nhà máy Nhiệt điện Formosa Đồng Nai",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "name": "Nhà máy Nhiệt điện Formosa Đồng Nai",
+          "operator": "Công ty TNHH gang thép Hưng Nghiệp Formosa",
+          "plant:method": "combustion",
+          "plant:output:electricity": "450 MW",
+          "plant:source": "coal",
+          "power": "plant",
+          "source": "https://www.gem.wiki/Nhon_Trach_Formosa_power_station"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.9363594,
+              10.7320197
+            ],
+            [
+              106.9359452,
+              10.7336219
+            ],
+            [
+              106.9347784,
+              10.733332
+            ],
+            [
+              106.9343546,
+              10.7349501
+            ],
+            [
+              106.9322115,
+              10.7344441
+            ],
+            [
+              106.9331369,
+              10.7304701
+            ],
+            [
+              106.9333996,
+              10.7305508
+            ],
+            [
+              106.9365374,
+              10.7312919
+            ],
+            [
+              106.9363594,
+              10.7320197
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1320784066",
+        "osm_type": "way",
+        "name": "Nhà máy Nhiệt điện Nhơn Trạch 2",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "barrier": "fence",
+          "landuse": "industrial",
+          "name": "Nhà máy Nhiệt điện Nhơn Trạch 2",
+          "operator": "Petrovietnam Power Corporation",
+          "plant:method": "combustion",
+          "plant:output:electricity": "750 MW",
+          "plant:source": "gas",
+          "plant:type": "combined_cycle",
+          "power": "plant",
+          "source": "https://www.pvpower.vn/en/about-us/projects/"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.8394015,
+              10.6382124
+            ],
+            [
+              106.8380566,
+              10.638078
+            ],
+            [
+              106.8379906,
+              10.6380714
+            ],
+            [
+              106.837198,
+              10.6461588
+            ],
+            [
+              106.8376388,
+              10.6462018
+            ],
+            [
+              106.8378913,
+              10.6436956
+            ],
+            [
+              106.8393537,
+              10.6438379
+            ],
+            [
+              106.8397249,
+              10.640171
+            ],
+            [
+              106.8391871,
+              10.640117
+            ],
+            [
+              106.8391979,
+              10.6400129
+            ],
+            [
+              106.8392878,
+              10.6392176
+            ],
+            [
+              106.8394015,
+              10.6382124
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1423259442",
+        "osm_type": "way",
+        "name": "THONG NHAT STEEL INCORPORATED",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "addr:street": "STREET NO.14",
+          "landuse": "industrial",
+          "name": "THONG NHAT STEEL INCORPORATED",
+          "nat_name": "tns",
+          "operator": "THONGNHAT GROUP",
+          "plant:method": "combustion",
+          "plant:output:electricity": "10 MW",
+          "plant:output:steam": "yes",
+          "plant:source": "coal",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              107.0438773,
+              10.591303
+            ],
+            [
+              107.0444633,
+              10.5912998
+            ],
+            [
+              107.0450212,
+              10.5912967
+            ],
+            [
+              107.0460083,
+              10.5912913
+            ],
+            [
+              107.0461193,
+              10.5912907
+            ],
+            [
+              107.0461175,
+              10.5909796
+            ],
+            [
+              107.0461164,
+              10.5907859
+            ],
+            [
+              107.045386,
+              10.5907899
+            ],
+            [
+              107.0449701,
+              10.5907922
+            ],
+            [
+              107.0449695,
+              10.5906894
+            ],
+            [
+              107.0442666,
+              10.5906931
+            ],
+            [
+              107.0442672,
+              10.5908103
+            ],
+            [
+              107.0438745,
+              10.5908124
+            ],
+            [
+              107.0438773,
+              10.591303
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1458087619",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.3834101,
+              11.0220383
+            ],
+            [
+              106.3840699,
+              11.0217698
+            ],
+            [
+              106.3841933,
+              11.0219804
+            ],
+            [
+              106.384837,
+              11.021675
+            ],
+            [
+              106.3846117,
+              11.0212906
+            ],
+            [
+              106.3839251,
+              11.0215749
+            ],
+            [
+              106.3838232,
+              11.0213432
+            ],
+            [
+              106.3831955,
+              11.0215749
+            ],
+            [
+              106.3834101,
+              11.0220383
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1458087620",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.3808727,
+              11.0231546
+            ],
+            [
+              106.3814467,
+              11.0229124
+            ],
+            [
+              106.3815218,
+              11.0229913
+            ],
+            [
+              106.3817525,
+              11.022886
+            ],
+            [
+              106.3817042,
+              11.0227175
+            ],
+            [
+              106.3818973,
+              11.0226228
+            ],
+            [
+              106.3820153,
+              11.0225859
+            ],
+            [
+              106.3817525,
+              11.0218909
+            ],
+            [
+              106.381098,
+              11.0221647
+            ],
+            [
+              106.3812,
+              11.0223805
+            ],
+            [
+              106.3806796,
+              11.0226438
+            ],
+            [
+              106.3808727,
+              11.0231546
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1458087621",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.3879752,
+              11.0199426
+            ],
+            [
+              106.3884634,
+              11.0197004
+            ],
+            [
+              106.3883936,
+              11.0195635
+            ],
+            [
+              106.3882005,
+              11.0196109
+            ],
+            [
+              106.3881683,
+              11.0194529
+            ],
+            [
+              106.3883883,
+              11.0193213
+            ],
+            [
+              106.3882059,
+              11.0189106
+            ],
+            [
+              106.3876533,
+              11.0192265
+            ],
+            [
+              106.3877767,
+              11.0195951
+            ],
+            [
+              106.3878947,
+              11.0195951
+            ],
+            [
+              106.387943,
+              11.0197741
+            ],
+            [
+              106.3879752,
+              11.0199426
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1458087622",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.3806072,
+              11.0178864
+            ],
+            [
+              106.3812885,
+              11.0175889
+            ],
+            [
+              106.3808942,
+              11.0166754
+            ],
+            [
+              106.380524,
+              11.0167991
+            ],
+            [
+              106.3808244,
+              11.0175126
+            ],
+            [
+              106.3805482,
+              11.0176442
+            ],
+            [
+              106.3806072,
+              11.0178864
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1458087623",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.3819966,
+              11.0187579
+            ],
+            [
+              106.3824928,
+              11.0185394
+            ],
+            [
+              106.3821307,
+              11.0177732
+            ],
+            [
+              106.3816398,
+              11.0179944
+            ],
+            [
+              106.3819966,
+              11.0187579
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1458087624",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.3891232,
+              11.0154248
+            ],
+            [
+              106.3905233,
+              11.0148087
+            ],
+            [
+              106.390121,
+              11.0139926
+            ],
+            [
+              106.3886779,
+              11.0145876
+            ],
+            [
+              106.3891232,
+              11.0154248
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1458087625",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.3939083,
+              11.0175363
+            ],
+            [
+              106.3942033,
+              11.0174099
+            ],
+            [
+              106.3937259,
+              11.0163779
+            ],
+            [
+              106.3938278,
+              11.0160935
+            ],
+            [
+              106.3934416,
+              11.01533
+            ],
+            [
+              106.392433,
+              11.0157671
+            ],
+            [
+              106.3928622,
+              11.0166201
+            ],
+            [
+              106.3933611,
+              11.0163726
+            ],
+            [
+              106.3939083,
+              11.0175363
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1458087626",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.3945466,
+              11.0171888
+            ],
+            [
+              106.3949382,
+              11.0170571
+            ],
+            [
+              106.3949007,
+              11.0168623
+            ],
+            [
+              106.3950723,
+              11.016757
+            ],
+            [
+              106.3947129,
+              11.0159514
+            ],
+            [
+              106.3940585,
+              11.0162146
+            ],
+            [
+              106.3945466,
+              11.0171888
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1458087627",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.3985699,
+              11.0148508
+            ],
+            [
+              106.3990098,
+              11.0132764
+            ],
+            [
+              106.3956302,
+              11.0123181
+            ],
+            [
+              106.3953245,
+              11.013466
+            ],
+            [
+              106.3957912,
+              11.0135713
+            ],
+            [
+              106.3957643,
+              11.0138346
+            ],
+            [
+              106.3969821,
+              11.014161
+            ],
+            [
+              106.3971269,
+              11.0143664
+            ],
+            [
+              106.3975561,
+              11.0144875
+            ],
+            [
+              106.3975507,
+              11.0145454
+            ],
+            [
+              106.3985699,
+              11.0148508
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1458087628",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.3993317,
+              11.0151984
+            ],
+            [
+              106.3994658,
+              11.0148087
+            ],
+            [
+              106.3988864,
+              11.0146455
+            ],
+            [
+              106.3987738,
+              11.0150562
+            ],
+            [
+              106.3993317,
+              11.0151984
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1458145365",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.9444317,
+              10.8730302
+            ],
+            [
+              106.9433373,
+              10.8717395
+            ],
+            [
+              106.9444692,
+              10.8707596
+            ],
+            [
+              106.9447374,
+              10.8709967
+            ],
+            [
+              106.9449252,
+              10.8708966
+            ],
+            [
+              106.9450861,
+              10.8710599
+            ],
+            [
+              106.9452792,
+              10.8709388
+            ],
+            [
+              106.9455153,
+              10.871218
+            ],
+            [
+              106.9458371,
+              10.8710125
+            ],
+            [
+              106.9459552,
+              10.8712759
+            ],
+            [
+              106.9461912,
+              10.871218
+            ],
+            [
+              106.9463789,
+              10.8715393
+            ],
+            [
+              106.9444317,
+              10.8730302
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1458145366",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.9344163,
+              10.8727141
+            ],
+            [
+              106.9347167,
+              10.8719344
+            ],
+            [
+              106.9345021,
+              10.8718291
+            ],
+            [
+              106.9345558,
+              10.8713339
+            ],
+            [
+              106.9334829,
+              10.8710389
+            ],
+            [
+              106.9330966,
+              10.8722821
+            ],
+            [
+              106.9344163,
+              10.8727141
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1458145367",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.9430745,
+              10.8733042
+            ],
+            [
+              106.9432354,
+              10.8725982
+            ],
+            [
+              106.9438469,
+              10.8727457
+            ],
+            [
+              106.9437826,
+              10.872967
+            ],
+            [
+              106.9439757,
+              10.8730302
+            ],
+            [
+              106.9438469,
+              10.8735254
+            ],
+            [
+              106.9436967,
+              10.8735043
+            ],
+            [
+              106.9436404,
+              10.8735755
+            ],
+            [
+              106.9433615,
+              10.873528
+            ],
+            [
+              106.9433695,
+              10.87342
+            ],
+            [
+              106.9430745,
+              10.8733042
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1458145368",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.9409609,
+              10.8730934
+            ],
+            [
+              106.9413042,
+              10.8714919
+            ],
+            [
+              106.9425702,
+              10.8718291
+            ],
+            [
+              106.9421732,
+              10.8734938
+            ],
+            [
+              106.9409609,
+              10.8730934
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1458145369",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.9391155,
+              10.8720714
+            ],
+            [
+              106.9394052,
+              10.8710389
+            ],
+            [
+              106.9398558,
+              10.8711337
+            ],
+            [
+              106.9396251,
+              10.8721873
+            ],
+            [
+              106.9391155,
+              10.8720714
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1458145370",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.9394001,
+              10.8702564
+            ],
+            [
+              106.9395769,
+              10.8696165
+            ],
+            [
+              106.9402796,
+              10.869764
+            ],
+            [
+              106.9401133,
+              10.870433
+            ],
+            [
+              106.9394001,
+              10.8702564
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1458145371",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.940757,
+              10.8682046
+            ],
+            [
+              106.9436431,
+              10.8688157
+            ],
+            [
+              106.9431817,
+              10.870923
+            ],
+            [
+              106.9429243,
+              10.8711126
+            ],
+            [
+              106.9428599,
+              10.8713971
+            ],
+            [
+              106.9416153,
+              10.8712074
+            ],
+            [
+              106.9420659,
+              10.8691739
+            ],
+            [
+              106.9406176,
+              10.8687946
+            ],
+            [
+              106.940757,
+              10.8682046
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1458145372",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.9413954,
+              10.8631365
+            ],
+            [
+              106.9416797,
+              10.8618721
+            ],
+            [
+              106.9427687,
+              10.8620934
+            ],
+            [
+              106.9432998,
+              10.8622567
+            ],
+            [
+              106.9431549,
+              10.8627783
+            ],
+            [
+              106.9426346,
+              10.8626255
+            ],
+            [
+              106.9423556,
+              10.8633947
+            ],
+            [
+              106.9413954,
+              10.8631365
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1458145373",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.9431174,
+              10.8635843
+            ],
+            [
+              106.9444102,
+              10.8639004
+            ],
+            [
+              106.9445121,
+              10.8636265
+            ],
+            [
+              106.9449305,
+              10.8637213
+            ],
+            [
+              106.9449681,
+              10.8634895
+            ],
+            [
+              106.9441366,
+              10.8632893
+            ],
+            [
+              106.9440615,
+              10.8633525
+            ],
+            [
+              106.9432247,
+              10.8631365
+            ],
+            [
+              106.9431174,
+              10.8635843
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1458145374",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.9434553,
+              10.864854
+            ],
+            [
+              106.943686,
+              10.8638319
+            ],
+            [
+              106.944952,
+              10.8640532
+            ],
+            [
+              106.9448125,
+              10.8645642
+            ],
+            [
+              106.944716,
+              10.8645168
+            ],
+            [
+              106.944555,
+              10.8650963
+            ],
+            [
+              106.9434553,
+              10.864854
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1458145375",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.9409072,
+              10.8641849
+            ],
+            [
+              106.941154,
+              10.863263
+            ],
+            [
+              106.9423234,
+              10.8635738
+            ],
+            [
+              106.942082,
+              10.8644747
+            ],
+            [
+              106.9409072,
+              10.8641849
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1458145376",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.9376564,
+              10.8635475
+            ],
+            [
+              106.9379353,
+              10.8623041
+            ],
+            [
+              106.937356,
+              10.8621672
+            ],
+            [
+              106.9370341,
+              10.8634737
+            ],
+            [
+              106.9376564,
+              10.8635475
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1458145377",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.9354677,
+              10.8628415
+            ],
+            [
+              106.9363367,
+              10.8604392
+            ],
+            [
+              106.9368839,
+              10.860692
+            ],
+            [
+              106.9363475,
+              10.8619354
+            ],
+            [
+              106.9364548,
+              10.861988
+            ],
+            [
+              106.9360578,
+              10.8631049
+            ],
+            [
+              106.9354677,
+              10.8628415
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1458145378",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.9284725,
+              10.8664871
+            ],
+            [
+              106.92873,
+              10.8659603
+            ],
+            [
+              106.9295454,
+              10.8662132
+            ],
+            [
+              106.9294059,
+              10.8665188
+            ],
+            [
+              106.9297171,
+              10.8666873
+            ],
+            [
+              106.929642,
+              10.8669824
+            ],
+            [
+              106.9284725,
+              10.8664871
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1458145379",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.9301784,
+              10.8619564
+            ],
+            [
+              106.930511,
+              10.8612083
+            ],
+            [
+              106.9315624,
+              10.8616825
+            ],
+            [
+              106.9312191,
+              10.8624095
+            ],
+            [
+              106.9301784,
+              10.8619564
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1458698965",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.9660905,
+              10.8304687
+            ],
+            [
+              106.9670963,
+              10.8303396
+            ],
+            [
+              106.9670373,
+              10.8298918
+            ],
+            [
+              106.9668093,
+              10.8299155
+            ],
+            [
+              106.9667342,
+              10.8294387
+            ],
+            [
+              106.9658545,
+              10.8295546
+            ],
+            [
+              106.9659162,
+              10.8300209
+            ],
+            [
+              106.9660556,
+              10.8300367
+            ],
+            [
+              106.9660905,
+              10.8304687
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1458719530",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.6013409,
+              11.1560953
+            ],
+            [
+              106.6022703,
+              11.1560848
+            ],
+            [
+              106.602273,
+              11.1555506
+            ],
+            [
+              106.6013932,
+              11.1555677
+            ],
+            [
+              106.601404,
+              11.1557374
+            ],
+            [
+              106.6013195,
+              11.1557348
+            ],
+            [
+              106.6013409,
+              11.1560953
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1459217679",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.8658698,
+              11.0924673
+            ],
+            [
+              106.8664733,
+              11.0924646
+            ],
+            [
+              106.8664773,
+              11.0928713
+            ],
+            [
+              106.8676427,
+              11.0928634
+            ],
+            [
+              106.8676266,
+              11.0930055
+            ],
+            [
+              106.8679002,
+              11.0930082
+            ],
+            [
+              106.8678761,
+              11.0934714
+            ],
+            [
+              106.8690723,
+              11.0934925
+            ],
+            [
+              106.8690938,
+              11.0931029
+            ],
+            [
+              106.8705475,
+              11.0930924
+            ],
+            [
+              106.8705636,
+              11.0923186
+            ],
+            [
+              106.8699789,
+              11.0923133
+            ],
+            [
+              106.8700165,
+              11.0912815
+            ],
+            [
+              106.8700433,
+              11.0904656
+            ],
+            [
+              106.8694586,
+              11.0897496
+            ],
+            [
+              106.8690938,
+              11.0894285
+            ],
+            [
+              106.8684125,
+              11.0900023
+            ],
+            [
+              106.8677098,
+              11.090684
+            ],
+            [
+              106.8672109,
+              11.0911052
+            ],
+            [
+              106.8667307,
+              11.0911736
+            ],
+            [
+              106.8664169,
+              11.0913578
+            ],
+            [
+              106.8659449,
+              11.0917606
+            ],
+            [
+              106.8655828,
+              11.0920159
+            ],
+            [
+              106.8654567,
+              11.0921212
+            ],
+            [
+              106.8654916,
+              11.0922475
+            ],
+            [
+              106.8658,
+              11.0922317
+            ],
+            [
+              106.8657973,
+              11.0924804
+            ],
+            [
+              106.8658698,
+              11.0924673
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1459222587",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.8710317,
+              10.880312
+            ],
+            [
+              106.8716164,
+              10.8802883
+            ],
+            [
+              106.8715748,
+              10.8790516
+            ],
+            [
+              106.870982,
+              10.8790858
+            ],
+            [
+              106.8710317,
+              10.880312
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1459237319",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.5862951,
+              10.9100009
+            ],
+            [
+              106.5872164,
+              10.9101852
+            ],
+            [
+              106.5873089,
+              10.9098033
+            ],
+            [
+              106.5868154,
+              10.9096993
+            ],
+            [
+              106.5869737,
+              10.9091409
+            ],
+            [
+              106.5865096,
+              10.9090474
+            ],
+            [
+              106.5862951,
+              10.9100009
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1459240356",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.9597578,
+              11.0440313
+            ],
+            [
+              106.9607395,
+              11.0437681
+            ],
+            [
+              106.9602352,
+              11.0419621
+            ],
+            [
+              106.9592428,
+              11.042257
+            ],
+            [
+              106.9597578,
+              11.0440313
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1459250413",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.4836577,
+              11.0807871
+            ],
+            [
+              106.4856666,
+              11.0804739
+            ],
+            [
+              106.4856371,
+              11.080308
+            ],
+            [
+              106.4861521,
+              11.0802159
+            ],
+            [
+              106.4859992,
+              11.0793052
+            ],
+            [
+              106.4859188,
+              11.079034
+            ],
+            [
+              106.4852589,
+              11.0783207
+            ],
+            [
+              106.4850122,
+              11.0783207
+            ],
+            [
+              106.4848647,
+              11.0784628
+            ],
+            [
+              106.4848298,
+              11.0787261
+            ],
+            [
+              106.4847547,
+              11.078834
+            ],
+            [
+              106.4845857,
+              11.0790867
+            ],
+            [
+              106.4847895,
+              11.0794473
+            ],
+            [
+              106.4832285,
+              11.0797053
+            ],
+            [
+              106.4834619,
+              11.0808213
+            ],
+            [
+              106.4836577,
+              11.0807871
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1459481035",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              107.0327595,
+              10.6052777
+            ],
+            [
+              107.0330653,
+              10.6052804
+            ],
+            [
+              107.0330599,
+              10.6037539
+            ],
+            [
+              107.0327514,
+              10.6037539
+            ],
+            [
+              107.0327595,
+              10.6052777
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1459741560",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              107.0952469,
+              10.8954926
+            ],
+            [
+              107.0954052,
+              10.8956427
+            ],
+            [
+              107.0956801,
+              10.895569
+            ],
+            [
+              107.095841,
+              10.8955242
+            ],
+            [
+              107.0962822,
+              10.8960246
+            ],
+            [
+              107.0966054,
+              10.8956994
+            ],
+            [
+              107.0966645,
+              10.8953359
+            ],
+            [
+              107.096698,
+              10.8952095
+            ],
+            [
+              107.0963077,
+              10.8944338
+            ],
+            [
+              107.0956117,
+              10.8950804
+            ],
+            [
+              107.0951906,
+              10.895432
+            ],
+            [
+              107.0952469,
+              10.8954926
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1459743998",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              107.0033625,
+              11.0748277
+            ],
+            [
+              107.0053044,
+              11.0745382
+            ],
+            [
+              107.0051381,
+              11.073838
+            ],
+            [
+              107.0052078,
+              11.0736537
+            ],
+            [
+              107.0051891,
+              11.0732721
+            ],
+            [
+              107.0040786,
+              11.0733168
+            ],
+            [
+              107.0041698,
+              11.073967
+            ],
+            [
+              107.0029762,
+              11.0741354
+            ],
+            [
+              107.0030352,
+              11.0745303
+            ],
+            [
+              107.0033625,
+              11.0748277
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1460198635",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              107.0494053,
+              11.0503664
+            ],
+            [
+              107.0497017,
+              11.0505125
+            ],
+            [
+              107.0502542,
+              11.049607
+            ],
+            [
+              107.0490861,
+              11.0488146
+            ],
+            [
+              107.0485134,
+              11.0497662
+            ],
+            [
+              107.0494053,
+              11.0503664
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1462564249",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              107.0196274,
+              10.68447
+            ],
+            [
+              107.0198768,
+              10.6840825
+            ],
+            [
+              107.0213145,
+              10.6850604
+            ],
+            [
+              107.0210409,
+              10.6854135
+            ],
+            [
+              107.0207942,
+              10.6852607
+            ],
+            [
+              107.0208907,
+              10.6851131
+            ],
+            [
+              107.0200136,
+              10.6845279
+            ],
+            [
+              107.0199198,
+              10.6846492
+            ],
+            [
+              107.0196274,
+              10.68447
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1462564251",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.7325318,
+              10.9297519
+            ],
+            [
+              106.7325532,
+              10.929025
+            ],
+            [
+              106.7328858,
+              10.9290566
+            ],
+            [
+              106.7328966,
+              10.929794
+            ],
+            [
+              106.7325318,
+              10.9297519
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1462564252",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.7284441,
+              10.9288038
+            ],
+            [
+              106.7284655,
+              10.9281928
+            ],
+            [
+              106.7290449,
+              10.9282139
+            ],
+            [
+              106.729002,
+              10.9288986
+            ],
+            [
+              106.7284441,
+              10.9288038
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1462564253",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.7248177,
+              10.9311002
+            ],
+            [
+              106.7248392,
+              10.9303734
+            ],
+            [
+              106.72544,
+              10.9303734
+            ],
+            [
+              106.72544,
+              10.9311634
+            ],
+            [
+              106.7248177,
+              10.9311002
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1462564254",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.7154515,
+              10.9346924
+            ],
+            [
+              106.7154729,
+              10.9338075
+            ],
+            [
+              106.715548,
+              10.9329016
+            ],
+            [
+              106.7167604,
+              10.9328489
+            ],
+            [
+              106.7167497,
+              10.9346292
+            ],
+            [
+              106.7162669,
+              10.9346081
+            ],
+            [
+              106.7162025,
+              10.9348082
+            ],
+            [
+              106.7154461,
+              10.9347898
+            ],
+            [
+              106.7154515,
+              10.9346924
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1488629206",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.439589,
+              10.7599472
+            ],
+            [
+              106.4396453,
+              10.759523
+            ],
+            [
+              106.4403266,
+              10.7596284
+            ],
+            [
+              106.4402595,
+              10.7600342
+            ],
+            [
+              106.439589,
+              10.7599472
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1488629207",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.4403507,
+              10.760187
+            ],
+            [
+              106.4404446,
+              10.7596178
+            ],
+            [
+              106.4410427,
+              10.759718
+            ],
+            [
+              106.4409596,
+              10.7602713
+            ],
+            [
+              106.4403507,
+              10.760187
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1488629208",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.4388862,
+              10.7589037
+            ],
+            [
+              106.4389533,
+              10.7585401
+            ],
+            [
+              106.4397284,
+              10.7586666
+            ],
+            [
+              106.4396641,
+              10.759046
+            ],
+            [
+              106.4388862,
+              10.7589037
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1488629209",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.4402917,
+              10.7591145
+            ],
+            [
+              106.4402702,
+              10.758801
+            ],
+            [
+              106.4405841,
+              10.7587746
+            ],
+            [
+              106.4406002,
+              10.7590935
+            ],
+            [
+              106.4402917,
+              10.7591145
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1488629210",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.441429,
+              10.759075
+            ],
+            [
+              106.4414236,
+              10.7587825
+            ],
+            [
+              106.4417213,
+              10.7587614
+            ],
+            [
+              106.4417133,
+              10.7590698
+            ],
+            [
+              106.441429,
+              10.759075
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1488629211",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.4406779,
+              10.7591014
+            ],
+            [
+              106.4406592,
+              10.7587852
+            ],
+            [
+              106.4412305,
+              10.758772
+            ],
+            [
+              106.4412224,
+              10.759075
+            ],
+            [
+              106.4406779,
+              10.7591014
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1488629212",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.4400128,
+              10.7582186
+            ],
+            [
+              106.4399752,
+              10.7575019
+            ],
+            [
+              106.4405251,
+              10.7574993
+            ],
+            [
+              106.4405546,
+              10.7582028
+            ],
+            [
+              106.4400128,
+              10.7582186
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1488629213",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.4406538,
+              10.7585665
+            ],
+            [
+              106.4406189,
+              10.7574808
+            ],
+            [
+              106.4411741,
+              10.7574624
+            ],
+            [
+              106.4411956,
+              10.7585533
+            ],
+            [
+              106.4406538,
+              10.7585665
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1488629214",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.4412841,
+              10.7585665
+            ],
+            [
+              106.4412546,
+              10.7574545
+            ],
+            [
+              106.4418259,
+              10.7574386
+            ],
+            [
+              106.4418474,
+              10.7585217
+            ],
+            [
+              106.4412841,
+              10.7585665
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1488629525",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.448054,
+              10.7682185
+            ],
+            [
+              106.4483973,
+              10.7677969
+            ],
+            [
+              106.446898,
+              10.7666481
+            ],
+            [
+              106.4465573,
+              10.7671303
+            ],
+            [
+              106.448054,
+              10.7682185
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "16528602",
+        "osm_type": "relation",
+        "name": "Nhà máy Nhiệt điện Phú Mỹ",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "landuse": "industrial",
+          "name": "Nhà máy Nhiệt điện Phú Mỹ",
+          "operator": "Công ty Nhiệt điện Phú Mỹ",
+          "plant:method": "combustion",
+          "plant:output:electricity": "3975 MW",
+          "plant:source": "gas",
+          "power": "plant",
+          "type": "multipolygon",
+          "wikidata": "Q7189879"
+        }
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                107.0325015,
+                10.6071096
+              ],
+              [
+                107.0321769,
+                10.606867
+              ],
+              [
+                107.0320993,
+                10.6068091
+              ],
+              [
+                107.0320152,
+                10.6067462
+              ],
+              [
+                107.0319119,
+                10.6067409
+              ],
+              [
+                107.0319202,
+                10.6066056
+              ],
+              [
+                107.0320038,
+                10.6066
+              ],
+              [
+                107.0318392,
+                10.6000012
+              ],
+              [
+                107.0318387,
+                10.5999783
+              ],
+              [
+                107.0318323,
+                10.5997176
+              ],
+              [
+                107.0318261,
+                10.5994618
+              ],
+              [
+                107.0351166,
+                10.5994121
+              ],
+              [
+                107.0361916,
+                10.5993959
+              ],
+              [
+                107.0381105,
+                10.5993669
+              ],
+              [
+                107.0381775,
+                10.5994486
+              ],
+              [
+                107.0382795,
+                10.5994471
+              ],
+              [
+                107.0383519,
+                10.599446
+              ],
+              [
+                107.038435,
+                10.5993721
+              ],
+              [
+                107.0390332,
+                10.5993695
+              ],
+              [
+                107.039111,
+                10.6045316
+              ],
+              [
+                107.0389494,
+                10.6046814
+              ],
+              [
+                107.0389232,
+                10.6047056
+              ],
+              [
+                107.0389267,
+                10.6049147
+              ],
+              [
+                107.0389286,
+                10.6050273
+              ],
+              [
+                107.0391217,
+                10.6052171
+              ],
+              [
+                107.0391512,
+                10.6071179
+              ],
+              [
+                107.0391458,
+                10.6078667
+              ],
+              [
+                107.0341934,
+                10.6080464
+              ],
+              [
+                107.0319534,
+                10.6081276
+              ],
+              [
+                107.0319446,
+                10.607978
+              ],
+              [
+                107.0319385,
+                10.6078744
+              ],
+              [
+                107.0325015,
+                10.6071096
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                107.0389889,
+                10.5985206
+              ],
+              [
+                107.0390117,
+                10.5975504
+              ],
+              [
+                107.0389849,
+                10.5975451
+              ],
+              [
+                107.0389862,
+                10.597495
+              ],
+              [
+                107.0389876,
+                10.5974423
+              ],
+              [
+                107.0390258,
+                10.5974436
+              ],
+              [
+                107.0390466,
+                10.5964984
+              ],
+              [
+                107.0387757,
+                10.5963112
+              ],
+              [
+                107.0363805,
+                10.5964035
+              ],
+              [
+                107.0363376,
+                10.5963402
+              ],
+              [
+                107.0331752,
+                10.5963745
+              ],
+              [
+                107.0331886,
+                10.5972098
+              ],
+              [
+                107.0331323,
+                10.5972103
+              ],
+              [
+                107.033135,
+                10.5984758
+              ],
+              [
+                107.0331994,
+                10.5984752
+              ],
+              [
+                107.0332047,
+                10.5989108
+              ],
+              [
+                107.0354858,
+                10.5988622
+              ],
+              [
+                107.0357552,
+                10.5988565
+              ],
+              [
+                107.0360891,
+                10.5988494
+              ],
+              [
+                107.0369223,
+                10.5988317
+              ],
+              [
+                107.0369437,
+                10.5984336
+              ],
+              [
+                107.0389889,
+                10.5985206
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "20697829",
+        "osm_type": "relation",
+        "name": "Nhà máy điện Hiệp Phước",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "addr:city": "Thành phố Hồ Chí Minh",
+          "addr:subdistrict": "Hiệp Phước",
+          "landuse": "industrial",
+          "name": "Nhà máy điện Hiệp Phước",
+          "operator": "Công ty TNHH Điện lực Hiệp Phước",
+          "plant:method": "combustion",
+          "plant:output:electricity": "375 MW",
+          "plant:source": "gas",
+          "power": "plant",
+          "start_date": "1998-07",
+          "type": "multipolygon"
+        }
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              106.7502389,
+              10.643482
+            ],
+            [
+              106.7480688,
+              10.6445366
+            ],
+            [
+              106.7477397,
+              10.643876
+            ],
+            [
+              106.7469196,
+              10.6442913
+            ],
+            [
+              106.7445198,
+              10.6420784
+            ],
+            [
+              106.7451891,
+              10.6413598
+            ],
+            [
+              106.7451832,
+              10.6412814
+            ],
+            [
+              106.7458348,
+              10.6405789
+            ]
+          ],
+          [
+            [
+              106.7502389,
+              10.643482
+            ],
+            [
+              106.7500614,
+              10.643184
+            ],
+            [
+              106.747824,
+              10.6411967
+            ],
+            [
+              106.74725,
+              10.6418296
+            ],
+            [
+              106.7458348,
+              10.6405789
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "20697830",
+        "osm_type": "relation",
+        "name": "Nhà máy điện khí LNG Hiệp Phước",
+        "asset_type": "Power plant",
+        "category": "Power Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "alt_name": "Nhà máy Điện Khí LNG Hiệp Phước  giai đoạn I",
+          "construction:power": "plant",
+          "landuse": "industrial",
+          "name": "Nhà máy điện khí LNG Hiệp Phước",
+          "operator": "Công ty TNHH Điện lực Hiệp Phước",
+          "plant:method": "combustion",
+          "plant:output:electricity": "1200 MW",
+          "plant:source": "gas",
+          "power": "plant",
+          "type": "multipolygon"
+        }
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              106.7458348,
+              10.6405789
+            ],
+            [
+              106.7492535,
+              10.6368932
+            ],
+            [
+              106.7546017,
+              10.6416869
+            ],
+            [
+              106.754676,
+              10.6418342
+            ],
+            [
+              106.7504186,
+              10.6433556
+            ],
+            [
+              106.750344,
+              10.6434309
+            ],
+            [
+              106.7502389,
+              10.643482
+            ]
+          ],
+          [
+            [
+              106.7502389,
+              10.643482
+            ],
+            [
+              106.7500614,
+              10.643184
+            ],
+            [
+              106.747824,
+              10.6411967
+            ],
+            [
+              106.74725,
+              10.6418296
+            ],
+            [
+              106.7458348,
+              10.6405789
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,151 @@
+{
+  "type": "FeatureCollection",
+  "name": "existing_data_centers",
+  "metadata": {
+    "source": "OpenStreetMap",
+    "source_type": "open_data",
+    "source_confidence": "medium",
+    "data_completeness": "unknown",
+    "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions."
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "191881072",
+        "osm_type": "way",
+        "name": "",
+        "asset_type": "Mapped data center",
+        "category": "Core AI Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "landuse": "commercial",
+          "telecom": "data_center"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.6943009,
+              10.7901618
+            ],
+            [
+              106.6943577,
+              10.7901744
+            ],
+            [
+              106.6955837,
+              10.7890139
+            ],
+            [
+              106.6957858,
+              10.7888226
+            ],
+            [
+              106.6956178,
+              10.7886494
+            ],
+            [
+              106.6955777,
+              10.788608
+            ],
+            [
+              106.6952593,
+              10.7882796
+            ],
+            [
+              106.6938077,
+              10.7896655
+            ],
+            [
+              106.6943009,
+              10.7901618
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "1175244806",
+        "osm_type": "way",
+        "name": "Tòa nhà VNPT IDC Tân Thuận",
+        "asset_type": "Mapped data center",
+        "category": "Core AI Infrastructure",
+        "source": "OpenStreetMap",
+        "source_type": "open_data",
+        "source_confidence": "medium",
+        "data_completeness": "unknown",
+        "data_limitation": "OpenStreetMap data may be incomplete or outdated and must be validated before planning or investment decisions.",
+        "raw_tags": {
+          "addr:housenumber": "Lô VA",
+          "addr:street": "Đường số 24",
+          "building": "yes",
+          "building:levels": "7",
+          "name": "Tòa nhà VNPT IDC Tân Thuận",
+          "name:en": "VNPT IDC Tan Thuan",
+          "operator": "VNPT",
+          "telecom": "data_center"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              106.7408404,
+              10.7735893
+            ],
+            [
+              106.7408285,
+              10.7731526
+            ],
+            [
+              106.7408688,
+              10.7731515
+            ],
+            [
+              106.7409491,
+              10.7731494
+            ],
+            [
+              106.7411873,
+              10.7731431
+            ],
+            [
+              106.7411928,
+              10.7733433
+            ],
+            [
+              106.7411949,
+              10.773423
+            ],
+            [
+              106.7410685,
+              10.7734263
+            ],
+            [
+              106.7410588,
+              10.7734266
+            ],
+            [
+              106.7410631,
+              10.7735834
+            ],
+            [
+              106.7408404,
+              10.7735893
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

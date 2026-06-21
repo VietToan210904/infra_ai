@@ -1,10 +1,15 @@
 import { buildMockAnalysis } from "@/data/mockAnalysis";
-import { normalizeInfrastructureIntent } from "@/data/planningOptions";
+import {
+  normalizeInfrastructureIntent,
+  planningFocusDetails,
+} from "@/data/planningOptions";
 import type {
   AgentChatContext,
   AnalyzeSitePayload,
   ChatMessage,
   InfrastructureIntent,
+  PlanningContext,
+  ScenarioType,
   SiteAnalysisResult,
 } from "@/types/site";
 
@@ -24,10 +29,11 @@ export async function analyzeSite(
 
   if (apiBaseUrl) {
     try {
-      return await postJson<SiteAnalysisResult>(
+      const result = await postJson<SiteAnalysisResult>(
         "/api/analyze-site",
         normalizedPayload
       );
+      return normalizeSiteAnalysisResult(result, normalizedPayload);
     } catch {
       await wait(250);
       return buildMockAnalysis(normalizedPayload);
@@ -113,6 +119,93 @@ function normalizeAnalyzePayload(
   };
 }
 
+const scenarioFallbackLabels: Record<ScenarioType, string> = {
+  BUILD_NOW: "Build now",
+  UPGRADE_FIBER_FIRST: "Upgrade fiber first",
+  VALIDATE_GRID_FIRST: "Validate grid first",
+  AI_LITERACY_TRAINING: "AI literacy training",
+  CLOUD_FIRST: "Cloud first",
+  DELAY_INVESTMENT: "Delay investment",
+  GOVERNANCE_FIRST: "Governance first",
+  EDGE_PILOT_FIRST: "Edge pilot first",
+  OPEN_DATA_PLATFORM_FIRST: "Open data platform first",
+};
+
+function normalizeSiteAnalysisResult(
+  analysis: SiteAnalysisResult,
+  payload: AnalyzeSitePayload & { intent: InfrastructureIntent }
+): SiteAnalysisResult {
+  const focus = planningFocusDetails[analysis.intent ?? payload.intent];
+  const returnedEvidenceSummary = analysis.evidenceSummary as
+    | Partial<SiteAnalysisResult["evidenceSummary"]>
+    | undefined;
+  const fallbackPlanningContext: PlanningContext = {
+    focusLabel: focus.label,
+    focusQuestion: focus.example,
+    scenarioLabel: scenarioFallbackLabels[payload.scenario],
+    scenarioDescription: "Directional planning scenario.",
+    scoreFormula: [],
+    relevantComponents: [],
+    scenarioImpacts: [],
+    focusSpecificEvidenceNeeds: [],
+    focusSpecificWarnings: [],
+  };
+
+  return {
+    ...analysis,
+    planningContext: {
+      ...fallbackPlanningContext,
+      ...(analysis.planningContext ?? {}),
+      scoreFormula: analysis.planningContext?.scoreFormula ?? [],
+      relevantComponents: analysis.planningContext?.relevantComponents ?? [],
+      scenarioImpacts: analysis.planningContext?.scenarioImpacts ?? [],
+      focusSpecificEvidenceNeeds:
+        analysis.planningContext?.focusSpecificEvidenceNeeds ?? [],
+      focusSpecificWarnings: analysis.planningContext?.focusSpecificWarnings ?? [],
+    },
+    evidenceSummary: {
+      activeLayerCount: payload.activeLayers.length,
+      scoredLayerCount: 0,
+      realOpenLayerCount: 0,
+      syntheticLayerCount: 0,
+      matchedFeatureCount: 0,
+      nearestEvidenceKm: null,
+      summary: "No evidence summary was returned by the backend.",
+      confidenceImpact: "Unknown evidence reliability.",
+      ...(returnedEvidenceSummary ?? {}),
+    },
+    scoreDrivers: (analysis.scoreDrivers ?? []).map((driver) => ({
+      ...driver,
+      supportingLayers: driver.supportingLayers ?? [],
+      openDataSupportingLayers: driver.openDataSupportingLayers ?? [],
+      syntheticSupportingLayers: driver.syntheticSupportingLayers ?? [],
+      excludedSyntheticLayers: driver.excludedSyntheticLayers ?? [],
+      includedInFocusScore: driver.includedInFocusScore ?? false,
+      formulaWeight: driver.formulaWeight ?? null,
+      scenarioAdjustment: driver.scenarioAdjustment ?? 0,
+      focusSpecificExplanation: driver.focusSpecificExplanation ?? "",
+    })),
+    matchedEvidence: analysis.matchedEvidence ?? [],
+    excludedSyntheticLayers: analysis.excludedSyntheticLayers ?? [],
+    dataGaps: analysis.dataGaps ?? [],
+    agentReview: {
+      summary:
+        analysis.agentReview?.summary ??
+        "Agent review was not returned by the backend.",
+      scoreReliability: analysis.agentReview?.scoreReliability ?? "Unknown",
+      evidenceStrengths: analysis.agentReview?.evidenceStrengths ?? [],
+      evidenceGaps: analysis.agentReview?.evidenceGaps ?? [],
+      uncertaintyNotes: analysis.agentReview?.uncertaintyNotes ?? [],
+      challengedAssumptions: analysis.agentReview?.challengedAssumptions ?? [],
+      nextValidationSteps: analysis.agentReview?.nextValidationSteps ?? [],
+      evidenceCitations: analysis.agentReview?.evidenceCitations ?? [],
+      scoreDriverSummary: analysis.agentReview?.scoreDriverSummary ?? "",
+      excludedEvidenceNotes: analysis.agentReview?.excludedEvidenceNotes ?? [],
+      usedLlm: analysis.agentReview?.usedLlm ?? false,
+    },
+  };
+}
+
 function normalizeChatContext(
   contextOrAnalysis: AgentChatContext | SiteAnalysisResult | null,
   hasSelectedLocation?: boolean
@@ -186,7 +279,18 @@ function generateFallbackAgentResponse(
 
 function isPlatformQuestion(normalized: string) {
   return (
-    ["hi", "hello", "hey", "help"].includes(normalized.trim()) ||
+    isGreeting(normalized) ||
+    normalized.includes("what can you do") ||
+    normalized.includes("how does") ||
+    normalized.includes("how do you work") ||
+    normalized.includes("how this site work") ||
+    normalized.includes("how this site working") ||
+    normalized.includes("hows this site working") ||
+    normalized.includes("how the site works") ||
+    normalized.includes("how the platform works") ||
+    normalized.includes("how is this site working") ||
+    normalized.includes("site work") ||
+    normalized.includes("platform work") ||
     normalized.includes("confidence") ||
     normalized.includes("score") ||
     normalized.includes("map") ||
@@ -196,20 +300,35 @@ function isPlatformQuestion(normalized: string) {
   );
 }
 
+function isGreeting(normalized: string) {
+  const text = normalized.trim();
+  return (
+    text === "hi" ||
+    text === "hello" ||
+    text === "hey" ||
+    text === "help" ||
+    text.startsWith("hi ") ||
+    text.startsWith("hello ") ||
+    text.startsWith("hey ") ||
+    text.includes("how are you") ||
+    text.includes("how are u")
+  );
+}
+
 function platformFallbackAnswer(normalized: string) {
-  if (["hi", "hello", "hey", "help"].includes(normalized.trim())) {
-    return "Hi. I can explain how InfraAI works, review evidence after analysis, compare scenarios, and suggest validation steps.";
+  if (isGreeting(normalized)) {
+    return "Hi. I can help explain how InfraAI SiteCompass works, review evidence after analysis, compare scenarios, and suggest validation steps. To analyze a real location, click the map or choose a candidate zone, then run readiness analysis.";
   }
   if (normalized.includes("confidence")) {
     return "Confidence reflects data completeness, freshness, source reliability, and geographic resolution. It is not a feasibility guarantee.";
   }
   if (normalized.includes("score")) {
-    return "Scores are deterministic weighted calculations. In backend mode, real/open GeoJSON evidence drives the component scores while synthetic layers are excluded from numeric scoring.";
+    return "Scores are deterministic weighted calculations. In backend mode, visible open-data and synthetic/demo GeoJSON layers drive the component scores with source limitations disclosed.";
   }
   if (normalized.includes("mcp") || normalized.includes("tool")) {
     return "The backend exposes planning tools through chat and the MCP endpoint. The browser keeps using REST.";
   }
-  return "Visible map layers define the selected evidence set. Real/open layers can support scoring; synthetic layers are context and uncertainty only.";
+  return "InfraAI SiteCompass works by combining the selected map location, visible infrastructure layers, planning focus, and scenario. The backend scores readiness from visible open-data and synthetic/demo GeoJSON layers, then the agent explains evidence, gaps, uncertainty, and recommended next steps.";
 }
 
 function createAssistantMessage(content: string): ChatMessage {
@@ -272,9 +391,9 @@ function mapLocationFallbackAnswer(analysis: SiteAnalysisResult) {
       (driver) =>
         `${driver.component}: ${driver.score}/100 from ${driver.supportingLayers.join(", ")}`
     );
-  const synthetic = analysis.excludedSyntheticLayers
+  const synthetic = analysis.scoreDrivers
+    .flatMap((driver) => driver.syntheticSupportingLayers ?? [])
     .slice(0, 4)
-    .map((layer) => layer.layerLabel)
     .join(", ");
   return [
     `Map context for ${site.label} (${site.lat.toFixed(5)}, ${site.lng.toFixed(5)}).`,
@@ -283,8 +402,8 @@ function mapLocationFallbackAnswer(analysis: SiteAnalysisResult) {
       ? `Visible infrastructure signals: ${drivers.join("; ")}.`
       : "No backend proximity-matched facilities are available in fallback mode.",
     synthetic
-      ? `Synthetic context excluded from scoring: ${synthetic}.`
-      : "No synthetic context was selected.",
+      ? `Synthetic/demo data included in scoring: ${synthetic}.`
+      : "No synthetic/demo scoring evidence was selected.",
     "Run the FastAPI backend for real nearby-asset matching from local GeoJSON.",
   ].join(" ");
 }

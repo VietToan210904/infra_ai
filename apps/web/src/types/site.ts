@@ -94,6 +94,37 @@ export interface RoadmapItem {
   actions: string[];
 }
 
+export interface ScoreFormulaTerm {
+  component: string;
+  label: string;
+  weightPercent: number;
+  score: number;
+  contribution: number;
+  direction: "readiness" | "gap" | "priority" | "context";
+  explanation: string;
+}
+
+export interface ScenarioImpact {
+  component: string;
+  label: string;
+  beforeScore: number;
+  afterScore: number;
+  delta: number;
+  explanation: string;
+}
+
+export interface PlanningContext {
+  focusLabel: string;
+  focusQuestion: string;
+  scenarioLabel: string;
+  scenarioDescription: string;
+  scoreFormula: ScoreFormulaTerm[];
+  relevantComponents: string[];
+  scenarioImpacts: ScenarioImpact[];
+  focusSpecificEvidenceNeeds: string[];
+  focusSpecificWarnings: string[];
+}
+
 export interface EvidenceSummary {
   activeLayerCount: number;
   scoredLayerCount: number;
@@ -111,8 +142,14 @@ export interface ScoreDriver {
   evidenceCount: number;
   nearestEvidenceKm: number | null;
   supportingLayers: string[];
+  openDataSupportingLayers: string[];
+  syntheticSupportingLayers: string[];
   excludedSyntheticLayers: string[];
   explanation: string;
+  includedInFocusScore: boolean;
+  formulaWeight: number | null;
+  scenarioAdjustment: number;
+  focusSpecificExplanation: string;
 }
 
 export interface MatchedEvidence {
@@ -173,6 +210,7 @@ export interface SiteAnalysisResult {
   strengths: string[];
   priorityInvestments: string[];
   roadmap: RoadmapItem[];
+  planningContext: PlanningContext;
   evidenceSummary: EvidenceSummary;
   scoreDrivers: ScoreDriver[];
   matchedEvidence: MatchedEvidence[];

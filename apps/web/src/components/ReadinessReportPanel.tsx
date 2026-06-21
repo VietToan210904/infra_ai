@@ -406,7 +406,7 @@ export function ReadinessReportPanel({
                 <div className="flex items-start justify-between gap-4">
                   <div>
                     <p className="text-xs font-medium uppercase text-white/72">
-                      Readiness score
+                      {analysis.planningContext.focusLabel}
                     </p>
                     <div className="mt-2 flex items-end gap-2">
                       <span className="text-5xl font-semibold tracking-normal">
@@ -430,6 +430,10 @@ export function ReadinessReportPanel({
                   value={analysis.suitability.score}
                   className="mt-5 bg-white/24 [&>div]:bg-[linear-gradient(90deg,#f8ead3,#ffffff)]"
                 />
+                <p className="mt-4 text-sm leading-relaxed text-white/82">
+                  {analysis.planningContext.focusQuestion} Scenario:{" "}
+                  {analysis.planningContext.scenarioLabel}.
+                </p>
               </section>
 
               <section className="space-y-2">
@@ -499,7 +503,7 @@ export function ReadinessReportPanel({
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <h3 className="flex items-center gap-2 text-sm font-semibold">
                     <MapPin className="h-4 w-4 text-primary" />
-                    Evidence used for scoring
+                    Data used in score
                   </h3>
                   <Badge variant="outline">
                     {analysis.evidenceSummary.scoredLayerCount} scored layers
@@ -518,7 +522,7 @@ export function ReadinessReportPanel({
                     value={analysis.evidenceSummary.realOpenLayerCount}
                   />
                   <EvidenceMetric
-                    label="Synthetic excluded"
+                    label="Synthetic/demo used"
                     value={analysis.evidenceSummary.syntheticLayerCount}
                   />
                   <EvidenceMetric
@@ -539,13 +543,18 @@ export function ReadinessReportPanel({
                 <div>
                   <h3 className="text-sm font-semibold">Evidence-backed score drivers</h3>
                   <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                    Each component score below shows the evidence used, the nearest
-                    matched assets, and the data caveat. Feature counts indicate
-                    mapped proximity, not verified capacity or feasibility.
+                    Components marked "Used in this score" are in the selected
+                    planning-focus formula. Context-only components can still
+                    inform interpretation, but they do not change this score.
                   </p>
                 </div>
                 <div className="grid gap-3 md:grid-cols-2">
-                  {analysis.scoreDrivers.map((driver) => (
+                  {[...analysis.scoreDrivers]
+                    .sort((a, b) =>
+                      Number(b.includedInFocusScore) - Number(a.includedInFocusScore) ||
+                      a.component.localeCompare(b.component)
+                    )
+                    .map((driver) => (
                     <ScoreDriverCard
                       key={driver.component}
                       driver={driver}
@@ -568,20 +577,18 @@ export function ReadinessReportPanel({
                   </div>
                 ) : (
                   <p className="rounded-xl border bg-background/35 p-3 text-sm text-muted-foreground">
-                    No nearby real/open evidence features were matched for the active layers.
+                    No nearby scored evidence features were matched for the active layers.
                   </p>
                 )}
               </section>
 
               <section className="grid gap-3 md:grid-cols-2">
                 <AgentReviewList
-                  title="Excluded synthetic context"
+                  title="Synthetic/demo data used"
                   items={
-                    analysis.excludedSyntheticLayers.length > 0
-                      ? analysis.excludedSyntheticLayers.map(
-                          (layer) => `${layer.layerLabel}: ${layer.reason}`
-                        )
-                      : ["No synthetic layers were active or excluded from scoring."]
+                    syntheticEvidenceUsed(analysis).length > 0
+                      ? syntheticEvidenceUsed(analysis)
+                      : ["No synthetic/demo evidence was matched for the selected layers."]
                   }
                 />
                 <AgentReviewList
@@ -596,15 +603,21 @@ export function ReadinessReportPanel({
                     Planning focus
                   </p>
                   <p className="mt-1 text-sm font-medium">
-                    {planningFocusLabels[analysis.intent]}
+                    {analysis.planningContext.focusLabel || planningFocusLabels[analysis.intent]}
+                  </p>
+                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                    {analysis.planningContext.focusQuestion}
                   </p>
                 </div>
                 <div className="rounded-xl border bg-background/35 p-3">
                   <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">
-                    Recommended path
+                    Scenario
+                  </p>
+                  <p className="mt-1 text-sm font-medium">
+                    {analysis.planningContext.scenarioLabel}
                   </p>
                   <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                    {analysis.recommendedInfrastructurePath}
+                    {analysis.planningContext.scenarioDescription}
                   </p>
                 </div>
                 <div className="rounded-xl border bg-background/35 p-3 md:col-span-2">
@@ -615,6 +628,14 @@ export function ReadinessReportPanel({
                     {analysis.querySummary}
                   </p>
                 </div>
+                <div className="rounded-xl border bg-background/35 p-3 md:col-span-2">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">
+                    Recommended path
+                  </p>
+                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                    {analysis.recommendedInfrastructurePath}
+                  </p>
+                </div>
               </section>
 
               <Separator />
@@ -623,8 +644,12 @@ export function ReadinessReportPanel({
               <section className="space-y-3">
                 <h3 className="text-sm font-semibold flex items-center gap-2">
                   <Zap className="h-4 w-4 text-primary" />
-                  Infrastructure readiness
+                  Supporting component context
                 </h3>
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  These component scores are still useful for interpretation.
+                  The selected formula above decides which ones affect this score.
+                </p>
                 <div className="rounded-xl border bg-background/30 p-4">
                   <div className="flex flex-wrap items-center gap-6 justify-center">
                     <RadarChart scores={analysis.componentScores} />
@@ -834,9 +859,9 @@ function EvidenceMetric({
 }
 
 function WhyThisScoreSection({ analysis }: { analysis: SiteAnalysisResult }) {
-  const sortedDrivers = [...analysis.scoreDrivers].sort((a, b) => b.score - a.score);
-  const strongest = sortedDrivers.slice(0, 3);
-  const weakest = [...analysis.scoreDrivers].sort((a, b) => a.score - b.score).slice(0, 3);
+  const usedDrivers = analysis.scoreDrivers.filter((driver) => driver.includedInFocusScore);
+  const strongest = [...usedDrivers].sort((a, b) => b.score - a.score).slice(0, 3);
+  const weakest = [...usedDrivers].sort((a, b) => a.score - b.score).slice(0, 3);
 
   return (
     <section className="space-y-3 rounded-[20px] border bg-background/35 p-4">
@@ -844,15 +869,64 @@ function WhyThisScoreSection({ analysis }: { analysis: SiteAnalysisResult }) {
         <div>
           <h3 className="text-sm font-semibold">Why this score?</h3>
           <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-            The overall {analysis.suitability.score}/100 score is calculated from
-            component scores, active real/open evidence layers, scenario
-            assumptions, and data-quality confidence. Synthetic layers are shown
-            as context but excluded from numeric scoring.
+            This report answers:{" "}
+            <span className="font-medium text-foreground">
+              {analysis.planningContext.focusQuestion}
+            </span>{" "}
+            The {analysis.suitability.score}/100 score uses only the weighted
+            components below for this planning focus. Synthetic layers are shown
+            with source metadata and are included in this planning score when visible.
           </p>
         </div>
         <Badge variant={readinessVariantFromLevel(analysis.suitability.level)}>
           {analysis.suitability.level}
         </Badge>
+      </div>
+
+      <div className="rounded-xl border bg-card/40 p-3">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">
+              Selected scenario
+            </p>
+            <p className="mt-1 text-sm font-medium">
+              {analysis.planningContext.scenarioLabel}
+            </p>
+            <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+              {analysis.planningContext.scenarioDescription}
+            </p>
+          </div>
+          <Badge variant="outline">Directional simulation</Badge>
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">
+          Selected formula
+        </p>
+        <div className="grid gap-2">
+          {analysis.planningContext.scoreFormula.map((term) => (
+            <div key={`${term.component}-${term.weightPercent}`} className="rounded-xl border bg-card/40 p-3">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div>
+                  <p className="text-sm font-semibold">{term.label}</p>
+                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                    {term.explanation}
+                  </p>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  <Badge variant="secondary">{term.weightPercent}% weight</Badge>
+                  <Badge variant={getReadinessVariant(term.score)}>
+                    {term.direction === "gap" ? "Gap" : "Score"} {term.score}
+                  </Badge>
+                  <Badge variant="outline">
+                    +{term.contribution.toFixed(1)}
+                  </Badge>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="grid gap-3 md:grid-cols-3">
@@ -865,15 +939,28 @@ function WhyThisScoreSection({ analysis }: { analysis: SiteAnalysisResult }) {
           value={analysis.evidenceSummary.scoredLayerCount}
         />
         <EvidenceMetric
-          label="Synthetic excluded"
+          label="Synthetic/demo used"
           value={analysis.evidenceSummary.syntheticLayerCount}
         />
       </div>
 
       <div className="grid gap-3 md:grid-cols-2">
-        <DriverSummaryList title="What raises the score" drivers={strongest} />
-        <DriverSummaryList title="What lowers the score" drivers={weakest} />
+        <DriverSummaryList title="Strongest used drivers" drivers={strongest} />
+        <DriverSummaryList title="Weakest used drivers" drivers={weakest} />
       </div>
+
+      <div className="grid gap-3 md:grid-cols-2">
+        <AgentReviewList
+          title="Focus-specific evidence needed"
+          items={analysis.planningContext.focusSpecificEvidenceNeeds}
+        />
+        <AgentReviewList
+          title="Focus-specific warnings"
+          items={analysis.planningContext.focusSpecificWarnings}
+        />
+      </div>
+
+      <ScenarioImpactList impacts={analysis.planningContext.scenarioImpacts} />
 
       <div className="rounded-xl border border-amber-300/40 bg-amber-50/70 p-3 text-sm leading-relaxed text-amber-950">
         <span className="font-semibold">Important:</span> matched features are
@@ -882,6 +969,49 @@ function WhyThisScoreSection({ analysis }: { analysis: SiteAnalysisResult }) {
         feasibility.
       </div>
     </section>
+  );
+}
+
+function ScenarioImpactList({
+  impacts,
+}: {
+  impacts: SiteAnalysisResult["planningContext"]["scenarioImpacts"];
+}) {
+  if (impacts.length === 0) {
+    return (
+      <div className="rounded-xl border bg-card/40 p-3">
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">
+          Scenario impact
+        </p>
+        <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+          No component values changed because this is the baseline scenario.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="rounded-xl border bg-card/40 p-3">
+      <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">
+        Scenario impact
+      </p>
+      <div className="mt-2 grid gap-2 md:grid-cols-2">
+        {impacts.map((impact) => (
+          <div key={impact.component} className="rounded-lg border bg-background/40 p-2">
+            <div className="flex items-center justify-between gap-2">
+              <p className="text-sm font-medium">{impact.label}</p>
+              <Badge variant={impact.delta >= 0 ? "success" : "outline"}>
+                {impact.delta >= 0 ? "+" : ""}
+                {impact.delta}
+              </Badge>
+            </div>
+            <p className="mt-1 text-xs text-muted-foreground">
+              {impact.beforeScore} -&gt; {impact.afterScore}. {impact.explanation}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -897,8 +1027,9 @@ function DriverSummaryList({
       <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">
         {title}
       </p>
-      <ul className="mt-2 space-y-2 text-sm text-muted-foreground">
-        {drivers.map((driver) => (
+      {drivers.length > 0 ? (
+        <ul className="mt-2 space-y-2 text-sm text-muted-foreground">
+          {drivers.map((driver) => (
           <li key={driver.component} className="flex items-start gap-2">
             <span
               className="mt-1.5 h-2 w-2 shrink-0 rounded-full"
@@ -908,13 +1039,20 @@ function DriverSummaryList({
               <span className="font-medium text-foreground">
                 {driver.component}: {driver.score}/100
               </span>
+              {driver.formulaWeight !== null ? `; weight ${driver.formulaWeight}%` : ""}
               {driver.nearestEvidenceKm !== null
                 ? `; nearest evidence ${driver.nearestEvidenceKm.toFixed(2)} km`
                 : "; no direct nearby evidence"}
             </span>
           </li>
-        ))}
-      </ul>
+          ))}
+        </ul>
+      ) : (
+        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+          This focus uses an aggregate or gap-based formula term rather than a
+          direct component driver card.
+        </p>
+      )}
     </div>
   );
 }
@@ -932,6 +1070,23 @@ function ScoreDriverCard({
   driver: SiteAnalysisResult["scoreDrivers"][number];
   evidence: SiteAnalysisResult["matchedEvidence"];
 }) {
+  const supportingLayers = driver.supportingLayers ?? [];
+  const openDataSupportingLayers = driver.openDataSupportingLayers ?? [];
+  const syntheticSupportingLayers = driver.syntheticSupportingLayers ?? [];
+  const excludedSyntheticLayers = driver.excludedSyntheticLayers ?? [];
+  const formulaWeight = driver.formulaWeight ?? null;
+  const scenarioAdjustment = driver.scenarioAdjustment ?? 0;
+  const status = driver.includedInFocusScore
+    ? "Used in this score"
+    : driver.evidenceCount === 0
+      ? "Evidence gap"
+      : "Context only";
+  const statusVariant: "success" | "outline" | "secondary" = driver.includedInFocusScore
+    ? "success"
+    : driver.evidenceCount === 0
+      ? "outline"
+      : "secondary";
+
   return (
     <div className="rounded-xl border bg-background/35 p-3">
       <div className="flex items-start justify-between gap-3">
@@ -944,16 +1099,45 @@ function ScoreDriverCard({
               : ""}
           </p>
         </div>
-        <Badge variant={getReadinessVariant(driver.score)}>{driver.score}</Badge>
+        <div className="flex flex-col items-end gap-1.5">
+          <Badge variant={getReadinessVariant(driver.score)}>{driver.score}</Badge>
+          <Badge variant={statusVariant}>{status}</Badge>
+        </div>
+      </div>
+      <div className="mt-2 flex flex-wrap gap-2">
+        {formulaWeight !== null && (
+          <Badge variant="secondary">{formulaWeight}% formula weight</Badge>
+        )}
+        {scenarioAdjustment !== 0 && (
+          <Badge variant={scenarioAdjustment > 0 ? "success" : "outline"}>
+            Scenario {scenarioAdjustment > 0 ? "+" : ""}
+            {scenarioAdjustment}
+          </Badge>
+        )}
       </div>
       <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+        {driver.focusSpecificExplanation || driver.explanation}
+      </p>
+      <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
         {driver.explanation}
       </p>
-      {driver.supportingLayers.length > 0 && (
+      {supportingLayers.length > 0 && (
         <p className="mt-2 text-xs text-slate-500">
-          Layers: {driver.supportingLayers.join(", ")}
+          Layers: {supportingLayers.join(", ")}
         </p>
       )}
+      <div className="mt-2 flex flex-wrap gap-2">
+        {openDataSupportingLayers.length > 0 && (
+          <Badge variant="outline">
+            Open-data: {openDataSupportingLayers.length}
+          </Badge>
+        )}
+        {syntheticSupportingLayers.length > 0 && (
+          <Badge variant="warning">
+            Synthetic/demo: {syntheticSupportingLayers.length}
+          </Badge>
+        )}
+      </div>
       <div className="mt-3 rounded-lg border bg-card/40 p-2">
         <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">
           Evidence behind this component
@@ -976,16 +1160,21 @@ function ScoreDriverCard({
           </ul>
         ) : (
           <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-            No direct real/open evidence feature was matched for this component.
-            This score is a proxy or baseline until a relevant authoritative
-            dataset is added.
+            No direct evidence feature was matched for this component. This
+            score is a proxy or baseline until a relevant dataset is added.
           </p>
         )}
       </div>
-      {driver.excludedSyntheticLayers.length > 0 && (
+      {excludedSyntheticLayers.length > 0 && (
         <p className="mt-2 rounded-lg border border-amber-300/40 bg-amber-50/70 p-2 text-xs leading-relaxed text-amber-950">
-          Synthetic context excluded from scoring:{" "}
-          {driver.excludedSyntheticLayers.join(", ")}.
+          Synthetic/demo supporting layers:{" "}
+          {excludedSyntheticLayers.join(", ")}.
+        </p>
+      )}
+      {syntheticSupportingLayers.length > 0 && (
+        <p className="mt-2 rounded-lg border border-amber-300/40 bg-amber-50/70 p-2 text-xs leading-relaxed text-amber-950">
+          Synthetic/demo data is included in this score driver and still needs
+          validation before real planning decisions.
         </p>
       )}
     </div>
@@ -996,8 +1185,25 @@ function evidenceForDriver(
   analysis: SiteAnalysisResult,
   driver: SiteAnalysisResult["scoreDrivers"][number]
 ) {
+  const supportingLayers = driver.supportingLayers ?? [];
   return analysis.matchedEvidence.filter((item) =>
-    driver.supportingLayers.includes(item.layerLabel)
+    supportingLayers.includes(item.layerLabel)
+  );
+}
+
+function syntheticEvidenceUsed(analysis: SiteAnalysisResult) {
+  const syntheticItems = analysis.matchedEvidence.filter(
+    (item) => item.sourceType === "synthetic"
+  );
+  if (!syntheticItems.length && analysis.evidenceSummary.syntheticLayerCount > 0) {
+    return [
+      `${analysis.evidenceSummary.syntheticLayerCount} synthetic/demo layer(s) contributed to scoring, but no nearby feature was selected for citation.`,
+    ];
+  }
+  return syntheticItems.slice(0, 8).map((item) =>
+    `${item.layerLabel}: ${item.name}${
+      item.distanceKm !== null ? ` (${item.distanceKm.toFixed(2)} km)` : ""
+    }`
   );
 }
 

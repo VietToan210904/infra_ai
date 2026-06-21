@@ -57,9 +57,9 @@ export function InfrastructureLayerPanel({
             Real and synthetic infrastructure layers
           </div>
           <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-            OpenStreetMap and external open-data overlays for early visual
-            inspection. Synthetic layers fill unavailable sources for demo
-            planning only and do not verify feasibility.
+            All visible open-data and synthetic/demo overlays are included in
+            AI scoring. Source type, confidence, completeness, and limitations
+            remain visible for review.
           </p>
         </div>
         <div className="flex flex-wrap gap-2">

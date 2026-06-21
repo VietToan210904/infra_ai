@@ -5,7 +5,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { planningFocusOptions } from "@/data/planningOptions";
+import { planningFocusDetails, planningFocusOptions } from "@/data/planningOptions";
 import type { InfrastructureIntent } from "@/types/site";
 
 interface InfrastructureSelectorProps {
@@ -27,16 +27,26 @@ export function InfrastructureSelector({
         onValueChange={(next) => onChange(next as InfrastructureIntent)}
       >
         <SelectTrigger aria-label="Planning focus">
-          <SelectValue />
+          <SelectValue>
+            {planningFocusDetails[value].label}
+          </SelectValue>
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className="w-[min(92vw,360px)]">
           {planningFocusOptions.map(([optionValue, label]) => (
             <SelectItem key={optionValue} value={optionValue}>
-              {label}
+              <div className="flex min-w-0 flex-col gap-0.5 py-1">
+                <span className="truncate">{label}</span>
+                <span className="max-w-[300px] whitespace-normal text-xs leading-snug text-muted-foreground">
+                  {planningFocusDetails[optionValue].description}
+                </span>
+              </div>
             </SelectItem>
           ))}
         </SelectContent>
       </Select>
+      <p className="text-xs leading-relaxed text-muted-foreground">
+        {planningFocusDetails[value].example}
+      </p>
     </div>
   );
 }

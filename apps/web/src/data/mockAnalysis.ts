@@ -1,8 +1,9 @@
-import { normalizeInfrastructureIntent } from "@/data/planningOptions";
+import { normalizeInfrastructureIntent, planningFocusDetails } from "@/data/planningOptions";
 import type {
   AnalyzeSitePayload,
   ComponentScores,
   InfrastructureIntent,
+  PlanningContext,
   ScenarioType,
   SiteAnalysisResult,
 } from "@/types/site";
@@ -30,6 +31,105 @@ const baseComponentScores: ComponentScores = {
 };
 
 const clampScore = (score: number) => Math.round(Math.max(0, Math.min(100, score)));
+
+const componentLabels: Record<string, string> = {
+  power: "Power and grid context",
+  connectivity: "Connectivity and interconnection",
+  coolingWater: "Cooling and water context",
+  physicalFeasibility: "Land, logistics, and physical feasibility",
+  computeEcosystem: "Compute and innovation ecosystem",
+  sectorDemand: "Civic sector demand",
+  governance: "Governance readiness proxy",
+  digitalAccess: "Digital access proxy",
+  aiLiteracy: "AI literacy proxy",
+  dataMaturity: "Data maturity proxy",
+  equity: "Equity and access proxy",
+  resilience: "Resilience and public safety proxy",
+  dataCompleteness: "Data completeness",
+  dataFreshness: "Data freshness",
+  sourceReliability: "Source reliability",
+  geographicResolution: "Geographic resolution",
+  confidence: "Data confidence",
+  sectorAverage: "Average civic sector readiness",
+  governanceRisk: "Healthcare/government risk gap",
+  confidenceGap: "Confidence improvement need",
+};
+
+const scenarioDeltas: Record<
+  ScenarioType,
+  Partial<Record<keyof ComponentScores, number>>
+> = {
+  BUILD_NOW: {},
+  UPGRADE_FIBER_FIRST: { connectivity: 8, digitalAccess: 10, resilience: 4 },
+  VALIDATE_GRID_FIRST: { power: 10, dataCompleteness: 8, sourceReliability: 8 },
+  AI_LITERACY_TRAINING: { aiLiteracy: 14, sectorDemand: 3, equity: 3 },
+  CLOUD_FIRST: {
+    coolingWater: 8,
+    physicalFeasibility: 5,
+    dataMaturity: 4,
+    computeEcosystem: -4,
+  },
+  DELAY_INVESTMENT: { dataFreshness: -12, sectorDemand: -4, resilience: -3 },
+  GOVERNANCE_FIRST: { governance: 12, dataMaturity: 8, sourceReliability: 5 },
+  EDGE_PILOT_FIRST: {
+    resilience: 10,
+    connectivity: 4,
+    sectorDemand: 5,
+    physicalFeasibility: 2,
+  },
+  OPEN_DATA_PLATFORM_FIRST: { dataMaturity: 12, governance: 6, digitalAccess: 4 },
+};
+
+const scenarioMetadata: Record<
+  ScenarioType,
+  { label: string; description: string; caveat: string }
+> = {
+  BUILD_NOW: {
+    label: "Build now",
+    description: "Baseline view using the selected evidence set without assumed intervention.",
+    caveat: "This is a current-planning baseline, not a forecast.",
+  },
+  UPGRADE_FIBER_FIRST: {
+    label: "Upgrade fiber first",
+    description: "Assumes near-term fiber and digital access improvements before larger AI investment.",
+    caveat: "Directional simulation only; it does not verify provider capacity or cost.",
+  },
+  VALIDATE_GRID_FIRST: {
+    label: "Validate grid capacity first",
+    description: "Assumes utility validation improves power evidence and source reliability.",
+    caveat: "Directional simulation only; it does not guarantee available load.",
+  },
+  AI_LITERACY_TRAINING: {
+    label: "Launch AI literacy training",
+    description: "Assumes training improves human readiness, sector adoption, and equity.",
+    caveat: "Directional simulation only; actual outcomes depend on program design.",
+  },
+  CLOUD_FIRST: {
+    label: "Cloud-first instead of local infrastructure",
+    description: "Assumes cloud-first delivery reduces local cooling and physical burden.",
+    caveat: "Cloud-first still depends on connectivity, governance, and procurement readiness.",
+  },
+  DELAY_INVESTMENT: {
+    label: "Delay investment",
+    description: "Assumes delayed action reduces data freshness, demand momentum, and resilience.",
+    caveat: "Directional simulation only; it is not a forecast.",
+  },
+  GOVERNANCE_FIRST: {
+    label: "Governance first",
+    description: "Assumes governance, data maturity, and source reliability improve before scale-up.",
+    caveat: "Policy implementation must be validated.",
+  },
+  EDGE_PILOT_FIRST: {
+    label: "Edge pilot first",
+    description: "Assumes small edge pilots improve resilience and local service readiness.",
+    caveat: "Hardware siting and operations still need review.",
+  },
+  OPEN_DATA_PLATFORM_FIRST: {
+    label: "Open data platform first",
+    description: "Assumes data platform work improves data maturity, governance, and access.",
+    caveat: "Data-sharing agreements and stewardship still need validation.",
+  },
+};
 
 function classifyReadinessLevel(score: number) {
   if (score >= 80) return "Strong readiness";
@@ -74,7 +174,7 @@ function calculateConfidence(scores: ComponentScores) {
   return {
     score,
     level,
-    explanation: `Confidence is ${level.toLowerCase()} because data completeness is ${scores.dataCompleteness}/100, freshness is ${scores.dataFreshness}/100, source reliability is ${scores.sourceReliability}/100, and geographic resolution is ${scores.geographicResolution}/100. Open-data and synthetic layers provide planning context but do not verify feasibility.`,
+    explanation: `Confidence is ${level.toLowerCase()} because data completeness is ${scores.dataCompleteness}/100, freshness is ${scores.dataFreshness}/100, source reliability is ${scores.sourceReliability}/100, and geographic resolution is ${scores.geographicResolution}/100. Open-data and synthetic/demo layers may contribute to the planning score but do not verify feasibility.`,
   } as const;
 }
 
@@ -166,52 +266,11 @@ function applyScenarioAdjustments(
   scores: ComponentScores
 ): ComponentScores {
   const adjusted = { ...scores };
-  const update = (key: keyof ComponentScores, delta: number) => {
-    adjusted[key] = clampScore(adjusted[key] + delta);
-  };
-
-  if (scenario === "UPGRADE_FIBER_FIRST") {
-    update("connectivity", 8);
-    update("digitalAccess", 10);
-    update("resilience", 4);
-  }
-  if (scenario === "VALIDATE_GRID_FIRST") {
-    update("power", 10);
-    update("dataCompleteness", 8);
-    update("sourceReliability", 8);
-  }
-  if (scenario === "AI_LITERACY_TRAINING") {
-    update("aiLiteracy", 14);
-    update("sectorDemand", 3);
-    update("equity", 3);
-  }
-  if (scenario === "CLOUD_FIRST") {
-    update("coolingWater", 8);
-    update("physicalFeasibility", 5);
-    update("dataMaturity", 4);
-    update("computeEcosystem", -4);
-  }
-  if (scenario === "DELAY_INVESTMENT") {
-    update("dataFreshness", -12);
-    update("sectorDemand", -4);
-    update("resilience", -3);
-  }
-  if (scenario === "GOVERNANCE_FIRST") {
-    update("governance", 12);
-    update("dataMaturity", 8);
-    update("sourceReliability", 5);
-  }
-  if (scenario === "EDGE_PILOT_FIRST") {
-    update("resilience", 10);
-    update("connectivity", 4);
-    update("sectorDemand", 5);
-    update("physicalFeasibility", 2);
-  }
-  if (scenario === "OPEN_DATA_PLATFORM_FIRST") {
-    update("dataMaturity", 12);
-    update("governance", 6);
-    update("digitalAccess", 4);
-  }
+  Object.entries(scenarioDeltas[scenario]).forEach(([key, delta]) => {
+    adjusted[key as keyof ComponentScores] = clampScore(
+      adjusted[key as keyof ComponentScores] + (delta ?? 0)
+    );
+  });
 
   return adjusted;
 }
@@ -445,7 +504,7 @@ function buildWarnings(
   }
   warnings.push(nonGoalWarning);
   warnings.push(
-    "Synthetic and open-data layers are planning placeholders and cannot prove AI infrastructure feasibility."
+    "Open-data and synthetic/demo layers may be included in the planning score, but they cannot prove AI infrastructure feasibility."
   );
   return warnings;
 }
@@ -506,22 +565,22 @@ function buildAgentReview(scores: ComponentScores, activeLayers: string[]) {
     evidenceGaps: [
       "Open-data layers may be incomplete or outdated.",
       syntheticLayerCount
-        ? `${syntheticLayerCount} visible layer(s) are synthetic placeholders.`
-        : "Synthetic placeholders may still be present in the fallback profile.",
+        ? `${syntheticLayerCount} visible synthetic/demo layer(s) were included in the fallback planning score.`
+        : "No synthetic/demo layer was selected in the fallback profile.",
       "Utility, land, environmental, cybersecurity, and community validation are still required.",
     ],
     uncertaintyNotes: [
       "The report supports early planning and prioritization only.",
-      "Synthetic and open-data layers cannot prove AI infrastructure feasibility.",
+      "Synthetic/demo and open-data layers can guide planning, but they cannot prove AI infrastructure feasibility.",
     ],
     challengedAssumptions: [
       "Visible layers are assumed to be the selected evidence set.",
-      "Layer presence is treated as context, not proof of capacity.",
+      "Layer presence contributes to the planning score, but is not proof of capacity.",
       "Scenario improvements are directional estimates.",
     ],
     nextValidationSteps: [
       "Validate grid capacity, fiber, water, land, and permitting with responsible agencies.",
-      "Replace synthetic placeholders with authoritative datasets.",
+      "Validate or replace synthetic/demo assumptions with authoritative datasets.",
       "Run sector workshops before scaling AI deployments.",
     ],
     evidenceCitations: [
@@ -530,10 +589,227 @@ function buildAgentReview(scores: ComponentScores, activeLayers: string[]) {
     scoreDriverSummary:
       "Offline fallback uses deterministic mock score drivers until the backend evidence engine is available.",
     excludedEvidenceNotes: [
-      "Synthetic fallback layers are not treated as real feasibility evidence.",
+      "Synthetic/demo fallback layers are included in the planning score and must be validated before real decisions.",
     ],
     usedLlm: false,
   };
+}
+
+type FormulaDefinition = {
+  component: string;
+  weightPercent: number;
+  direction: "readiness" | "gap" | "priority" | "context";
+  explanation: string;
+};
+
+type MockScoreDriver = Omit<
+  SiteAnalysisResult["scoreDrivers"][number],
+  | "includedInFocusScore"
+  | "formulaWeight"
+  | "scenarioAdjustment"
+  | "focusSpecificExplanation"
+>;
+
+const formulaDefinitions: Record<InfrastructureIntent, FormulaDefinition[]> = {
+  GENERAL_AI_INFRASTRUCTURE: [
+    { component: "power", weightPercent: 25, direction: "readiness", explanation: "Power is the largest general infrastructure driver." },
+    { component: "connectivity", weightPercent: 20, direction: "readiness", explanation: "Connectivity supports cloud, local compute, and civic AI services." },
+    { component: "computeEcosystem", weightPercent: 15, direction: "readiness", explanation: "Compute ecosystem supports partners, talent, and operations." },
+    { component: "coolingWater", weightPercent: 15, direction: "readiness", explanation: "Cooling and water context matters for local compute options." },
+    { component: "physicalFeasibility", weightPercent: 10, direction: "readiness", explanation: "Physical feasibility constrains deployment paths." },
+    { component: "dataMaturity", weightPercent: 10, direction: "readiness", explanation: "Data maturity affects responsible AI service delivery." },
+    { component: "governance", weightPercent: 5, direction: "readiness", explanation: "Governance provides controls for safe AI adoption." },
+  ],
+  DATA_CENTER_FEASIBILITY: [
+    { component: "power", weightPercent: 30, direction: "readiness", explanation: "Grid context is the largest data center feasibility driver." },
+    { component: "connectivity", weightPercent: 20, direction: "readiness", explanation: "Fiber and interconnection context support workload access." },
+    { component: "coolingWater", weightPercent: 20, direction: "readiness", explanation: "Cooling and water feasibility must be validated." },
+    { component: "physicalFeasibility", weightPercent: 15, direction: "readiness", explanation: "Land, zoning, logistics, and construction context matter." },
+    { component: "computeEcosystem", weightPercent: 10, direction: "readiness", explanation: "Existing ecosystem helps operations and suppliers." },
+    { component: "governance", weightPercent: 5, direction: "readiness", explanation: "Governance is a necessary control gate." },
+  ],
+  PUBLIC_COMPUTE_HUB: [
+    { component: "connectivity", weightPercent: 25, direction: "readiness", explanation: "Shared compute needs reliable access." },
+    { component: "power", weightPercent: 20, direction: "readiness", explanation: "Power constrains compute scale." },
+    { component: "sectorDemand", weightPercent: 20, direction: "readiness", explanation: "Public-sector demand is central to a shared hub." },
+    { component: "computeEcosystem", weightPercent: 15, direction: "readiness", explanation: "Ecosystem proximity supports operations." },
+    { component: "governance", weightPercent: 10, direction: "readiness", explanation: "Governance controls shared access and cybersecurity." },
+    { component: "physicalFeasibility", weightPercent: 10, direction: "readiness", explanation: "Physical feasibility affects where a hub can operate." },
+  ],
+  EDGE_AI_NODES: [
+    { component: "connectivity", weightPercent: 25, direction: "readiness", explanation: "Edge nodes depend on connectivity and low-latency routes." },
+    { component: "power", weightPercent: 20, direction: "readiness", explanation: "Small nodes still need local power." },
+    { component: "sectorDemand", weightPercent: 20, direction: "readiness", explanation: "Public-service demand indicates useful pilot locations." },
+    { component: "physicalFeasibility", weightPercent: 15, direction: "readiness", explanation: "Deployment feasibility affects node placement." },
+    { component: "computeEcosystem", weightPercent: 10, direction: "readiness", explanation: "Ecosystem helps operations and maintenance." },
+    { component: "resilience", weightPercent: 10, direction: "readiness", explanation: "Resilience matters for local services." },
+  ],
+  CLOUD_FIRST_STRATEGY: [
+    { component: "connectivity", weightPercent: 30, direction: "readiness", explanation: "Cloud-first depends most on connectivity." },
+    { component: "governance", weightPercent: 20, direction: "readiness", explanation: "Cloud use requires privacy, procurement, and cybersecurity controls." },
+    { component: "dataMaturity", weightPercent: 20, direction: "readiness", explanation: "Data maturity enables safe AI service use." },
+    { component: "sectorAverage", weightPercent: 15, direction: "readiness", explanation: "Sector readiness shows likely cloud adoption capacity." },
+    { component: "digitalAccess", weightPercent: 15, direction: "readiness", explanation: "Digital access determines who can benefit." },
+  ],
+  FIBER_CONNECTIVITY_UPGRADE: [
+    { component: "digitalAccess", weightPercent: 35, direction: "gap", explanation: "Digital access gaps drive upgrade priority." },
+    { component: "sectorDemand", weightPercent: 25, direction: "readiness", explanation: "High demand increases upgrade value." },
+    { component: "connectivity", weightPercent: 20, direction: "gap", explanation: "Weak current connectivity raises priority." },
+    { component: "equity", weightPercent: 10, direction: "gap", explanation: "Equity gaps raise access-investment priority." },
+    { component: "resilience", weightPercent: 10, direction: "gap", explanation: "Resilience gaps increase the value of redundancy." },
+  ],
+  POWER_GRID_READINESS: [
+    { component: "power", weightPercent: 35, direction: "readiness", explanation: "Power context is the primary grid readiness driver." },
+    { component: "physicalFeasibility", weightPercent: 20, direction: "readiness", explanation: "Land and logistics affect grid-related delivery options." },
+    { component: "computeEcosystem", weightPercent: 15, direction: "readiness", explanation: "Existing compute ecosystem indicates demand and support." },
+    { component: "resilience", weightPercent: 15, direction: "readiness", explanation: "Resilience matters for reliable operations." },
+    { component: "confidence", weightPercent: 10, direction: "readiness", explanation: "Confidence reflects data quality." },
+    { component: "governance", weightPercent: 5, direction: "readiness", explanation: "Governance supports validation and sequencing." },
+  ],
+  CITY_DATA_PLATFORM: [
+    { component: "dataMaturity", weightPercent: 30, direction: "readiness", explanation: "Data maturity is the core platform driver." },
+    { component: "governance", weightPercent: 20, direction: "readiness", explanation: "Governance controls sharing, privacy, and ownership." },
+    { component: "digitalAccess", weightPercent: 20, direction: "readiness", explanation: "Digital access affects who can use services." },
+    { component: "sectorDemand", weightPercent: 15, direction: "readiness", explanation: "Sector demand shows public value." },
+    { component: "aiLiteracy", weightPercent: 15, direction: "readiness", explanation: "AI literacy affects adoption and safe use." },
+  ],
+  AI_LITERACY_PROGRAM: [
+    { component: "aiLiteracy", weightPercent: 35, direction: "gap", explanation: "AI literacy gaps drive training priority." },
+    { component: "sectorDemand", weightPercent: 25, direction: "readiness", explanation: "High sector demand increases training value." },
+    { component: "digitalAccess", weightPercent: 20, direction: "gap", explanation: "Digital access gaps constrain training benefit." },
+    { component: "equity", weightPercent: 10, direction: "gap", explanation: "Equity gaps raise the need for inclusive programs." },
+    { component: "physicalFeasibility", weightPercent: 10, direction: "readiness", explanation: "Implementation feasibility affects rollout." },
+  ],
+  GOVERNANCE_CYBERSECURITY: [
+    { component: "governance", weightPercent: 30, direction: "gap", explanation: "Governance gaps drive policy and cybersecurity priority." },
+    { component: "dataMaturity", weightPercent: 25, direction: "gap", explanation: "Data maturity gaps increase risk-management needs." },
+    { component: "governanceRisk", weightPercent: 20, direction: "gap", explanation: "Healthcare/government risk rises when controls are weak." },
+    { component: "sectorDemand", weightPercent: 15, direction: "readiness", explanation: "High demand increases governance urgency." },
+    { component: "confidenceGap", weightPercent: 10, direction: "gap", explanation: "Weak evidence confidence raises validation need." },
+  ],
+  SECTOR_SPECIFIC_READINESS: [
+    { component: "sectorAverage", weightPercent: 100, direction: "readiness", explanation: "Score is the average readiness across the five civic sectors." },
+  ],
+};
+
+const focusEvidenceNeeds: Record<InfrastructureIntent, string[]> = {
+  GENERAL_AI_INFRASTRUCTURE: ["Power, connectivity, compute ecosystem, cooling/water, data maturity, and governance evidence."],
+  DATA_CENTER_FEASIBILITY: ["Utility-confirmed grid capacity, fiber redundancy, cooling/water, land, zoning, and permitting evidence."],
+  PUBLIC_COMPUTE_HUB: ["Power, connectivity, public-sector demand, governance, and operating-model evidence."],
+  EDGE_AI_NODES: ["Local telecom, power, public-service demand, physical deployment, and resilience evidence."],
+  CLOUD_FIRST_STRATEGY: ["Connectivity, digital access, governance, procurement, data maturity, and sector-readiness evidence."],
+  FIBER_CONNECTIVITY_UPGRADE: ["Telecom assets, performance, access gaps, equity, resilience, and sector-demand evidence."],
+  POWER_GRID_READINESS: ["Substations, transmission, generation context, utility capacity, and resilience evidence."],
+  CITY_DATA_PLATFORM: ["Data maturity, governance, digital access, AI literacy, and agency participation evidence."],
+  AI_LITERACY_PROGRAM: ["Education, workforce, digital access, equity, and training delivery evidence."],
+  GOVERNANCE_CYBERSECURITY: ["Governance, privacy, cybersecurity, procurement, audit, and high-impact sector risk evidence."],
+  SECTOR_SPECIFIC_READINESS: ["Education, workforce, healthcare, government, nonprofit, and access/readiness evidence."],
+};
+
+const focusWarnings: Record<InfrastructureIntent, string[]> = {
+  GENERAL_AI_INFRASTRUCTURE: ["This is a broad planning score, not a construction feasibility score."],
+  DATA_CENTER_FEASIBILITY: ["AI literacy and sector demand are context only for this data center score."],
+  PUBLIC_COMPUTE_HUB: ["A public compute hub requires access governance and agency onboarding."],
+  EDGE_AI_NODES: ["Edge nodes should start as small pilots until siting and network SLAs are validated."],
+  CLOUD_FIRST_STRATEGY: ["Cloud-first reduces local facility burden but still depends on governance and connectivity."],
+  FIBER_CONNECTIVITY_UPGRADE: ["Higher score means higher upgrade priority, not stronger readiness."],
+  POWER_GRID_READINESS: ["Open-data grid assets do not prove available load or interconnection rights."],
+  CITY_DATA_PLATFORM: ["A data platform is an operating and governance investment, not only software."],
+  AI_LITERACY_PROGRAM: ["Higher score means higher training priority."],
+  GOVERNANCE_CYBERSECURITY: ["Higher score means higher governance and cybersecurity priority."],
+  SECTOR_SPECIFIC_READINESS: ["Healthcare AI should remain low-risk/admin-only until governance is validated."],
+};
+
+function buildMockPlanningContext(
+  intent: InfrastructureIntent,
+  scenario: ScenarioType,
+  beforeScores: ComponentScores,
+  afterScores: ComponentScores,
+  sectorAverage: number,
+  confidenceScore: number
+): PlanningContext {
+  const formula = formulaDefinitions[intent].map((term) => {
+    const rawScore = rawTermScore(term.component, afterScores, sectorAverage, confidenceScore);
+    const termScore = term.direction === "gap" ? 100 - rawScore : rawScore;
+    return {
+      component: term.component,
+      label: componentLabels[term.component],
+      weightPercent: term.weightPercent,
+      score: clampScore(termScore),
+      contribution: Number((termScore * (term.weightPercent / 100)).toFixed(1)),
+      direction: term.direction,
+      explanation: term.explanation,
+    };
+  });
+
+  const scenarioInfo = scenarioMetadata[scenario];
+  return {
+    focusLabel: planningFocusDetails[intent].label,
+    focusQuestion: planningFocusDetails[intent].example,
+    scenarioLabel: scenarioInfo.label,
+    scenarioDescription: scenarioInfo.description,
+    scoreFormula: formula,
+    relevantComponents: formulaDefinitions[intent].map((term) => term.component),
+    scenarioImpacts: Object.entries(scenarioDeltas[scenario] ?? {}).map(([component, delta]) => ({
+      component,
+      label: componentLabels[component],
+      beforeScore: beforeScores[component as keyof ComponentScores],
+      afterScore: afterScores[component as keyof ComponentScores],
+      delta: delta ?? 0,
+      explanation:
+        (delta ?? 0) >= 0
+          ? `The scenario assumes an improvement to ${componentLabels[component].toLowerCase()}.`
+          : `The scenario assumes a reduction to ${componentLabels[component].toLowerCase()}.`,
+    })),
+    focusSpecificEvidenceNeeds: focusEvidenceNeeds[intent],
+    focusSpecificWarnings: [...focusWarnings[intent], scenarioInfo.caveat],
+  };
+}
+
+function rawTermScore(
+  component: string,
+  scores: ComponentScores,
+  sectorAverage: number,
+  confidenceScore: number
+) {
+  if (component === "sectorAverage") return sectorAverage;
+  if (component === "confidence") return confidenceScore;
+  if (component === "governanceRisk") {
+    return Math.min(scores.governance, scores.dataMaturity);
+  }
+  if (component === "confidenceGap") return confidenceScore;
+  return scores[component as keyof ComponentScores];
+}
+
+function annotateMockScoreDrivers(
+  drivers: MockScoreDriver[],
+  planningContext: PlanningContext,
+  beforeScores: ComponentScores,
+  afterScores: ComponentScores
+) {
+  const weights = Object.fromEntries(
+    planningContext.scoreFormula.map((term) => [term.component, term.weightPercent])
+  );
+  const fieldByLabel = Object.fromEntries(
+    Object.entries(componentLabels).map(([field, label]) => [label, field])
+  );
+  return drivers.map((driver) => {
+    const field = fieldByLabel[driver.component] as keyof ComponentScores | undefined;
+    const weight = field ? weights[field] : undefined;
+    const scenarioAdjustment = field ? afterScores[field] - beforeScores[field] : 0;
+    return {
+      ...driver,
+      includedInFocusScore: typeof weight === "number",
+      formulaWeight: typeof weight === "number" ? weight : null,
+      scenarioAdjustment,
+      focusSpecificExplanation:
+        typeof weight === "number"
+          ? `Used in the ${planningContext.focusLabel} score at ${weight}% weight.`
+          : driver.evidenceCount === 0
+            ? "Evidence gap or context-only component for the selected planning focus."
+            : `Context only for ${planningContext.focusLabel}; it does not change the selected score.`,
+    };
+  });
 }
 
 function buildMockEvidence(activeLayers: string[], scores: ComponentScores) {
@@ -547,18 +823,33 @@ function buildMockEvidence(activeLayers: string[], scores: ComponentScores) {
       layer.includes("fiber_corridors")
   );
   const realLayers = activeLayers.filter((layer) => !syntheticLayers.includes(layer));
+  const relevantPowerLayers = activeLayers.filter(
+    (layer) =>
+      layer.includes("power") ||
+      layer.includes("substation") ||
+      layer.includes("transmission") ||
+      layer.includes("grid")
+  );
+  const relevantConnectivityLayers = activeLayers.filter(
+    (layer) =>
+      layer.includes("telecom") ||
+      layer.includes("peering") ||
+      layer.includes("fiber") ||
+      layer.includes("ookla") ||
+      layer.includes("cell")
+  );
   return {
     evidenceSummary: {
       activeLayerCount: activeLayers.length,
-      scoredLayerCount: realLayers.length,
+      scoredLayerCount: activeLayers.length,
       realOpenLayerCount: realLayers.length,
       syntheticLayerCount: syntheticLayers.length,
-      matchedFeatureCount: realLayers.length,
+      matchedFeatureCount: activeLayers.length,
       nearestEvidenceKm: null,
       summary:
-        "Offline fallback evidence is not proximity-calculated. Run the FastAPI backend for real/open GeoJSON evidence matching.",
+        `Offline fallback evidence is not proximity-calculated. ${activeLayers.length} visible layer(s) are included in the planning score: ${realLayers.length} open-data layer(s) and ${syntheticLayers.length} synthetic/demo layer(s). Run the FastAPI backend for local GeoJSON evidence matching.`,
       confidenceImpact:
-        "Low reliability in frontend fallback mode; backend evidence analysis is required.",
+        "Low reliability in frontend fallback mode; backend evidence analysis is required before decisions.",
     },
     scoreDrivers: [
       {
@@ -566,30 +857,41 @@ function buildMockEvidence(activeLayers: string[], scores: ComponentScores) {
         score: scores.power,
         evidenceCount: 0,
         nearestEvidenceKm: null,
-        supportingLayers: realLayers.filter((layer) => layer.includes("power") || layer.includes("substation") || layer.includes("transmission")),
-        excludedSyntheticLayers: syntheticLayers,
+        supportingLayers: relevantPowerLayers,
+        openDataSupportingLayers: relevantPowerLayers.filter(
+          (layer) => !syntheticLayers.includes(layer)
+        ),
+        syntheticSupportingLayers: relevantPowerLayers.filter((layer) =>
+          syntheticLayers.includes(layer)
+        ),
+        excludedSyntheticLayers: [],
         explanation:
-          "Frontend fallback does not calculate nearest assets. Use backend evidence mode for real score drivers.",
+          "Frontend fallback includes visible power/grid layers in the planning score but does not calculate nearest assets. Use backend evidence mode for proximity-based score drivers.",
       },
       {
         component: "Connectivity and interconnection",
         score: scores.connectivity,
         evidenceCount: 0,
         nearestEvidenceKm: null,
-        supportingLayers: realLayers.filter((layer) => layer.includes("telecom") || layer.includes("peering")),
-        excludedSyntheticLayers: syntheticLayers,
+        supportingLayers: relevantConnectivityLayers,
+        openDataSupportingLayers: relevantConnectivityLayers.filter(
+          (layer) => !syntheticLayers.includes(layer)
+        ),
+        syntheticSupportingLayers: relevantConnectivityLayers.filter((layer) =>
+          syntheticLayers.includes(layer)
+        ),
+        excludedSyntheticLayers: [],
         explanation:
-          "Frontend fallback does not calculate fibre or interconnection proximity.",
+          "Frontend fallback includes visible connectivity layers in the planning score but does not calculate fibre or interconnection proximity.",
       },
     ],
     matchedEvidence: [],
-    excludedSyntheticLayers: syntheticLayers.map((layerId) => ({
-      layerId,
-      layerLabel: layerId,
-      reason: "Synthetic/offline context excluded from fallback evidence scoring.",
-    })),
+    excludedSyntheticLayers: [],
     dataGaps: [
       "Backend evidence engine is unavailable in frontend fallback mode.",
+      syntheticLayers.length
+        ? `${syntheticLayers.length} synthetic/demo layer(s) are included in the fallback score and need validation.`
+        : "No synthetic/demo layer was selected in fallback mode.",
       "Authoritative utility, telecom, zoning, permitting, and survey datasets are still required.",
     ],
   };
@@ -601,7 +903,8 @@ export function buildMockAnalysis(
   const intent = normalizeInfrastructureIntent(
     payload.intent ?? payload.infrastructureIntent ?? payload.infrastructureType
   );
-  const scores = applyScenarioAdjustments(payload.scenario, baseComponentScores);
+  const beforeScores = baseComponentScores;
+  const scores = applyScenarioAdjustments(payload.scenario, beforeScores);
   const sectors = calculateSectorReadiness(scores);
   const sectorAverage = clampScore(
     sectors.reduce((total, sector) => total + sector.score, 0) / sectors.length
@@ -609,6 +912,20 @@ export function buildMockAnalysis(
   const confidence = calculateConfidence(scores);
   const score = calculateIntentSpecificScore(intent, scores, sectorAverage);
   const evidence = buildMockEvidence(payload.activeLayers, scores);
+  const planningContext = buildMockPlanningContext(
+    intent,
+    payload.scenario,
+    beforeScores,
+    scores,
+    sectorAverage,
+    confidence.score
+  );
+  const scoreDrivers = annotateMockScoreDrivers(
+    evidence.scoreDrivers,
+    planningContext,
+    beforeScores,
+    scores
+  );
 
   return {
     intent,
@@ -632,7 +949,7 @@ export function buildMockAnalysis(
     strengths: [
       "Strong urban connectivity and proximity to public-sector users.",
       "Good fit for shared AI planning across government, education, workforce, healthcare, and nonprofits.",
-      "Synthetic and open-data layers support UI demonstration and early planning only.",
+      "Open-data and synthetic/demo layers support the planning score but still require validation.",
     ],
     priorityInvestments: rankPriorityInvestments(intent, scores),
     roadmap: [
@@ -640,7 +957,7 @@ export function buildMockAnalysis(
         horizon: "0-6 months",
         actions: [
           "Validate grid, fiber, water, and land assumptions with responsible agencies.",
-          "Publish a data-quality register that separates open data, synthetic placeholders, and verified evidence.",
+          "Publish a data-quality register that separates open data, synthetic/demo assumptions, and verified evidence.",
           "Define governance, cybersecurity, privacy, and procurement rules for AI pilots.",
         ],
       },
@@ -661,7 +978,9 @@ export function buildMockAnalysis(
         ],
       },
     ],
+    planningContext,
     ...evidence,
+    scoreDrivers,
     agentReview: buildAgentReview(scores, payload.activeLayers),
     confidenceExplanation: confidence.explanation,
     gapSummary: {

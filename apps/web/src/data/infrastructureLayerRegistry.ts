@@ -691,7 +691,6 @@ export const plannedInfrastructureLayers = infrastructureLayers.filter(
 );
 
 export const defaultVisibleInfrastructureLayerIds = availableInfrastructureLayers
-  .filter((layer) => layer.visibleByDefault)
   .map((layer) => layer.id);
 
 export const infrastructureLayersById = infrastructureLayers.reduce(

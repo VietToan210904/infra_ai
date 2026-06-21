@@ -15,7 +15,7 @@ import { InfrastructureLayerPanel } from "@/components/InfrastructureLayerPanel"
 import { InfrastructureSelector } from "@/components/InfrastructureSelector";
 import { MapPanel } from "@/components/MapPanel";
 import { ReadinessReportPanel } from "@/components/ReadinessReportPanel";
-import { ScenarioSelector, scenarioLabels } from "@/components/ScenarioSelector";
+import { ScenarioSelector, scenarioDetails, scenarioLabels } from "@/components/ScenarioSelector";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -26,6 +26,7 @@ import {
   type InfrastructureLayerRuntimeState,
 } from "@/data/infrastructureLayerRegistry";
 import { candidateZones } from "@/data/mockGeoJson";
+import { planningFocusDetails } from "@/data/planningOptions";
 import { cn } from "@/lib/utils";
 import type {
   InfrastructureIntent,
@@ -263,8 +264,19 @@ function App() {
                   </div>
                   <div className="grid gap-2 text-sm sm:grid-cols-2">
                     <StatusItem label="Coordinates" value={selectedCoordinates} />
+                    <StatusItem
+                      label="Planning focus"
+                      value={planningFocusDetails[infrastructureIntent].label}
+                    />
                     <StatusItem label="Scenario" value={scenarioLabels[scenario]} />
                   </div>
+                  <p className="max-w-2xl rounded-xl border bg-background/40 p-3 text-sm leading-relaxed text-muted-foreground">
+                    This analysis will answer:{" "}
+                    <span className="font-medium text-foreground">
+                      {planningFocusDetails[infrastructureIntent].example}
+                    </span>{" "}
+                    Scenario assumption: {scenarioDetails[scenario].changes}
+                  </p>
                 </div>
 
                 <Button

@@ -13,10 +13,11 @@ export function DataTransparencyNotice() {
       <AlertTitle>Open-data and synthetic planning view only</AlertTitle>
       <AlertDescription>
         Real layers come from OpenStreetMap or public datasets and may be
-        incomplete or outdated. Synthetic layers are demo placeholders. This map
-        supports early exploration and does not replace engineering, grid, land,
-        environmental, water, cooling, permitting, cybersecurity, or public
-        consultation review.
+        incomplete or outdated. Visible synthetic/demo layers can contribute to
+        the planning score, but they are assumptions that must be validated.
+        This map supports early exploration and does not replace engineering,
+        grid, land, environmental, water, cooling, permitting, cybersecurity,
+        or public consultation review.
       </AlertDescription>
     </Alert>
   );

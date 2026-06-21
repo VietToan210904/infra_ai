@@ -6,6 +6,8 @@ import json
 import os
 from typing import Any
 
+from .intents import InfrastructureIntent, normalize_intent
+
 
 class OpenAIExplanationClient:
     """Thin optional wrapper around the official OpenAI Python SDK."""
@@ -69,7 +71,7 @@ class OpenAIExplanationClient:
             "scores. Do not approve construction, permits, funding, grid "
             "capacity, or feasibility. Ground the answer in the supplied tool "
             "results. Include the score, readiness level, confidence, evidence "
-            "citations, score drivers, excluded synthetic layers, data gaps, "
+            "citations, score drivers, synthetic/demo layers used, data gaps, "
             "priority investments, and human review warning when relevant. "
             "Answer the user's specific question instead of repeating the full "
             "report. Format with concise Markdown headings and bullet lists. "
@@ -96,6 +98,72 @@ class OpenAIExplanationClient:
             return None
 
         return text.strip()
+
+    def classify_intent(
+        self,
+        *,
+        message: str,
+        fallback_intent: str | InfrastructureIntent | None = None,
+    ) -> dict[str, str] | None:
+        """Classify a message into one allowed infrastructure intent."""
+        if not self.is_available:
+            return None
+
+        try:
+            from openai import OpenAI
+        except ImportError:
+            return None
+
+        fallback = normalize_intent(fallback_intent).value
+        allowed_intents = [intent.value for intent in InfrastructureIntent]
+        instructions = (
+            "Classify the user's AI infrastructure planning message into exactly "
+            "one allowed intent. Return only compact JSON with keys: intent, "
+            "confidence, reason. The intent must be one of the allowed intents. "
+            "Use GENERAL_AI_INFRASTRUCTURE when the message is only a greeting, "
+            "general help question, or too ambiguous. Do not invent new labels."
+        )
+        payload = {
+            "message": message,
+            "allowed_intents": allowed_intents,
+            "fallback_intent": fallback,
+        }
+
+        client = OpenAI(
+            api_key=self.api_key,
+            timeout=self.timeout_seconds,
+            max_retries=0,
+        )
+        try:
+            response = client.responses.create(
+                model=self.model,
+                instructions=instructions,
+                input=json.dumps(payload, ensure_ascii=True),
+                max_output_tokens=180,
+            )
+        except Exception:
+            return None
+
+        text = getattr(response, "output_text", None)
+        if not isinstance(text, str) or not text.strip():
+            return None
+
+        parsed = _parse_json_object(text)
+        raw_intent = str(parsed.get("intent", "")).strip().upper()
+        if raw_intent not in allowed_intents:
+            return None
+
+        confidence = str(parsed.get("confidence", "medium")).strip().lower()
+        if confidence not in {"low", "medium", "high"}:
+            confidence = "medium"
+
+        reason = str(parsed.get("reason", "")).strip()
+        return {
+            "intent": normalize_intent(raw_intent).value,
+            "confidence": confidence,
+            "reason": reason[:240],
+            "method": "llm",
+        }
 
     def generate_report_review(
         self,
@@ -125,7 +193,7 @@ class OpenAIExplanationClient:
             "You are the report-review agent for InfraAI SiteCompass. Use only "
             "the supplied analysis and fallback review. Do not change or invent "
             "scores. Assess reliability, evidence gaps, uncertainty, assumptions, "
-            "matched evidence, excluded synthetic layers, score drivers, and next "
+            "matched evidence, synthetic/demo layers used, score drivers, and next "
             "validation steps. State clearly that open-data and synthetic layers "
             "cannot prove feasibility. Keep the review to 3-5 sentences."
         )
@@ -152,3 +220,19 @@ def _env_float(name: str, default: float) -> float:
         return float(os.getenv(name, str(default)))
     except ValueError:
         return default
+
+
+def _parse_json_object(text: str) -> dict[str, Any]:
+    try:
+        value = json.loads(text)
+    except json.JSONDecodeError:
+        start = text.find("{")
+        end = text.rfind("}")
+        if start == -1 or end == -1 or end <= start:
+            return {}
+        try:
+            value = json.loads(text[start : end + 1])
+        except json.JSONDecodeError:
+            return {}
+
+    return value if isinstance(value, dict) else {}

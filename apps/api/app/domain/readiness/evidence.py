@@ -186,6 +186,204 @@ LAYER_SPECS: dict[str, LayerSpec] = {
         "medium",
         "unknown",
     ),
+    "wri_power_plants": LayerSpec(
+        "wri_power_plants",
+        "Synthetic power capacity",
+        Path("external/hcmc/wri_power_plants.geojson"),
+        "power",
+        "synthetic",
+        "low",
+        "partial",
+    ),
+    "opencellid_cell_sites": LayerSpec(
+        "opencellid_cell_sites",
+        "Synthetic cellular observations",
+        Path("external/hcmc/opencellid_cell_sites.geojson"),
+        "connectivity",
+        "synthetic",
+        "low",
+        "partial",
+    ),
+    "ookla_fixed_performance": LayerSpec(
+        "ookla_fixed_performance",
+        "Synthetic fixed network performance",
+        Path("external/hcmc/ookla_fixed_performance.geojson"),
+        "connectivity",
+        "synthetic",
+        "low",
+        "partial",
+    ),
+    "ookla_mobile_performance": LayerSpec(
+        "ookla_mobile_performance",
+        "Synthetic mobile network performance",
+        Path("external/hcmc/ookla_mobile_performance.geojson"),
+        "connectivity",
+        "synthetic",
+        "low",
+        "partial",
+    ),
+    "aqueduct_water_risk": LayerSpec(
+        "aqueduct_water_risk",
+        "Synthetic water-risk context",
+        Path("external/hcmc/aqueduct_water_risk.geojson"),
+        "coolingWater",
+        "synthetic",
+        "low",
+        "partial",
+    ),
+    "grid_capacity_verification": LayerSpec(
+        "grid_capacity_verification",
+        "Synthetic grid capacity",
+        Path("verification/hcmc/grid_capacity_verification.geojson"),
+        "power",
+        "synthetic",
+        "low",
+        "partial",
+    ),
+    "fiber_capacity_verification": LayerSpec(
+        "fiber_capacity_verification",
+        "Synthetic fibre capacity",
+        Path("verification/hcmc/fiber_capacity_verification.geojson"),
+        "connectivity",
+        "synthetic",
+        "low",
+        "partial",
+    ),
+    "cooling_feasibility_verification": LayerSpec(
+        "cooling_feasibility_verification",
+        "Synthetic cooling feasibility",
+        Path("verification/hcmc/cooling_feasibility_verification.geojson"),
+        "coolingWater",
+        "synthetic",
+        "low",
+        "partial",
+    ),
+    "zoning_verification": LayerSpec(
+        "zoning_verification",
+        "Synthetic zoning",
+        Path("verification/hcmc/zoning_verification.geojson"),
+        "physicalFeasibility",
+        "synthetic",
+        "low",
+        "partial",
+    ),
+    "permitting_status": LayerSpec(
+        "permitting_status",
+        "Synthetic permitting status",
+        Path("verification/hcmc/permitting_status.geojson"),
+        "physicalFeasibility",
+        "synthetic",
+        "low",
+        "partial",
+    ),
+    "construction_readiness": LayerSpec(
+        "construction_readiness",
+        "Synthetic construction readiness",
+        Path("verification/hcmc/construction_readiness.geojson"),
+        "physicalFeasibility",
+        "synthetic",
+        "low",
+        "partial",
+    ),
+    "ai_readiness_assessment": LayerSpec(
+        "ai_readiness_assessment",
+        "Synthetic AI readiness",
+        Path("verification/hcmc/ai_readiness_assessment.geojson"),
+        "governance",
+        "synthetic",
+        "low",
+        "partial",
+    ),
+    "fiber_corridors": LayerSpec(
+        "fiber_corridors",
+        "Synthetic fibre corridors",
+        Path("external/hcmc/fiber_corridors.geojson"),
+        "connectivity",
+        "synthetic",
+        "low",
+        "partial",
+    ),
+    "flood_risk": LayerSpec(
+        "flood_risk",
+        "Synthetic flood risk",
+        Path("external/hcmc/flood_risk.geojson"),
+        "resilience",
+        "synthetic",
+        "low",
+        "partial",
+    ),
+    "heat_risk": LayerSpec(
+        "heat_risk",
+        "Synthetic heat risk",
+        Path("external/hcmc/heat_risk.geojson"),
+        "coolingWater",
+        "synthetic",
+        "low",
+        "partial",
+    ),
+    "water_availability": LayerSpec(
+        "water_availability",
+        "Synthetic water availability",
+        Path("external/hcmc/water_availability.geojson"),
+        "coolingWater",
+        "synthetic",
+        "low",
+        "partial",
+    ),
+    "zoning": LayerSpec(
+        "zoning",
+        "Synthetic land zoning",
+        Path("external/hcmc/zoning.geojson"),
+        "physicalFeasibility",
+        "synthetic",
+        "low",
+        "partial",
+    ),
+    "protected_land": LayerSpec(
+        "protected_land",
+        "Synthetic protected land",
+        Path("external/hcmc/protected_land.geojson"),
+        "physicalFeasibility",
+        "synthetic",
+        "low",
+        "partial",
+    ),
+    "population_density": LayerSpec(
+        "population_density",
+        "Synthetic population density",
+        Path("external/hcmc/population_density.geojson"),
+        "sectorDemand",
+        "synthetic",
+        "low",
+        "partial",
+    ),
+    "workforce_readiness": LayerSpec(
+        "workforce_readiness",
+        "Synthetic workforce readiness",
+        Path("external/hcmc/workforce_readiness.geojson"),
+        "aiLiteracy",
+        "synthetic",
+        "low",
+        "partial",
+    ),
+    "digital_access_gap": LayerSpec(
+        "digital_access_gap",
+        "Synthetic digital access gap",
+        Path("external/hcmc/digital_access_gap.geojson"),
+        "digitalAccess",
+        "synthetic",
+        "low",
+        "partial",
+    ),
+    "ai_literacy_gap": LayerSpec(
+        "ai_literacy_gap",
+        "Synthetic AI literacy gap",
+        Path("external/hcmc/ai_literacy_gap.geojson"),
+        "aiLiteracy",
+        "synthetic",
+        "low",
+        "partial",
+    ),
 }
 
 SYNTHETIC_LAYER_LABELS: dict[str, str] = {
@@ -256,33 +454,24 @@ def build_evidence_grounded_scores(
     list[ExcludedSyntheticLayer],
     list[str],
 ]:
-    """Build component scores from local real/open GeoJSON evidence."""
+    """Build component scores from local open-data and synthetic GeoJSON evidence."""
     selected_layers = active_layers
-    real_layer_ids = [layer_id for layer_id in selected_layers if layer_id in LAYER_SPECS]
-    excluded_synthetic = [
-        ExcludedSyntheticLayer(
-            layerId=layer_id,
-            layerLabel=SYNTHETIC_LAYER_LABELS.get(layer_id, layer_id),
-            reason="Synthetic layer excluded from numeric scoring; retained as planning context and uncertainty.",
-        )
-        for layer_id in selected_layers
-        if layer_id in SYNTHETIC_LAYER_LABELS or layer_id.startswith("synthetic")
-    ]
+    scored_layer_ids = [layer_id for layer_id in selected_layers if layer_id in LAYER_SPECS]
+    excluded_synthetic: list[ExcludedSyntheticLayer] = []
 
     layer_stats = [
-        _analyze_layer(LAYER_SPECS[layer_id], lat, lng) for layer_id in real_layer_ids
+        _analyze_layer(LAYER_SPECS[layer_id], lat, lng) for layer_id in scored_layer_ids
     ]
     matched_evidence = _build_matched_evidence(layer_stats)
     component_scores = _component_scores_from_layers(layer_stats)
     score_drivers = _build_score_drivers(
         component_scores, layer_stats, excluded_synthetic
     )
-    data_gaps = _build_data_gaps(real_layer_ids, excluded_synthetic, component_scores)
+    data_gaps = _build_data_gaps(scored_layer_ids, layer_stats, component_scores)
     evidence_summary = _build_evidence_summary(
         active_layer_count=len(selected_layers),
         layer_stats=layer_stats,
         matched_evidence=matched_evidence,
-        excluded_synthetic=excluded_synthetic,
     )
 
     return (
@@ -424,6 +613,23 @@ def _component_average(scores: dict[str, list[int]], components: list[str]) -> i
 
 
 def _layer_score(stats: LayerStats) -> int:
+    if stats.layer.source_type == "synthetic" and stats.nearest_feature:
+        properties = stats.nearest_feature.get("properties")
+        properties = properties if isinstance(properties, dict) else {}
+        scenario_score = properties.get("scenario_score")
+        if isinstance(scenario_score, int | float):
+            nearest = stats.nearest_km
+            proximity_delta = (
+                0
+                if nearest is not None and nearest <= 1
+                else -5
+                if nearest is not None and nearest <= 3
+                else -12
+                if nearest is not None and nearest <= 10
+                else -24
+            )
+            return clamp_score(float(scenario_score) + proximity_delta)
+
     nearest = stats.nearest_km
     if nearest is None:
         distance_score = 20
@@ -462,6 +668,16 @@ def _build_score_drivers(
             stats for stats in layer_stats if stats.layer.component == component
         ]
         supporting_layers = [stats.layer.label for stats in component_layers]
+        open_data_layers = [
+            stats.layer.label
+            for stats in component_layers
+            if stats.layer.source_type != "synthetic"
+        ]
+        synthetic_layers = [
+            stats.layer.label
+            for stats in component_layers
+            if stats.layer.source_type == "synthetic"
+        ]
         nearest_values = [
             stats.nearest_km for stats in component_layers if stats.nearest_km is not None
         ]
@@ -475,6 +691,8 @@ def _build_score_drivers(
                 evidenceCount=sum(stats.matched_count_10km for stats in component_layers),
                 nearestEvidenceKm=nearest,
                 supportingLayers=supporting_layers,
+                openDataSupportingLayers=open_data_layers,
+                syntheticSupportingLayers=synthetic_layers,
                 excludedSyntheticLayers=[
                     layer.layerLabel
                     for layer in excluded_synthetic
@@ -495,7 +713,7 @@ def _driver_explanation(
     if not layer_stats:
         return (
             f"{COMPONENT_LABELS[component]} is scored from a conservative baseline "
-            "because no active real/open evidence layer contributed to this component. "
+            "because no active evidence layer contributed to this component. "
             "Treat this as an evidence gap, not as proof that the component is absent "
             "or infeasible."
         )
@@ -505,12 +723,13 @@ def _driver_explanation(
         else "nearest evidence could not be measured"
     )
     layer_names = ", ".join(stats.layer.label for stats in layer_stats)
+    source_mix = _driver_source_mix(layer_stats)
     matched_count = sum(stats.matched_count_10km for stats in layer_stats)
     quality_text = _driver_quality_text(layer_stats)
     reason = _driver_score_reason(score)
     return (
         f"{COMPONENT_LABELS[component]} scored {score}/100 because {reason}. "
-        f"Active real/open layers used: {layer_names}. The {nearest_text}, with "
+        f"Active scored layers used: {layer_names}. {source_mix} The {nearest_text}, with "
         f"{matched_count} matched feature(s) within 10 km. {quality_text} "
         "Matched features show mapped proximity and coverage; they do not prove "
         "available capacity, service quality, land rights, permits, or feasibility."
@@ -519,9 +738,9 @@ def _driver_explanation(
 
 def _driver_score_reason(score: int) -> str:
     if score >= 80:
-        return "nearby open-data evidence is strong for early planning"
+        return "nearby evidence is strong for early planning"
     if score >= 65:
-        return "nearby open-data evidence is useful but still partial"
+        return "nearby evidence is useful but still partial"
     if score >= 45:
         return "evidence is limited, farther away, or incomplete"
     return "evidence is missing, weak, or only indirectly represented"
@@ -535,6 +754,17 @@ def _driver_quality_text(layer_stats: list[LayerStats]) -> str:
         f"{', '.join(confidence_values) or 'unknown'}; data completeness: "
         f"{', '.join(completeness_values) or 'unknown'}."
     )
+
+
+def _driver_source_mix(layer_stats: list[LayerStats]) -> str:
+    open_count = sum(1 for stats in layer_stats if stats.layer.source_type != "synthetic")
+    synthetic_count = sum(1 for stats in layer_stats if stats.layer.source_type == "synthetic")
+    parts = []
+    if open_count:
+        parts.append(f"{open_count} open-data layer(s)")
+    if synthetic_count:
+        parts.append(f"{synthetic_count} synthetic/demo layer(s)")
+    return "Source mix: " + ", ".join(parts or ["no active source layers"]) + "."
 
 
 def _build_matched_evidence(layer_stats: list[LayerStats]) -> list[MatchedEvidence]:
@@ -568,7 +798,7 @@ def _build_matched_evidence(layer_stats: list[LayerStats]) -> list[MatchedEviden
                 relation=stats.nearest_relation,
                 dataLimitation=str(
                     properties.get("data_limitation")
-                    or "Open-data evidence must be validated before planning decisions."
+                    or _default_data_limitation(stats.layer.source_type)
                 ),
             )
         )
@@ -576,9 +806,15 @@ def _build_matched_evidence(layer_stats: list[LayerStats]) -> list[MatchedEviden
     return matches[:18]
 
 
+def _default_data_limitation(source_type: str) -> str:
+    if source_type == "synthetic":
+        return "Synthetic/demo evidence is included in scoring but must be validated before real decisions."
+    return "Open-data evidence must be validated before planning decisions."
+
+
 def _build_data_gaps(
-    real_layer_ids: list[str],
-    excluded_synthetic: list[ExcludedSyntheticLayer],
+    scored_layer_ids: list[str],
+    layer_stats: list[LayerStats],
     scores: ComponentScores,
 ) -> list[str]:
     gaps: list[str] = []
@@ -593,14 +829,26 @@ def _build_data_gaps(
         "physical feasibility": {"industrial_zones", "transport_corridors"},
         "cooling and water": {"water_context"},
     }
-    layer_set = set(real_layer_ids)
+    layer_set = set(scored_layer_ids)
     for group, layer_ids in required_groups.items():
         if not (layer_set & layer_ids):
-            gaps.append(f"No active real/open {group} layer contributed to scoring.")
+            synthetic_count = sum(
+                1
+                for stats in layer_stats
+                if stats.layer.component == _group_component(group)
+                and stats.layer.source_type == "synthetic"
+            )
+            if synthetic_count:
+                gaps.append(
+                    f"{group.title()} scoring uses synthetic/demo assumptions and still needs authoritative validation."
+                )
+            else:
+                gaps.append(f"No active {group} layer contributed to scoring.")
 
-    if excluded_synthetic:
+    synthetic_count = sum(1 for stats in layer_stats if stats.layer.source_type == "synthetic")
+    if synthetic_count:
         gaps.append(
-            f"{len(excluded_synthetic)} synthetic layer(s) were excluded from numeric scoring."
+            f"{synthetic_count} synthetic/demo layer(s) were included in numeric scoring and require validation before real decisions."
         )
     if scores.dataCompleteness < 65:
         gaps.append("Data completeness remains below the moderate threshold.")
@@ -613,36 +861,47 @@ def _build_data_gaps(
     return gaps
 
 
+def _group_component(group: str) -> str | None:
+    return {
+        "power": "power",
+        "connectivity": "connectivity",
+        "sector demand": "sectorDemand",
+        "physical feasibility": "physicalFeasibility",
+        "cooling and water": "coolingWater",
+    }.get(group)
+
+
 def _build_evidence_summary(
     *,
     active_layer_count: int,
     layer_stats: list[LayerStats],
     matched_evidence: list[MatchedEvidence],
-    excluded_synthetic: list[ExcludedSyntheticLayer],
 ) -> EvidenceSummary:
     nearest_values = [item.distanceKm for item in matched_evidence if item.distanceKm is not None]
     nearest = min(nearest_values) if nearest_values else None
     scored_layer_count = len(layer_stats)
+    synthetic_layer_count = sum(1 for stats in layer_stats if stats.layer.source_type == "synthetic")
+    real_open_layer_count = scored_layer_count - synthetic_layer_count
     matched_feature_count = sum(stats.matched_count_10km for stats in layer_stats)
     if scored_layer_count == 0:
-        summary = "No active real/open evidence layers contributed to the numeric score."
+        summary = "No active evidence layers contributed to the numeric score."
         confidence_impact = "Low reliability: scoring cannot be trusted beyond UI demonstration."
     else:
         summary = (
-            f"{scored_layer_count} real/open layer(s) contributed to scoring with "
+            f"{scored_layer_count} layer(s) contributed to scoring: "
+            f"{real_open_layer_count} open-data layer(s) and "
+            f"{synthetic_layer_count} synthetic/demo layer(s), with "
             f"{matched_feature_count} matched feature(s) within 10 km."
         )
         confidence_impact = (
-            "Medium reliability for early planning; authoritative validation is still required."
+            "Planning reliability for early analysis; synthetic/demo and open-data evidence still requires authoritative validation."
         )
-    if excluded_synthetic:
-        summary += f" {len(excluded_synthetic)} synthetic layer(s) were excluded from scoring."
 
     return EvidenceSummary(
         activeLayerCount=active_layer_count,
         scoredLayerCount=scored_layer_count,
-        realOpenLayerCount=scored_layer_count,
-        syntheticLayerCount=len(excluded_synthetic),
+        realOpenLayerCount=real_open_layer_count,
+        syntheticLayerCount=synthetic_layer_count,
         matchedFeatureCount=matched_feature_count,
         nearestEvidenceKm=nearest,
         summary=summary,

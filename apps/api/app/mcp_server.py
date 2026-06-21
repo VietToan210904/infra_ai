@@ -74,7 +74,7 @@ def summarize_layer_evidence_tool(active_layers: list[str] | None = None) -> dic
 
 @infraai_mcp.tool()
 def query_site_evidence_tool(current_analysis: dict[str, Any]) -> dict[str, Any]:
-    """Return matched real/open evidence, synthetic exclusions, and data gaps."""
+    """Return matched open-data and synthetic/demo evidence plus data gaps."""
     return query_site_evidence(current_analysis)
 
 

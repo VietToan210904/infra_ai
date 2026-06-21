@@ -93,6 +93,37 @@ class RoadmapItem(BaseModel):
     actions: list[str]
 
 
+class ScoreFormulaTerm(BaseModel):
+    component: str
+    label: str
+    weightPercent: int
+    score: int
+    contribution: float
+    direction: Literal["readiness", "gap", "priority", "context"] = "readiness"
+    explanation: str = ""
+
+
+class ScenarioImpact(BaseModel):
+    component: str
+    label: str
+    beforeScore: int
+    afterScore: int
+    delta: int
+    explanation: str
+
+
+class PlanningContext(BaseModel):
+    focusLabel: str
+    focusQuestion: str
+    scenarioLabel: str
+    scenarioDescription: str
+    scoreFormula: list[ScoreFormulaTerm]
+    relevantComponents: list[str]
+    scenarioImpacts: list[ScenarioImpact]
+    focusSpecificEvidenceNeeds: list[str]
+    focusSpecificWarnings: list[str]
+
+
 class EvidenceSummary(BaseModel):
     activeLayerCount: int
     scoredLayerCount: int
@@ -110,8 +141,14 @@ class ScoreDriver(BaseModel):
     evidenceCount: int
     nearestEvidenceKm: float | None = None
     supportingLayers: list[str]
+    openDataSupportingLayers: list[str] = Field(default_factory=list)
+    syntheticSupportingLayers: list[str] = Field(default_factory=list)
     excludedSyntheticLayers: list[str]
     explanation: str
+    includedInFocusScore: bool = False
+    formulaWeight: int | None = None
+    scenarioAdjustment: int = 0
+    focusSpecificExplanation: str = ""
 
 
 class MatchedEvidence(BaseModel):
@@ -168,6 +205,7 @@ class SiteAnalysisResult(BaseModel):
     strengths: list[str]
     priorityInvestments: list[str]
     roadmap: list[RoadmapItem]
+    planningContext: PlanningContext
     evidenceSummary: EvidenceSummary
     scoreDrivers: list[ScoreDriver]
     matchedEvidence: list[MatchedEvidence]

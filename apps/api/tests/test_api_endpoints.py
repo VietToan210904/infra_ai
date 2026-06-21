@@ -12,6 +12,19 @@ from infraai_agents.responses import generate_agent_response
 client = TestClient(app)
 
 
+class FakeIntentClassifier:
+    def classify_intent(self, **_: object) -> dict[str, str]:
+        return {
+            "intent": "DATA_CENTER_FEASIBILITY",
+            "confidence": "high",
+            "reason": "The LLM classified the user question as a data-center feasibility question.",
+            "method": "llm",
+        }
+
+    def generate_grounded_response(self, **_: object) -> None:
+        return None
+
+
 def test_health_endpoint() -> None:
     response = client.get("/health")
     assert response.status_code == 200
@@ -46,12 +59,22 @@ def test_analyze_site_returns_frontend_contract() -> None:
     assert "matchedEvidence" in data
     assert "excludedSyntheticLayers" in data
     assert "dataGaps" in data
+    assert "planningContext" in data
+    assert data["planningContext"]["focusLabel"] == "Data center feasibility"
+    formula_weights = {
+        term["component"]: term["weightPercent"]
+        for term in data["planningContext"]["scoreFormula"]
+    }
+    assert formula_weights["power"] == 30
+    assert formula_weights["coolingWater"] == 20
+    assert "aiLiteracy" not in formula_weights
     assert data["agentReview"]["scoreReliability"] in {"Low", "Medium", "High"}
     assert data["agentReview"]["usedLlm"] is False
     assert len(data["sectors"]) == 5
+    assert any(driver["includedInFocusScore"] for driver in data["scoreDrivers"])
 
 
-def test_evidence_engine_excludes_synthetic_layers_from_scoring() -> None:
+def test_evidence_engine_scores_synthetic_layers_with_disclosure() -> None:
     response = client.post(
         "/api/analyze-site",
         json={
@@ -64,10 +87,12 @@ def test_evidence_engine_excludes_synthetic_layers_from_scoring() -> None:
     )
     assert response.status_code == 200
     data = response.json()
-    assert data["evidenceSummary"]["scoredLayerCount"] == 0
+    assert data["evidenceSummary"]["scoredLayerCount"] == 2
     assert data["evidenceSummary"]["syntheticLayerCount"] == 2
-    assert len(data["excludedSyntheticLayers"]) == 2
-    assert data["agentReview"]["scoreReliability"] == "Low"
+    assert data["evidenceSummary"]["realOpenLayerCount"] == 0
+    assert len(data["excludedSyntheticLayers"]) == 0
+    assert any(item["sourceType"] == "synthetic" for item in data["matchedEvidence"])
+    assert "included" in " ".join(data["dataGaps"]).lower()
 
 
 def test_real_open_layers_contribute_matched_evidence() -> None:
@@ -86,6 +111,32 @@ def test_real_open_layers_contribute_matched_evidence() -> None:
     assert data["evidenceSummary"]["scoredLayerCount"] == 3
     assert data["evidenceSummary"]["matchedFeatureCount"] >= 1
     assert any(item["sourceType"] == "open_data" for item in data["matchedEvidence"])
+
+
+def test_scenario_impacts_are_returned_with_before_after_values() -> None:
+    response = client.post(
+        "/api/analyze-site",
+        json={
+            "lat": 10.7769,
+            "lng": 106.7009,
+            "intent": "FIBER_CONNECTIVITY_UPGRADE",
+            "activeLayers": [],
+            "scenario": "UPGRADE_FIBER_FIRST",
+        },
+    )
+    assert response.status_code == 200
+    data = response.json()
+    impacts = {
+        item["component"]: item for item in data["planningContext"]["scenarioImpacts"]
+    }
+    assert impacts["connectivity"]["delta"] == 8
+    assert impacts["digitalAccess"]["delta"] == 10
+    formula_components = {
+        term["component"] for term in data["planningContext"]["scoreFormula"]
+    }
+    assert {"digitalAccess", "connectivity", "sectorDemand"} <= formula_components
+    drivers = {driver["component"]: driver for driver in data["scoreDrivers"]}
+    assert drivers["Connectivity and interconnection"]["includedInFocusScore"] is True
 
 
 def test_chat_endpoint_refuses_approval_claims() -> None:
@@ -145,6 +196,29 @@ def test_openai_disabled_agent_fallback() -> None:
     assert "Detected planning intent: EDGE_AI_NODES" in message["content"]
     assert "Current readiness score" in message["content"]
     assert "Tools used:" in message["content"]
+
+
+def test_agent_uses_llm_intent_classifier_when_available() -> None:
+    analysis = client.post(
+        "/api/analyze-site",
+        json={
+            "lat": 10.7769,
+            "lng": 106.7009,
+            "intent": "GENERAL_AI_INFRASTRUCTURE",
+            "activeLayers": [],
+            "scenario": "BUILD_NOW",
+        },
+    ).json()
+    message = generate_agent_response(
+        message="Please evaluate the proposal.",
+        current_analysis=analysis,
+        has_selected_location=True,
+        active_layers=[],
+        scenario="BUILD_NOW",
+        planning_focus="GENERAL_AI_INFRASTRUCTURE",
+        llm_client=FakeIntentClassifier(),  # type: ignore[arg-type]
+    )
+    assert "Detected planning intent: DATA_CENTER_FEASIBILITY" in message["content"]
 
 
 def test_chat_endpoint_auto_analyzes_selected_site() -> None:
@@ -256,6 +330,34 @@ def test_chat_answers_platform_question_without_site() -> None:
     content = response.json()["content"]
     assert "Confidence" in content or "confidence" in content
     assert "select" not in content.lower()
+
+
+def test_chat_answers_greeting_without_site() -> None:
+    response = client.post(
+        "/api/agent/chat",
+        json={
+            "message": "hello how are u",
+            "hasSelectedLocation": False,
+        },
+    )
+    assert response.status_code == 200
+    content = response.json()["content"]
+    assert "Hi." in content
+    assert "InfraAI SiteCompass" in content
+
+
+def test_chat_explains_platform_without_site() -> None:
+    response = client.post(
+        "/api/agent/chat",
+        json={
+            "message": "hows this site working",
+            "hasSelectedLocation": False,
+        },
+    )
+    assert response.status_code == 200
+    content = response.json()["content"]
+    assert "satellite map" in content.lower() or "visible infrastructure" in content.lower()
+    assert "click a location" not in content.lower()
 
 
 def test_mcp_mount_and_tools_are_registered() -> None:

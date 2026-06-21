@@ -16,6 +16,11 @@ from infraai_agents.intents import normalize_intent
 from infraai_agents.tools import build_agent_review
 
 from .evidence import build_evidence_grounded_scores
+from .planning_context import (
+    annotate_score_drivers,
+    apply_scenario_adjustments,
+    build_planning_context,
+)
 from .scoring import (
     calculate_confidence,
     calculate_intent_specific_score,
@@ -37,12 +42,25 @@ def build_site_analysis(payload: AnalyzeSiteRequest) -> SiteAnalysisResult:
         excluded_synthetic_layers,
         data_gaps,
     ) = build_evidence_grounded_scores(payload.lat, payload.lng, payload.activeLayers)
-    scores = _apply_scenario_adjustments(
+    scores = apply_scenario_adjustments(
         payload.scenario,
         evidence_scores,
     )
-    score_drivers = _sync_score_driver_scores(score_drivers, scores)
     sectors = calculate_sector_readiness(scores)
+    planning_context = build_planning_context(
+        intent,
+        payload.scenario,
+        evidence_scores,
+        scores,
+        sectors,
+    )
+    score_drivers = _sync_score_driver_scores(score_drivers, scores)
+    score_drivers = annotate_score_drivers(
+        score_drivers,
+        planning_context,
+        evidence_scores,
+        scores,
+    )
     confidence = calculate_confidence(scores)
     score = calculate_intent_specific_score(intent, scores, sectors)
     warnings = apply_guardrails(intent.value, scores.model_dump(), confidence.score, payload.userQuestion or "")
@@ -68,6 +86,7 @@ def build_site_analysis(payload: AnalyzeSiteRequest) -> SiteAnalysisResult:
         strengths=_detect_strengths(scores),
         priorityInvestments=rank_priority_investments(intent.value, scores, sectors),
         roadmap=_build_roadmap(intent, scores),
+        planningContext=planning_context,
         agentReview=AgentReview(
             **build_agent_review(
                 {
@@ -86,6 +105,7 @@ def build_site_analysis(payload: AnalyzeSiteRequest) -> SiteAnalysisResult:
                         intent.value, scores, sectors
                     ),
                     "roadmap": _build_roadmap(intent, scores),
+                    "planningContext": planning_context.model_dump(),
                     "evidenceSummary": evidence_summary.model_dump(),
                     "scoreDrivers": [
                         score_driver.model_dump() for score_driver in score_drivers
@@ -185,31 +205,9 @@ def _build_feature_profile(lat: float, lng: float, active_layers: list[str]) -> 
     if {"flood_risk", "heat_risk", "water_availability", "aqueduct_water_risk"} & layer_set:
         _adjust(scores, coolingWater=2, resilience=2, dataCompleteness=3)
     if any(layer.startswith("synthetic") for layer in layer_set):
-        _adjust(scores, sourceReliability=-5)
+        _adjust(scores, dataCompleteness=2, sourceReliability=-3)
 
     return ComponentScores(**{key: clamp_score(value) for key, value in scores.items()})
-
-
-def _apply_scenario_adjustments(scenario: str, scores: ComponentScores) -> ComponentScores:
-    values = scores.model_dump()
-    if scenario == "UPGRADE_FIBER_FIRST":
-        _adjust(values, connectivity=8, digitalAccess=10, resilience=4)
-    elif scenario == "VALIDATE_GRID_FIRST":
-        _adjust(values, power=10, dataCompleteness=8, sourceReliability=8)
-    elif scenario == "AI_LITERACY_TRAINING":
-        _adjust(values, aiLiteracy=14, sectorDemand=3, equity=3)
-    elif scenario == "CLOUD_FIRST":
-        _adjust(values, coolingWater=8, physicalFeasibility=5, dataMaturity=4, computeEcosystem=-4)
-    elif scenario == "DELAY_INVESTMENT":
-        _adjust(values, dataFreshness=-12, sectorDemand=-4, resilience=-3)
-    elif scenario == "GOVERNANCE_FIRST":
-        _adjust(values, governance=12, dataMaturity=8, sourceReliability=5)
-    elif scenario == "EDGE_PILOT_FIRST":
-        _adjust(values, resilience=10, connectivity=4, sectorDemand=5, physicalFeasibility=2)
-    elif scenario == "OPEN_DATA_PLATFORM_FIRST":
-        _adjust(values, dataMaturity=12, governance=6, digitalAccess=4)
-
-    return ComponentScores(**{key: clamp_score(value) for key, value in values.items()})
 
 
 def _build_recommendation(
@@ -320,7 +318,7 @@ def _build_infrastructure_path(
 def _build_roadmap(intent: InfrastructureIntent, scores: ComponentScores) -> list[dict[str, list[str] | str]]:
     near_term = [
         "Validate grid, fiber, water, and land assumptions with responsible agencies.",
-        "Publish a data-quality register that separates open data, synthetic placeholders, and verified evidence.",
+        "Publish a data-quality register that separates open data, synthetic/demo assumptions, and verified evidence.",
         "Define governance, cybersecurity, privacy, and procurement rules for AI pilots.",
     ]
     mid_term = [
@@ -357,7 +355,7 @@ def _detect_strengths(scores: ComponentScores) -> list[str]:
         ("Governance foundation can support low-risk pilots.", scores.governance),
     ]
     strengths = [label for label, score in checks if score >= 70]
-    strengths.append("Synthetic and open-data layers support UI demonstration and early planning only.")
+    strengths.append("Open-data and synthetic/demo layers support the planning score but still require validation.")
     return strengths
 
 

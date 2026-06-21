@@ -5,6 +5,10 @@ from app.domain.readiness.scoring import (
     calculate_intent_specific_score,
     clamp_score,
 )
+from app.domain.readiness.planning_context import (
+    apply_scenario_adjustments,
+    build_planning_context,
+)
 from app.schemas.site import ComponentScores
 from infraai_agents.guardrails import apply_guardrails
 from infraai_agents.intents import normalize_intent
@@ -78,3 +82,22 @@ def test_guardrails_trigger_data_center_constraints() -> None:
     )
     assert any("Grid capacity validation is required" in warning for warning in warnings)
     assert any("Cooling and water feasibility review" in warning for warning in warnings)
+
+
+def test_planning_context_marks_focus_formula_and_scenario_deltas() -> None:
+    before = sample_scores(connectivity=60, digitalAccess=50, resilience=55)
+    after = apply_scenario_adjustments("UPGRADE_FIBER_FIRST", before)
+    context = build_planning_context(
+        "FIBER_CONNECTIVITY_UPGRADE",
+        "UPGRADE_FIBER_FIRST",
+        before,
+        after,
+        [],
+    )
+    weights = {term.component: term.weightPercent for term in context.scoreFormula}
+    impacts = {impact.component: impact.delta for impact in context.scenarioImpacts}
+    assert weights["digitalAccess"] == 35
+    assert weights["connectivity"] == 20
+    assert impacts["connectivity"] == 8
+    assert impacts["digitalAccess"] == 10
+    assert "higher upgrade priority" in " ".join(context.focusSpecificWarnings)

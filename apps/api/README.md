@@ -12,6 +12,7 @@ The API owns the deterministic AI infrastructure readiness workflow:
 - shared tool handlers for chat and MCP
 - guardrails and non-goals
 - planning-agent chat responses
+- optional OpenAI intent classification for selected-site chat questions
 - optional OpenAI explanations when configured
 
 ## Endpoints
@@ -27,9 +28,10 @@ intent classification, readiness analysis, matched site evidence, score-driver
 explanations, scenario comparison, priority ranking, roadmap generation,
 guardrails, and platform help.
 
-Synthetic layers are retained as planning context and uncertainty, but they are
-excluded from numeric scoring. Numeric scores are driven by active real/open
-GeoJSON layers such as OpenStreetMap and PeeringDB.
+Visible synthetic/demo layers are included in numeric planning scores together
+with open GeoJSON layers such as OpenStreetMap and PeeringDB. Source type,
+confidence, completeness, and limitations are still disclosed because
+synthetic/demo evidence cannot prove real-world feasibility.
 
 ## Local Run
 

@@ -61,7 +61,8 @@ def calculate_confidence(scores: ComponentScores) -> ConfidenceResult:
         f"{scores.dataCompleteness}/100, freshness is {scores.dataFreshness}/100, "
         f"source reliability is {scores.sourceReliability}/100, and geographic "
         f"resolution is {scores.geographicResolution}/100. Open-data and "
-        "synthetic layers provide planning context but do not verify feasibility."
+        "synthetic/demo layers may contribute to the planning score but do not "
+        "verify feasibility."
     )
     return ConfidenceResult(score=score, level=level, explanation=explanation)
 

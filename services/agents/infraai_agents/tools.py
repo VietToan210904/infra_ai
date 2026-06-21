@@ -89,13 +89,28 @@ SYNTHETIC_LAYER_IDS = {
 }
 
 
-def classify_planning_intent(message: str) -> dict[str, Any]:
+def classify_planning_intent(
+    message: str,
+    *,
+    detected_intent: str | None = None,
+    classifier: str = "keyword",
+    confidence: str | None = None,
+    reason: str | None = None,
+) -> dict[str, Any]:
     """Classify an open-ended planning question."""
-    intent = classify_intent(message)
+    intent = normalize_intent(detected_intent) if detected_intent else classify_intent(message)
+    summary = f"Question classified as {intent.value} by {classifier}."
+    if confidence:
+        summary += f" Classifier confidence: {confidence}."
+    if reason:
+        summary += f" Reason: {reason}"
     return {
         "tool": "classify_planning_intent",
         "intent": intent.value,
-        "summary": f"Question classified as {intent.value}.",
+        "classifier": classifier,
+        "confidence": confidence,
+        "reason": reason,
+        "summary": summary,
     }
 
 
@@ -120,7 +135,7 @@ def summarize_layer_evidence(active_layers: list[str] | None) -> dict[str, Any]:
     ]
     if synthetic_layers:
         limitations.append(
-            "Synthetic layers are planning placeholders and cannot verify feasibility."
+            "Synthetic/demo layers are included in scoring and must be validated before real decisions."
         )
 
     return {
@@ -221,7 +236,14 @@ def apply_planning_guardrails_tool(
 def answer_platform_help(message: str) -> dict[str, Any]:
     """Answer product/platform questions with stable system context."""
     normalized = message.lower()
-    if "confidence" in normalized:
+    if _is_greeting(normalized):
+        answer = (
+            "Hi. I can help explain how InfraAI SiteCompass works, review "
+            "evidence after analysis, compare scenarios, and suggest validation "
+            "steps. To analyze a real location, click the map or choose a "
+            "candidate zone, then run readiness analysis."
+        )
+    elif "confidence" in normalized:
         answer = (
             "Confidence measures data completeness, freshness, source reliability, "
             "and geographic resolution. It is not a feasibility guarantee."
@@ -230,13 +252,14 @@ def answer_platform_help(message: str) -> dict[str, Any]:
         answer = (
             "Scores are deterministic weighted calculations from component scores. "
             "Agents can review reliability and explain uncertainty, but they do not "
-            "invent or override the score."
+            "invent or override the score. Visible open-data and synthetic/demo "
+            "layers are included in analysis with source limitations disclosed."
         )
     elif "map" in normalized or "layer" in normalized:
         answer = (
-            "Visible map overlays are the evidence set for analysis. Turning on more "
-            "layers lets the system consider more component categories, while still "
-            "flagging open-data and synthetic limitations."
+            "Visible map overlays are the evidence set for analysis. All visible "
+            "open-data and synthetic/demo layers are included in scoring, while "
+            "source type, confidence, and limitations remain flagged."
         )
     elif "mcp" in normalized or "tool" in normalized:
         answer = (
@@ -247,7 +270,9 @@ def answer_platform_help(message: str) -> dict[str, Any]:
         answer = (
             "InfraAI SiteCompass combines a satellite map, visible infrastructure "
             "layers, deterministic readiness scoring, scenario simulation, agent "
-            "review, and human-review guardrails."
+            "review, and human-review guardrails. Select a location to generate "
+            "a site-specific report; general platform questions can be answered "
+            "without selecting a site."
         )
     return {"tool": "answer_platform_help", "answer": answer, "summary": answer}
 
@@ -255,8 +280,7 @@ def answer_platform_help(message: str) -> dict[str, Any]:
 def can_answer_without_site(message: str) -> bool:
     """Return whether a question can be answered without selected-site context."""
     normalized = message.lower().strip()
-    greetings = {"hi", "hello", "hey", "help", "what can you do"}
-    return normalized in greetings or _is_platform_question(normalized)
+    return _is_greeting(normalized) or _is_platform_question(normalized)
 
 
 def query_site_evidence(current_analysis: dict[str, Any] | None) -> dict[str, Any]:
@@ -268,11 +292,13 @@ def query_site_evidence(current_analysis: dict[str, Any] | None) -> dict[str, An
             "matchedEvidence": [],
             "dataGaps": [],
             "excludedSyntheticLayers": [],
+            "syntheticEvidenceUsed": [],
         }
     evidence_summary = current_analysis.get("evidenceSummary", {})
     matched_evidence = _list_value(current_analysis, "matchedEvidence")
     data_gaps = _list_value(current_analysis, "dataGaps")
     excluded = _list_value(current_analysis, "excludedSyntheticLayers")
+    synthetic_evidence = _synthetic_evidence_notes(matched_evidence)
     citations = _evidence_citations(matched_evidence)
     return {
         "tool": "query_site_evidence",
@@ -280,6 +306,7 @@ def query_site_evidence(current_analysis: dict[str, Any] | None) -> dict[str, An
         "matchedEvidence": matched_evidence[:6],
         "dataGaps": data_gaps,
         "excludedSyntheticLayers": excluded,
+        "syntheticEvidenceUsed": synthetic_evidence,
         "citations": citations,
         "summary": _evidence_answer_summary(evidence_summary, citations, data_gaps),
     }
@@ -298,6 +325,7 @@ def describe_map_location_context(
             "currentFacilities": [],
             "dataGaps": [],
             "excludedSyntheticLayers": [],
+            "syntheticEvidenceUsed": [],
         }
 
     selected_site = current_analysis.get("selectedSite")
@@ -306,6 +334,7 @@ def describe_map_location_context(
     score_drivers = _list_value(current_analysis, "scoreDrivers")
     data_gaps = _list_value(current_analysis, "dataGaps")
     excluded = _list_value(current_analysis, "excludedSyntheticLayers")
+    synthetic_evidence = _synthetic_evidence_notes(matched_evidence)
     nearby_components = _nearby_component_lines(matched_evidence)
     current_facilities = _current_facility_lines(matched_evidence)
     infrastructure_signals = _infrastructure_signal_lines(score_drivers)
@@ -318,6 +347,7 @@ def describe_map_location_context(
         "infrastructureSignals": infrastructure_signals,
         "dataGaps": data_gaps,
         "excludedSyntheticLayers": excluded,
+        "syntheticEvidenceUsed": synthetic_evidence,
         "summary": _map_context_summary(
             selected_site,
             nearby_components,
@@ -325,6 +355,7 @@ def describe_map_location_context(
             infrastructure_signals,
             data_gaps,
             excluded,
+            synthetic_evidence,
         ),
     }
 
@@ -420,6 +451,7 @@ def build_agent_review(
     matched_evidence = _list_value(current_analysis, "matchedEvidence")
     score_drivers = _list_value(current_analysis, "scoreDrivers")
     excluded_synthetic = _list_value(current_analysis, "excludedSyntheticLayers")
+    synthetic_evidence = _synthetic_evidence_notes(matched_evidence)
     data_gaps = _list_value(current_analysis, "dataGaps")
     warnings = _list_value(current_analysis, "warnings")
     bottlenecks = _list_value(current_analysis, "bottlenecks")
@@ -430,18 +462,19 @@ def build_agent_review(
     evidence_citations = _evidence_citations(matched_evidence)
     score_driver_summary = _score_driver_summary(score_drivers)
     excluded_notes = [
-        f"{item.get('layerLabel', item.get('layerId', 'Synthetic layer'))}: {item.get('reason', 'Excluded from scoring.')}"
+        f"{item.get('layerLabel', item.get('layerId', 'Synthetic layer'))}: {item.get('reason', 'Synthetic/demo data used in scoring.')}"
         for item in excluded_synthetic
         if isinstance(item, dict)
-    ]
+    ] or synthetic_evidence
     uncertainty = [
         (
             "The score is useful for prioritization, but it should not be read as "
             "construction or deployment feasibility."
         ),
         (
-            "Synthetic and open-data layers need replacement or validation with "
-            "authoritative utility, land, environmental, and sector data."
+            "Synthetic/demo and open-data layers are included in the planning "
+            "score and need validation with authoritative utility, land, "
+            "environmental, and sector data."
         ),
     ]
     challenged_assumptions = [
@@ -451,7 +484,7 @@ def build_agent_review(
     ]
     next_steps = [
         "Validate grid capacity, fiber availability, water/cooling, land status, and permitting with responsible agencies.",
-        "Replace synthetic placeholders with authoritative datasets before funding or construction decisions.",
+        "Validate synthetic/demo assumptions with authoritative datasets before funding or construction decisions.",
         "Run sector workshops for education, workforce, healthcare, government, and nonprofits before scaling deployments.",
     ]
 
@@ -489,10 +522,22 @@ def run_chat_tools(
     active_layers: list[str] | None = None,
     scenario: str | None = None,
     planning_focus: str | None = None,
+    detected_intent: str | None = None,
+    intent_classifier: str = "keyword",
+    intent_confidence: str | None = None,
+    intent_reason: str | None = None,
 ) -> list[dict[str, Any]]:
     """Select and execute backend tools for a chat turn."""
     normalized = message.lower()
-    results = [classify_planning_intent(message)]
+    results = [
+        classify_planning_intent(
+            message,
+            detected_intent=detected_intent,
+            classifier=intent_classifier,
+            confidence=intent_confidence,
+            reason=intent_reason,
+        )
+    ]
 
     if planning_focus:
         results.append(
@@ -622,8 +667,9 @@ def compose_tool_grounded_response(
             "Treat this as directional; it does not replace engineering or procurement validation."
         )
 
+    classifier_text = _intent_classifier_text(intent_result)
     response_parts = [
-        f"Detected planning intent: {intent_result.get('intent', _intent(current_analysis))}.",
+        f"Detected planning intent: {intent_result.get('intent', _intent(current_analysis))}. {classifier_text}",
         (
             f"Current readiness score is {suitability.get('score', 'unknown')}/100 "
             f"({suitability.get('level', 'unclassified')}) with "
@@ -650,6 +696,20 @@ def compose_tool_grounded_response(
     return " ".join(part for part in response_parts if part)
 
 
+def _intent_classifier_text(intent_result: dict[str, Any]) -> str:
+    classifier = intent_result.get("classifier")
+    confidence = intent_result.get("confidence")
+    reason = intent_result.get("reason")
+    parts = []
+    if classifier:
+        parts.append(f"Classifier: {classifier}")
+    if confidence:
+        parts.append(f"confidence {confidence}")
+    if reason:
+        parts.append(str(reason))
+    return ". ".join(parts) + "." if parts else ""
+
+
 def _layer_category(layer_id: str) -> str:
     normalized = layer_id.lower()
     for token, category in LAYER_CATEGORY_RULES:
@@ -667,7 +727,7 @@ def _layer_summary(
         return "No visible infrastructure overlays were supplied as evidence."
     category_text = ", ".join(f"{name}: {count}" for name, count in sorted(categories.items()))
     synthetic_note = (
-        f" {len(synthetic_layers)} layer(s) are synthetic placeholders."
+        f" {len(synthetic_layers)} synthetic/demo layer(s) are included in scoring and need validation."
         if synthetic_layers
         else ""
     )
@@ -769,8 +829,9 @@ def _evidence_gaps(scores: dict[str, int], evidence: dict[str, Any]) -> list[str
     gaps = []
     if evidence.get("activeLayerCount", 0) == 0:
         gaps.append("No visible infrastructure layers were provided as evidence.")
-    if evidence.get("syntheticLayers"):
-        gaps.append("Some evidence layers are synthetic placeholders.")
+    synthetic_count = int(evidence.get("syntheticLayerCount", 0) or 0)
+    if evidence.get("syntheticLayers") or synthetic_count:
+        gaps.append("Some scored evidence layers are synthetic/demo assumptions that require validation.")
     if scores.get("dataCompleteness", 100) < 65:
         gaps.append("Data completeness is below the moderate-readiness threshold.")
     if scores.get("sourceReliability", 100) < 65:
@@ -785,7 +846,16 @@ def _is_platform_question(normalized_message: str) -> bool:
         term in normalized_message
         for term in (
             "how does",
+            "how do you work",
             "how the system",
+            "how this site work",
+            "how this site working",
+            "hows this site working",
+            "how the site works",
+            "how the platform works",
+            "how is this site working",
+            "site work",
+            "platform work",
             "what is confidence",
             "what does confidence",
             "what is score",
@@ -803,7 +873,13 @@ def _is_platform_question(normalized_message: str) -> bool:
 
 
 def _is_greeting(normalized_message: str) -> bool:
-    return normalized_message.strip() in {"hi", "hello", "hey", "help"}
+    text = normalized_message.strip()
+    return (
+        text in {"hi", "hello", "hey", "help"}
+        or text.startswith(("hi ", "hello ", "hey "))
+        or "how are you" in text
+        or "how are u" in text
+    )
 
 
 def _asks_about_evidence(normalized_message: str) -> bool:
@@ -954,6 +1030,18 @@ def _evidence_citations(matched_evidence: list[Any]) -> list[str]:
     return citations
 
 
+def _synthetic_evidence_notes(matched_evidence: list[Any]) -> list[str]:
+    notes = []
+    for item in matched_evidence:
+        if not isinstance(item, dict) or item.get("sourceType") != "synthetic":
+            continue
+        notes.append(
+            f"{item.get('layerLabel', 'Synthetic/demo layer')}: "
+            f"{item.get('name', 'synthetic/demo feature')} was included in scoring and requires validation."
+        )
+    return notes[:6]
+
+
 def _evidence_answer_summary(
     evidence_summary: Any,
     citations: list[str],
@@ -1072,13 +1160,14 @@ def _map_context_summary(
     infrastructure_signals: list[str],
     data_gaps: list[Any],
     excluded: list[Any],
+    synthetic_evidence: list[str],
 ) -> str:
     site_text = _selected_site_text(selected_site)
     component_text = _join(nearby_components[:6])
     facility_text = _join(current_facilities[:5])
     signal_text = _join(infrastructure_signals[:5])
     gap_text = _join(data_gaps[:4])
-    synthetic_text = _excluded_synthetic_summary(excluded)
+    synthetic_text = _synthetic_used_summary(excluded, synthetic_evidence)
     return (
         f"Map context for {site_text}: nearby real/open evidence includes "
         f"{component_text}. Current mapped facilities/assets include "
@@ -1141,16 +1230,22 @@ def _infrastructure_signal_lines(score_drivers: list[Any]) -> list[str]:
     ]
 
 
-def _excluded_synthetic_summary(excluded: list[Any]) -> str:
+def _synthetic_used_summary(excluded: list[Any], synthetic_evidence: list[str]) -> str:
+    if synthetic_evidence:
+        return (
+            "Synthetic/demo evidence included in scoring: "
+            + "; ".join(synthetic_evidence[:4])
+            + "."
+        )
     if not excluded:
-        return "No synthetic layer was included in the selected evidence set."
+        return "No synthetic/demo evidence was matched in the selected evidence set."
     labels = [
         str(item.get("layerLabel", item.get("layerId", "Synthetic layer")))
         for item in excluded
         if isinstance(item, dict)
     ]
     return (
-        "Synthetic context excluded from scoring: "
+        "Synthetic/demo context listed for review: "
         + ", ".join(labels[:5])
         + ("." if len(labels) <= 5 else f", plus {len(labels) - 5} more.")
     )
@@ -1170,20 +1265,29 @@ def _map_context_chat_answer(map_context: dict[str, Any]) -> str:
         if isinstance(item, str)
     ]
     gaps = [str(item) for item in map_context.get("dataGaps", []) if isinstance(item, str)]
+    synthetic_evidence = [
+        str(item)
+        for item in map_context.get("syntheticEvidenceUsed", [])
+        if isinstance(item, str)
+    ]
     excluded = [
         item.get("layerLabel", item.get("layerId", "Synthetic layer"))
         for item in map_context.get("excludedSyntheticLayers", [])
         if isinstance(item, dict)
     ]
     synthetic_note = (
-        "Synthetic context excluded from scoring: " + ", ".join(excluded[:4]) + "."
+        "Synthetic/demo evidence included in scoring: "
+        + "; ".join(synthetic_evidence[:4])
+        + "."
+        if synthetic_evidence
+        else "Synthetic/demo layer notes: " + ", ".join(excluded[:4]) + "."
         if excluded
-        else "No synthetic layer was used in numeric scoring."
+        else "No synthetic/demo evidence was matched in the current scoring evidence."
     )
     return (
         f"## Location snapshot\n\n"
         f"{_selected_site_text(selected_site)} is being reviewed from the visible map "
-        "layers and nearby open-data evidence.\n\n"
+        "layers and nearby evidence.\n\n"
         "## Nearby evidence\n\n"
         f"{_simple_bullets(nearby[:5])}\n\n"
         "## Infrastructure signals\n\n"

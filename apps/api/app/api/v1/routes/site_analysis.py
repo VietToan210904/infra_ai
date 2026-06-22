@@ -53,6 +53,7 @@ def chat_with_agent(payload: ChatRequest) -> dict[str, str]:
     return generate_agent_response(
         message=payload.message,
         current_analysis=current_analysis,
+        current_review=payload.currentReview,
         has_selected_location=payload.hasSelectedLocation,
         selected_location=payload.selectedLocation.model_dump()
         if payload.selectedLocation

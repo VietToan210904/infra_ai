@@ -9,5 +9,8 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 *.egg-info/
+__pycache__/
+.pytest_cache/
 
 .tmp-devserver/
+.tmp-review-store/

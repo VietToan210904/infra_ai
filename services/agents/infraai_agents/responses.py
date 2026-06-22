@@ -24,6 +24,7 @@ def generate_agent_response(
     *,
     message: str,
     current_analysis: dict[str, Any] | None,
+    current_review: dict[str, Any] | None = None,
     has_selected_location: bool,
     selected_location: dict[str, Any] | None = None,
     active_layers: list[str] | None = None,
@@ -63,6 +64,7 @@ def generate_agent_response(
     tool_results = run_chat_tools(
         message=message,
         current_analysis=current_analysis,
+        current_review=current_review,
         active_layers=active_layers,
         scenario=scenario,
         planning_focus=planning_focus,

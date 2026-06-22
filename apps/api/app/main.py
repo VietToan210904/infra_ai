@@ -8,6 +8,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.v1.routes.health import router as health_router
+from app.api.v1.routes.reviews import router as reviews_router
 from app.api.v1.routes.site_analysis import router as site_analysis_router
 from app.core.config import settings
 from app.mcp_server import infraai_mcp
@@ -37,6 +38,7 @@ def create_app() -> FastAPI:
     )
     application.include_router(health_router)
     application.include_router(site_analysis_router)
+    application.include_router(reviews_router)
     application.mount("/mcp", infraai_mcp.streamable_http_app())
     return application
 

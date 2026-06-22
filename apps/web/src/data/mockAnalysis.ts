@@ -897,6 +897,82 @@ function buildMockEvidence(activeLayers: string[], scores: ComponentScores) {
   };
 }
 
+function buildMockScoreExplanation(
+  score: number,
+  scoreDrivers: SiteAnalysisResult["scoreDrivers"],
+  evidenceSummary: SiteAnalysisResult["evidenceSummary"]
+) {
+  const usedDrivers = scoreDrivers.filter((driver) => driver.includedInFocusScore);
+  const drivers = usedDrivers.length ? usedDrivers : scoreDrivers;
+  const strongestDrivers = [...drivers]
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 3)
+    .map((driver) => mockDriverSummary(driver));
+  const weakestDrivers = [...drivers]
+    .sort((a, b) => a.score - b.score)
+    .slice(0, 3)
+    .map((driver) => mockDriverSummary(driver));
+  const dataQualityBadge =
+    evidenceSummary.realOpenLayerCount > 0 && evidenceSummary.syntheticLayerCount > 0
+      ? "Open-data + synthetic/demo"
+      : evidenceSummary.syntheticLayerCount > 0
+        ? "Synthetic/demo-heavy"
+        : evidenceSummary.realOpenLayerCount > 0
+          ? "Open-data"
+          : "Fallback evidence";
+  const headline =
+    score >= 80
+      ? "Strong planning score, still subject to formal validation."
+      : score >= 65
+        ? "Moderate planning score driven by the selected focus formula and visible evidence."
+        : score >= 50
+          ? "Early planning score: useful for comparison, not feasibility approval."
+          : "Low planning score: resolve evidence and infrastructure gaps before prioritizing this area.";
+
+  return {
+    headline,
+    strongestDrivers,
+    weakestDrivers,
+    dataQualityBadge,
+    dataQualitySummary:
+      `${evidenceSummary.scoredLayerCount} visible layer(s) were included in the fallback score: ` +
+      `${evidenceSummary.realOpenLayerCount} open-data layer(s) and ` +
+      `${evidenceSummary.syntheticLayerCount} synthetic/demo layer(s). Backend GeoJSON proximity matching is required before decisions.`,
+  };
+}
+
+function buildMockAgentTrace(
+  evidenceSummary: SiteAnalysisResult["evidenceSummary"],
+  warnings: string[]
+) {
+  return {
+    intentSource: "Planning focus selector",
+    classifier: "planning-focus-selector",
+    classifierConfidence: "high",
+    classifierReason: "The fallback report intent came from the selected planning focus.",
+    toolsUsed: [
+      "buildMockAnalysis",
+      "applyScenarioAdjustments",
+      "calculateIntentSpecificScore",
+      "buildAgentReview",
+    ],
+    activeLayerCount: evidenceSummary.activeLayerCount,
+    scoredLayerCount: evidenceSummary.scoredLayerCount,
+    openDataLayerCount: evidenceSummary.realOpenLayerCount,
+    syntheticDemoLayerCount: evidenceSummary.syntheticLayerCount,
+    guardrailsTriggered: warnings.length,
+  };
+}
+
+function mockDriverSummary(driver: SiteAnalysisResult["scoreDrivers"][number]) {
+  const evidenceNote = driver.evidenceCount
+    ? `${driver.evidenceCount} matched feature(s)`
+    : "fallback layer signal";
+  const weightNote =
+    driver.formulaWeight !== null ? `, ${driver.formulaWeight}% formula weight` : "";
+  return `${driver.component}: ${driver.score}/100 (${evidenceNote}${weightNote})`;
+}
+
 export function buildMockAnalysis(
   payload: AnalyzeSitePayload
 ): SiteAnalysisResult {
@@ -926,6 +1002,7 @@ export function buildMockAnalysis(
     beforeScores,
     scores
   );
+  const warnings = buildWarnings(intent, scores, confidence.score);
 
   return {
     intent,
@@ -981,6 +1058,12 @@ export function buildMockAnalysis(
     planningContext,
     ...evidence,
     scoreDrivers,
+    scoreExplanation: buildMockScoreExplanation(
+      score,
+      scoreDrivers,
+      evidence.evidenceSummary
+    ),
+    agentTrace: buildMockAgentTrace(evidence.evidenceSummary, warnings),
     agentReview: buildAgentReview(scores, payload.activeLayers),
     confidenceExplanation: confidence.explanation,
     gapSummary: {
@@ -991,6 +1074,6 @@ export function buildMockAnalysis(
     },
     recommendedInfrastructurePath: recommendedPath(intent, scores, score),
     humanReviewRequired: true,
-    warnings: buildWarnings(intent, scores, confidence.score),
+    warnings,
   };
 }

@@ -15,6 +15,7 @@ from infraai_agents.tools import (
     compare_scenarios,
     describe_map_location_context,
     explain_score_drivers,
+    generate_human_review_guidance,
     generate_readiness_roadmap_tool,
     query_site_evidence,
     rank_priority_investments_tool,
@@ -96,6 +97,15 @@ def explain_score_drivers_tool(current_analysis: dict[str, Any]) -> dict[str, An
 def review_report_reliability_tool(current_analysis: dict[str, Any]) -> dict[str, Any]:
     """Review score reliability, assumptions, evidence gaps, and validation needs."""
     return review_report_reliability(current_analysis)
+
+
+@infraai_mcp.tool()
+def generate_human_review_guidance_tool(
+    current_analysis: dict[str, Any],
+    current_review: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Generate human-review validation guidance without changing decisions."""
+    return generate_human_review_guidance(current_analysis, current_review)
 
 
 @infraai_mcp.tool()

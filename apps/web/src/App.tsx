@@ -30,6 +30,7 @@ import { planningFocusDetails } from "@/data/planningOptions";
 import { cn } from "@/lib/utils";
 import type {
   InfrastructureIntent,
+  HumanReviewRecord,
   ScenarioType,
   SelectedLocation,
   SiteAnalysisResult,
@@ -47,12 +48,14 @@ function App() {
     Partial<Record<InfrastructureLayerId, InfrastructureLayerRuntimeState>>
   >({});
   const [analysis, setAnalysis] = useState<SiteAnalysisResult | null>(null);
+  const [humanReview, setHumanReview] = useState<HumanReviewRecord | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisError, setAnalysisError] = useState<string | null>(null);
 
   const handleLocationSelect = useCallback((location: SelectedLocation) => {
     setSelectedLocation(location);
     setAnalysis(null);
+    setHumanReview(null);
     setAnalysisError(null);
   }, []);
 
@@ -78,6 +81,7 @@ function App() {
           scenario: overrides?.scenario ?? scenario,
         });
         setAnalysis(result);
+        setHumanReview(null);
       } catch {
         setAnalysisError("Unable to generate the readiness blueprint.");
       } finally {
@@ -312,6 +316,7 @@ function App() {
             <AgentChatPanel
               selectedLocation={selectedLocation}
               analysis={analysis}
+              review={humanReview}
               activeLayers={activeInfrastructureLayerIds}
               planningFocus={infrastructureIntent}
               scenario={scenario}
@@ -321,6 +326,8 @@ function App() {
           <section className="min-h-[620px] xl:h-full xl:min-h-0">
             <ReadinessReportPanel
               analysis={analysis}
+              review={humanReview}
+              onReviewChange={setHumanReview}
               isLoading={isAnalyzing}
               scenarioLabel={scenarioLabels[scenario]}
               selectedLocation={selectedLocation}

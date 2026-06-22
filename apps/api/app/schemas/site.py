@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from enum import StrEnum
-from typing import Literal
+from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
@@ -187,6 +187,27 @@ class AgentReview(BaseModel):
     usedLlm: bool = False
 
 
+class ScoreExplanation(BaseModel):
+    headline: str
+    strongestDrivers: list[str]
+    weakestDrivers: list[str]
+    dataQualityBadge: str
+    dataQualitySummary: str
+
+
+class AgentTrace(BaseModel):
+    intentSource: str
+    classifier: str
+    classifierConfidence: str
+    classifierReason: str
+    toolsUsed: list[str]
+    activeLayerCount: int
+    scoredLayerCount: int
+    openDataLayerCount: int
+    syntheticDemoLayerCount: int
+    guardrailsTriggered: int
+
+
 class GapSummary(BaseModel):
     digitalAccess: str
     aiLiteracy: str
@@ -211,6 +232,8 @@ class SiteAnalysisResult(BaseModel):
     matchedEvidence: list[MatchedEvidence]
     excludedSyntheticLayers: list[ExcludedSyntheticLayer]
     dataGaps: list[str]
+    scoreExplanation: ScoreExplanation
+    agentTrace: AgentTrace
     agentReview: AgentReview
     confidenceExplanation: str
     gapSummary: GapSummary
@@ -228,6 +251,7 @@ class ChatMessage(BaseModel):
 class ChatRequest(BaseModel):
     message: str
     currentAnalysis: SiteAnalysisResult | None = None
+    currentReview: dict[str, Any] | None = None
     hasSelectedLocation: bool = False
     selectedLocation: SelectedSite | None = None
     activeLayers: list[str] = Field(default_factory=list)

@@ -59,6 +59,8 @@ def test_analyze_site_returns_frontend_contract() -> None:
     assert "matchedEvidence" in data
     assert "excludedSyntheticLayers" in data
     assert "dataGaps" in data
+    assert "scoreExplanation" in data
+    assert "agentTrace" in data
     assert "planningContext" in data
     assert data["planningContext"]["focusLabel"] == "Data center feasibility"
     formula_weights = {
@@ -70,6 +72,10 @@ def test_analyze_site_returns_frontend_contract() -> None:
     assert "aiLiteracy" not in formula_weights
     assert data["agentReview"]["scoreReliability"] in {"Low", "Medium", "High"}
     assert data["agentReview"]["usedLlm"] is False
+    assert data["scoreExplanation"]["dataQualityBadge"]
+    assert data["scoreExplanation"]["strongestDrivers"]
+    assert "build_evidence_grounded_scores" in data["agentTrace"]["toolsUsed"]
+    assert data["agentTrace"]["scoredLayerCount"] == data["evidenceSummary"]["scoredLayerCount"]
     assert len(data["sectors"]) == 5
     assert any(driver["includedInFocusScore"] for driver in data["scoreDrivers"])
 
@@ -93,6 +99,81 @@ def test_evidence_engine_scores_synthetic_layers_with_disclosure() -> None:
     assert len(data["excludedSyntheticLayers"]) == 0
     assert any(item["sourceType"] == "synthetic" for item in data["matchedEvidence"])
     assert "included" in " ".join(data["dataGaps"]).lower()
+
+
+def test_human_review_lifecycle_and_packet_export() -> None:
+    analysis = client.post(
+        "/api/analyze-site",
+        json={
+            "lat": 10.7769,
+            "lng": 106.7009,
+            "intent": "GENERAL_AI_INFRASTRUCTURE",
+            "activeLayers": ["substations", "fiber_corridors", "digital_access_gap"],
+            "scenario": "BUILD_NOW",
+        },
+    ).json()
+    created_response = client.post(
+        "/api/reviews",
+        json={"currentAnalysis": analysis, "reviewerName": "Test reviewer"},
+    )
+    assert created_response.status_code == 200
+    review = created_response.json()
+    assert review["status"] == "DRAFT_ANALYSIS"
+    assert review["checklistItems"]
+    assert review["evidenceItems"]
+    assert review["syntheticDemoEvidenceCount"] >= 1
+    assert "does not approve construction" in review["nonGoalWarning"]
+    assert "APPROVED" not in review["status"]
+
+    checklist = review["checklistItems"]
+    checklist[0]["checked"] = True
+    checklist[0]["notes"] = "Utility capacity must be confirmed by the responsible provider."
+    evidence_items = review["evidenceItems"]
+    evidence_items[0]["decision"] = "REQUIRES_EXPERT_VALIDATION"
+    evidence_items[0]["notes"] = "Needs authoritative source review."
+    patch_response = client.patch(
+        f"/api/reviews/{review['reviewId']}",
+        json={
+            "status": "READY_FOR_EXPERT_REVIEW",
+            "checklistItems": checklist,
+            "evidenceItems": evidence_items,
+            "reviewerNotes": review["reviewerNotes"],
+        },
+    )
+    assert patch_response.status_code == 200
+    updated = patch_response.json()
+    assert updated["status"] == "READY_FOR_EXPERT_REVIEW"
+    assert updated["checklistItems"][0]["checked"] is True
+    assert updated["evidenceItems"][0]["decision"] == "REQUIRES_EXPERT_VALIDATION"
+
+    packet_response = client.get(f"/api/reviews/{review['reviewId']}/packet")
+    assert packet_response.status_code == 200
+    packet = packet_response.json()
+    assert packet["reviewId"] == review["reviewId"]
+    assert packet["status"] == "READY_FOR_EXPERT_REVIEW"
+    assert "does not approve construction" in packet["nonGoalWarning"]
+
+
+def test_human_review_rejects_invalid_status() -> None:
+    analysis = client.post(
+        "/api/analyze-site",
+        json={
+            "lat": 10.7769,
+            "lng": 106.7009,
+            "intent": "GENERAL_AI_INFRASTRUCTURE",
+            "activeLayers": ["substations"],
+            "scenario": "BUILD_NOW",
+        },
+    ).json()
+    review = client.post(
+        "/api/reviews",
+        json={"currentAnalysis": analysis},
+    ).json()
+    response = client.patch(
+        f"/api/reviews/{review['reviewId']}",
+        json={"status": "APPROVED"},
+    )
+    assert response.status_code == 422
 
 
 def test_real_open_layers_contribute_matched_evidence() -> None:
@@ -274,6 +355,41 @@ def test_chat_uses_selected_map_location_for_nearby_context() -> None:
     assert "Synthetic" in content
 
 
+def test_chat_generates_human_review_guidance() -> None:
+    analysis = client.post(
+        "/api/analyze-site",
+        json={
+            "lat": 10.7769,
+            "lng": 106.7009,
+            "intent": "GENERAL_AI_INFRASTRUCTURE",
+            "activeLayers": ["substations", "fiber_corridors", "digital_access_gap"],
+            "scenario": "BUILD_NOW",
+        },
+    ).json()
+    review = client.post(
+        "/api/reviews",
+        json={"currentAnalysis": analysis},
+    ).json()
+    response = client.post(
+        "/api/agent/chat",
+        json={
+            "message": "What should a human validate first?",
+            "currentAnalysis": analysis,
+            "currentReview": review,
+            "hasSelectedLocation": True,
+            "selectedLocation": analysis["selectedSite"],
+            "activeLayers": ["substations", "fiber_corridors", "digital_access_gap"],
+            "scenario": "BUILD_NOW",
+            "planningFocus": "GENERAL_AI_INFRASTRUCTURE",
+        },
+    )
+    assert response.status_code == 200
+    content = response.json()["content"]
+    assert "Human review guidance" in content
+    assert "only a human reviewer can mark evidence as reviewed" in content
+    assert "does not approve construction" in content
+
+
 def test_chat_explains_score_in_plain_language() -> None:
     analysis = client.post(
         "/api/analyze-site",
@@ -368,5 +484,6 @@ def test_mcp_mount_and_tools_are_registered() -> None:
     assert "analyze_site_readiness_tool" in tool_names
     assert "query_site_evidence_tool" in tool_names
     assert "describe_map_location_context_tool" in tool_names
+    assert "generate_human_review_guidance_tool" in tool_names
     assert "recommend_next_actions_tool" in tool_names
     assert "apply_planning_guardrails_tool_mcp" in tool_names

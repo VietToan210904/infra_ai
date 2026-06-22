@@ -38,6 +38,20 @@ export type LayerKey =
 
 export type ConfidenceLevel = "Low" | "Medium" | "High";
 
+export type ReviewStatus =
+  | "DRAFT_ANALYSIS"
+  | "NEEDS_MORE_DATA"
+  | "READY_FOR_EXPERT_REVIEW"
+  | "REVIEWED_FOR_PLANNING_ONLY"
+  | "ESCALATED_TO_AUTHORITY";
+
+export type EvidenceDecision =
+  | "UNVERIFIED"
+  | "NEEDS_SOURCE"
+  | "REVIEWED"
+  | "REJECTED"
+  | "REQUIRES_EXPERT_VALIDATION";
+
 export interface SelectedLocation {
   lat: number;
   lng: number;
@@ -188,6 +202,27 @@ export interface AgentReview {
   usedLlm: boolean;
 }
 
+export interface ScoreExplanation {
+  headline: string;
+  strongestDrivers: string[];
+  weakestDrivers: string[];
+  dataQualityBadge: string;
+  dataQualitySummary: string;
+}
+
+export interface AgentTrace {
+  intentSource: string;
+  classifier: string;
+  classifierConfidence: string;
+  classifierReason: string;
+  toolsUsed: string[];
+  activeLayerCount: number;
+  scoredLayerCount: number;
+  openDataLayerCount: number;
+  syntheticDemoLayerCount: number;
+  guardrailsTriggered: number;
+}
+
 export interface GapSummary {
   digitalAccess: string;
   aiLiteracy: string;
@@ -216,12 +251,70 @@ export interface SiteAnalysisResult {
   matchedEvidence: MatchedEvidence[];
   excludedSyntheticLayers: ExcludedSyntheticLayer[];
   dataGaps: string[];
+  scoreExplanation: ScoreExplanation;
+  agentTrace: AgentTrace;
   agentReview: AgentReview;
   confidenceExplanation: string;
   gapSummary: GapSummary;
   recommendedInfrastructurePath: string;
   humanReviewRequired: boolean;
   warnings: string[];
+}
+
+export interface ReviewChecklistItem {
+  id: string;
+  category: string;
+  label: string;
+  description: string;
+  checked: boolean;
+  notes: string;
+}
+
+export interface EvidenceReviewItem {
+  id: string;
+  evidenceId: string;
+  layerId: string;
+  layerLabel: string;
+  name: string;
+  sourceType: string;
+  sourceConfidence: string;
+  dataCompleteness: string;
+  dataLimitation: string;
+  decision: EvidenceDecision;
+  notes: string;
+}
+
+export interface ReviewerNote {
+  id: string;
+  author: string;
+  note: string;
+  createdAt: string;
+}
+
+export interface HumanReviewRecord {
+  reviewId: string;
+  createdAt: string;
+  updatedAt: string;
+  status: ReviewStatus;
+  selectedSite: SiteAnalysisResult["selectedSite"];
+  planningFocus: string;
+  scenario: string;
+  suitabilityScore: number;
+  confidence: string;
+  evidenceSummary: EvidenceSummary;
+  matchedEvidenceIds: string[];
+  syntheticDemoEvidenceCount: number;
+  reviewerNotes: ReviewerNote[];
+  checklistItems: ReviewChecklistItem[];
+  evidenceItems: EvidenceReviewItem[];
+  requiredValidationSteps: string[];
+  sourceDisclosure: string;
+  warnings: string[];
+  nonGoalWarning: string;
+}
+
+export interface ReviewPacket extends HumanReviewRecord {
+  generatedAt: string;
 }
 
 export interface ChatMessage {
@@ -233,6 +326,7 @@ export interface ChatMessage {
 export interface AgentChatContext {
   selectedLocation: SelectedLocation | null;
   analysis: SiteAnalysisResult | null;
+  review: HumanReviewRecord | null;
   activeLayers: string[];
   scenario: ScenarioType;
   planningFocus: InfrastructureIntent;

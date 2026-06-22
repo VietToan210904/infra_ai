@@ -4,10 +4,14 @@ from __future__ import annotations
 
 from app.schemas.site import (
     AgentReview,
+    AgentTrace,
     AnalyzeSiteRequest,
     ComponentScores,
+    EvidenceSummary,
     GapSummary,
     InfrastructureIntent,
+    ScoreDriver,
+    ScoreExplanation,
     SiteAnalysisResult,
     Suitability,
 )
@@ -26,7 +30,6 @@ from .scoring import (
     calculate_intent_specific_score,
     calculate_sector_readiness,
     classify_readiness_level,
-    clamp_score,
     detect_bottlenecks,
     rank_priority_investments,
 )
@@ -127,6 +130,12 @@ def build_site_analysis(payload: AnalyzeSiteRequest) -> SiteAnalysisResult:
         matchedEvidence=matched_evidence,
         excludedSyntheticLayers=excluded_synthetic_layers,
         dataGaps=data_gaps,
+        scoreExplanation=_build_score_explanation(
+            score,
+            score_drivers,
+            evidence_summary,
+        ),
+        agentTrace=_build_agent_trace(evidence_summary, warnings),
         confidenceExplanation=confidence.explanation,
         gapSummary=_build_gap_summary(scores),
         recommendedInfrastructurePath=_build_infrastructure_path(intent, scores, score),
@@ -166,48 +175,93 @@ def _resolve_request_intent(payload: AnalyzeSiteRequest) -> InfrastructureIntent
     )
 
 
-def _build_feature_profile(lat: float, lng: float, active_layers: list[str]) -> ComponentScores:
-    scores = {
-        "power": 66,
-        "connectivity": 78,
-        "coolingWater": 58,
-        "physicalFeasibility": 70,
-        "computeEcosystem": 72,
-        "sectorDemand": 82,
-        "governance": 64,
-        "digitalAccess": 68,
-        "aiLiteracy": 56,
-        "dataMaturity": 61,
-        "equity": 60,
-        "resilience": 63,
-        "dataCompleteness": 54,
-        "dataFreshness": 58,
-        "sourceReliability": 57,
-        "geographicResolution": 66,
-    }
+def _build_score_explanation(
+    score: int,
+    score_drivers: list[ScoreDriver],
+    evidence_summary: EvidenceSummary,
+) -> ScoreExplanation:
+    used_drivers = [
+        driver for driver in score_drivers if driver.includedInFocusScore
+    ] or score_drivers
+    strongest = [
+        _driver_summary(driver)
+        for driver in sorted(used_drivers, key=lambda driver: driver.score, reverse=True)[:3]
+    ]
+    weakest = [
+        _driver_summary(driver)
+        for driver in sorted(used_drivers, key=lambda driver: driver.score)[:3]
+    ]
 
-    if lng > 106.76 and lat > 10.80:
-        _adjust(scores, computeEcosystem=8, power=4, physicalFeasibility=5, sectorDemand=3)
-    elif 106.69 <= lng <= 106.74 and 10.75 <= lat <= 10.80:
-        _adjust(scores, connectivity=5, governance=5, dataMaturity=4, sectorDemand=5)
-    elif lng < 106.71 and lat > 10.75:
-        _adjust(scores, governance=8, sectorDemand=6, physicalFeasibility=-4, coolingWater=-3)
-    elif lat < 10.75:
-        _adjust(scores, physicalFeasibility=6, connectivity=4, power=3, resilience=3)
+    if evidence_summary.scoredLayerCount == 0:
+        badge = "No scored evidence"
+    elif evidence_summary.realOpenLayerCount and evidence_summary.syntheticLayerCount:
+        badge = "Open-data + synthetic/demo"
+    elif evidence_summary.syntheticLayerCount:
+        badge = "Synthetic/demo-heavy"
+    else:
+        badge = "Open-data"
 
-    layer_set = set(active_layers)
-    if {"substations", "transmission_lines", "grid_capacity_verification"} & layer_set:
-        _adjust(scores, power=4, dataCompleteness=3, sourceReliability=2)
-    if {"fiber_corridors", "telecom_assets", "ookla_fixed_performance"} & layer_set:
-        _adjust(scores, connectivity=5, digitalAccess=3, geographicResolution=2)
-    if {"ai_readiness_assessment", "workforce_readiness"} & layer_set:
-        _adjust(scores, aiLiteracy=4, dataMaturity=3, governance=2)
-    if {"flood_risk", "heat_risk", "water_availability", "aqueduct_water_risk"} & layer_set:
-        _adjust(scores, coolingWater=2, resilience=2, dataCompleteness=3)
-    if any(layer.startswith("synthetic") for layer in layer_set):
-        _adjust(scores, dataCompleteness=2, sourceReliability=-3)
+    if score >= 80:
+        headline = "Strong planning score, still subject to formal validation."
+    elif score >= 65:
+        headline = "Moderate planning score driven by the selected focus formula and visible evidence."
+    elif score >= 50:
+        headline = "Early planning score: useful for comparison, not feasibility approval."
+    else:
+        headline = "Low planning score: resolve evidence and infrastructure gaps before prioritizing this area."
 
-    return ComponentScores(**{key: clamp_score(value) for key, value in scores.items()})
+    return ScoreExplanation(
+        headline=headline,
+        strongestDrivers=strongest,
+        weakestDrivers=weakest,
+        dataQualityBadge=badge,
+        dataQualitySummary=(
+            f"The score used {evidence_summary.scoredLayerCount} scored layer(s): "
+            f"{evidence_summary.realOpenLayerCount} open-data layer(s) and "
+            f"{evidence_summary.syntheticLayerCount} synthetic/demo layer(s), with "
+            f"{evidence_summary.matchedFeatureCount} matched nearby feature(s). "
+            "This is a planning signal and does not verify capacity, rights, permits, or feasibility."
+        ),
+    )
+
+
+def _build_agent_trace(
+    evidence_summary: EvidenceSummary,
+    warnings: list[str],
+) -> AgentTrace:
+    return AgentTrace(
+        intentSource="Planning focus selector",
+        classifier="planning-focus-selector",
+        classifierConfidence="high",
+        classifierReason="The report intent came from the selected planning focus.",
+        toolsUsed=[
+            "build_evidence_grounded_scores",
+            "apply_scenario_adjustments",
+            "build_planning_context",
+            "calculate_intent_specific_score",
+            "apply_guardrails",
+            "build_agent_review",
+        ],
+        activeLayerCount=evidence_summary.activeLayerCount,
+        scoredLayerCount=evidence_summary.scoredLayerCount,
+        openDataLayerCount=evidence_summary.realOpenLayerCount,
+        syntheticDemoLayerCount=evidence_summary.syntheticLayerCount,
+        guardrailsTriggered=len(warnings),
+    )
+
+
+def _driver_summary(driver: ScoreDriver) -> str:
+    evidence_note = (
+        f"{driver.evidenceCount} matched feature(s)"
+        if driver.evidenceCount
+        else "no matched nearby feature"
+    )
+    weight_note = (
+        f", {driver.formulaWeight}% formula weight"
+        if driver.formulaWeight is not None
+        else ""
+    )
+    return f"{driver.component}: {driver.score}/100 ({evidence_note}{weight_note})"
 
 
 def _build_recommendation(
@@ -375,8 +429,3 @@ def _gap_text(label: str, score: int) -> str:
     if score >= 60:
         return f"{label} gap is moderate and should be targeted before scale-up ({score}/100)."
     return f"{label} gap is material and should be addressed before broad deployment ({score}/100)."
-
-
-def _adjust(values: dict[str, int], **deltas: int) -> None:
-    for key, delta in deltas.items():
-        values[key] = clamp_score(values.get(key, 0) + delta)

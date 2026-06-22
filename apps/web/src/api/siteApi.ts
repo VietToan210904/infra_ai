@@ -7,8 +7,11 @@ import type {
   AgentChatContext,
   AnalyzeSitePayload,
   ChatMessage,
+  HumanReviewRecord,
   InfrastructureIntent,
   PlanningContext,
+  ReviewPacket,
+  ReviewStatus,
   ScenarioType,
   SiteAnalysisResult,
 } from "@/types/site";
@@ -55,6 +58,7 @@ export async function chatWithAgent(
       return await postJson<ChatMessage>("/api/agent/chat", {
         message,
         currentAnalysis: context.analysis,
+        currentReview: context.review,
         hasSelectedLocation: Boolean(context.selectedLocation),
         selectedLocation: context.selectedLocation,
         activeLayers: context.activeLayers,
@@ -79,7 +83,64 @@ export async function chatWithAgent(
   );
 }
 
+export async function createHumanReview(
+  analysis: SiteAnalysisResult
+): Promise<HumanReviewRecord> {
+  if (!apiBaseUrl) {
+    throw new Error("Review API requires the FastAPI backend.");
+  }
+  return postJson<HumanReviewRecord>("/api/reviews", {
+    currentAnalysis: analysis,
+    reviewerName: "Reviewer",
+  });
+}
+
+export async function updateHumanReview(
+  reviewId: string,
+  patch: Partial<Pick<
+    HumanReviewRecord,
+    "status" | "checklistItems" | "evidenceItems" | "reviewerNotes"
+  >>
+): Promise<HumanReviewRecord> {
+  if (!apiBaseUrl) {
+    throw new Error("Review API requires the FastAPI backend.");
+  }
+  return requestJson<HumanReviewRecord>(`/api/reviews/${reviewId}`, {
+    method: "PATCH",
+    body: patch,
+  });
+}
+
+export async function getHumanReviewPacket(
+  reviewId: string
+): Promise<ReviewPacket> {
+  if (!apiBaseUrl) {
+    throw new Error("Review API requires the FastAPI backend.");
+  }
+  return requestJson<ReviewPacket>(`/api/reviews/${reviewId}/packet`, {
+    method: "GET",
+  });
+}
+
+export function reviewStatusLabel(status: ReviewStatus) {
+  const labels: Record<ReviewStatus, string> = {
+    DRAFT_ANALYSIS: "Draft analysis",
+    NEEDS_MORE_DATA: "Needs more data",
+    READY_FOR_EXPERT_REVIEW: "Ready for expert review",
+    REVIEWED_FOR_PLANNING_ONLY: "Reviewed for planning only",
+    ESCALATED_TO_AUTHORITY: "Escalated to authority",
+  };
+  return labels[status];
+}
+
 async function postJson<T>(path: string, body: unknown): Promise<T> {
+  return requestJson<T>(path, { method: "POST", body });
+}
+
+async function requestJson<T>(
+  path: string,
+  options: { method: "GET" | "POST" | "PATCH"; body?: unknown }
+): Promise<T> {
   if (!apiBaseUrl) {
     throw new Error("API base URL is not configured.");
   }
@@ -88,11 +149,12 @@ async function postJson<T>(path: string, body: unknown): Promise<T> {
   const timeoutId = window.setTimeout(() => controller.abort(), 45000);
   try {
     const response = await fetch(`${apiBaseUrl}${path}`, {
-      method: "POST",
+      method: options.method,
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(body),
+      body:
+        options.method === "GET" ? undefined : JSON.stringify(options.body),
       signal: controller.signal,
     });
 
@@ -139,6 +201,17 @@ function normalizeSiteAnalysisResult(
   const returnedEvidenceSummary = analysis.evidenceSummary as
     | Partial<SiteAnalysisResult["evidenceSummary"]>
     | undefined;
+  const normalizedEvidenceSummary: SiteAnalysisResult["evidenceSummary"] = {
+    activeLayerCount: payload.activeLayers.length,
+    scoredLayerCount: 0,
+    realOpenLayerCount: 0,
+    syntheticLayerCount: 0,
+    matchedFeatureCount: 0,
+    nearestEvidenceKm: null,
+    summary: "No evidence summary was returned by the backend.",
+    confidenceImpact: "Unknown evidence reliability.",
+    ...(returnedEvidenceSummary ?? {}),
+  };
   const fallbackPlanningContext: PlanningContext = {
     focusLabel: focus.label,
     focusQuestion: focus.example,
@@ -163,17 +236,7 @@ function normalizeSiteAnalysisResult(
         analysis.planningContext?.focusSpecificEvidenceNeeds ?? [],
       focusSpecificWarnings: analysis.planningContext?.focusSpecificWarnings ?? [],
     },
-    evidenceSummary: {
-      activeLayerCount: payload.activeLayers.length,
-      scoredLayerCount: 0,
-      realOpenLayerCount: 0,
-      syntheticLayerCount: 0,
-      matchedFeatureCount: 0,
-      nearestEvidenceKm: null,
-      summary: "No evidence summary was returned by the backend.",
-      confidenceImpact: "Unknown evidence reliability.",
-      ...(returnedEvidenceSummary ?? {}),
-    },
+    evidenceSummary: normalizedEvidenceSummary,
     scoreDrivers: (analysis.scoreDrivers ?? []).map((driver) => ({
       ...driver,
       supportingLayers: driver.supportingLayers ?? [],
@@ -188,6 +251,42 @@ function normalizeSiteAnalysisResult(
     matchedEvidence: analysis.matchedEvidence ?? [],
     excludedSyntheticLayers: analysis.excludedSyntheticLayers ?? [],
     dataGaps: analysis.dataGaps ?? [],
+    scoreExplanation: {
+      headline:
+        analysis.scoreExplanation?.headline ??
+        "Planning score is available, but the backend did not return a score explanation.",
+      strongestDrivers: analysis.scoreExplanation?.strongestDrivers ?? [],
+      weakestDrivers: analysis.scoreExplanation?.weakestDrivers ?? [],
+      dataQualityBadge:
+        analysis.scoreExplanation?.dataQualityBadge ??
+        "Evidence summary unavailable",
+      dataQualitySummary:
+        analysis.scoreExplanation?.dataQualitySummary ??
+        `${normalizedEvidenceSummary.scoredLayerCount} scored layer(s) were returned. Validate all source data before decisions.`,
+    },
+    agentTrace: {
+      intentSource: analysis.agentTrace?.intentSource ?? "Unknown",
+      classifier: analysis.agentTrace?.classifier ?? "unknown",
+      classifierConfidence:
+        analysis.agentTrace?.classifierConfidence ?? "unknown",
+      classifierReason:
+        analysis.agentTrace?.classifierReason ??
+        "The backend did not return an agent trace.",
+      toolsUsed: analysis.agentTrace?.toolsUsed ?? [],
+      activeLayerCount:
+        analysis.agentTrace?.activeLayerCount ??
+        normalizedEvidenceSummary.activeLayerCount,
+      scoredLayerCount:
+        analysis.agentTrace?.scoredLayerCount ??
+        normalizedEvidenceSummary.scoredLayerCount,
+      openDataLayerCount:
+        analysis.agentTrace?.openDataLayerCount ??
+        normalizedEvidenceSummary.realOpenLayerCount,
+      syntheticDemoLayerCount:
+        analysis.agentTrace?.syntheticDemoLayerCount ??
+        normalizedEvidenceSummary.syntheticLayerCount,
+      guardrailsTriggered: analysis.agentTrace?.guardrailsTriggered ?? 0,
+    },
     agentReview: {
       summary:
         analysis.agentReview?.summary ??
@@ -221,6 +320,7 @@ function normalizeChatContext(
   return {
     selectedLocation: hasSelectedLocation ? { lat: 0, lng: 0 } : null,
     analysis: contextOrAnalysis,
+    review: null,
     activeLayers: [],
     scenario: "BUILD_NOW",
     planningFocus: contextOrAnalysis?.intent ?? "GENERAL_AI_INFRASTRUCTURE",

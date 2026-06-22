@@ -1,0 +1,10 @@
+{
+  "python.analysis.extraPaths": [
+    "./apps/api",
+    "./services/agents"
+  ],
+  "python.testing.pytestArgs": [
+    "apps/api/tests"
+  ],
+  "python.testing.pytestEnabled": true
+}

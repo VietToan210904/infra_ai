@@ -410,6 +410,49 @@ def review_report_reliability(current_analysis: dict[str, Any] | None) -> dict[s
     }
 
 
+def generate_human_review_guidance(
+    current_analysis: dict[str, Any] | None,
+    current_review: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Generate human-review guidance without changing review decisions."""
+    if not current_analysis:
+        return {
+            "tool": "generate_human_review_guidance",
+            "summary": "No report is available for human review guidance.",
+            "validationPriorities": [],
+            "questionsForExperts": [],
+            "assumptionsToChallenge": [],
+        }
+
+    review = build_agent_review(current_analysis)
+    data_gaps = _list_value(current_analysis, "dataGaps")
+    score_drivers = _list_value(current_analysis, "scoreDrivers")
+    weakest = sorted(
+        [driver for driver in score_drivers if isinstance(driver, dict)],
+        key=lambda item: item.get("score", 100),
+    )[:4]
+    validation_priorities = _human_validation_priorities(
+        weakest,
+        data_gaps,
+        current_review,
+    )
+    questions = _expert_questions(weakest, current_analysis)
+    assumptions = review.get("challengedAssumptions", [])
+    status_text = _review_status_text(current_review)
+    return {
+        "tool": "generate_human_review_guidance",
+        "validationPriorities": validation_priorities,
+        "questionsForExperts": questions,
+        "assumptionsToChallenge": assumptions,
+        "reviewStatus": status_text,
+        "summary": (
+            f"{status_text} Human reviewers should start with "
+            f"{_join(validation_priorities[:3])} The agent can recommend "
+            "validation work, but only a human reviewer can mark evidence as reviewed."
+        ),
+    }
+
+
 def recommend_next_actions(current_analysis: dict[str, Any] | None) -> dict[str, Any]:
     """Generate recommendation-focused actions from current evidence and scores."""
     investments = _list_value(current_analysis, "priorityInvestments")
@@ -519,6 +562,7 @@ def run_chat_tools(
     *,
     message: str,
     current_analysis: dict[str, Any] | None,
+    current_review: dict[str, Any] | None = None,
     active_layers: list[str] | None = None,
     scenario: str | None = None,
     planning_focus: str | None = None,
@@ -564,6 +608,8 @@ def run_chat_tools(
             results.append(explain_score_drivers(current_analysis))
         if _asks_about_reliability(normalized):
             results.append(review_report_reliability(current_analysis))
+        if _asks_about_human_review(normalized):
+            results.append(generate_human_review_guidance(current_analysis, current_review))
         if _asks_about_scenario(normalized):
             results.append(compare_scenarios(current_analysis, _scenario_from_message(normalized) or scenario))
         if _asks_about_investment(normalized):
@@ -606,6 +652,7 @@ def compose_tool_grounded_response(
     score_driver_result = _tool_result(tool_results, "explain_score_drivers")
     recommendation_result = _tool_result(tool_results, "recommend_next_actions")
     reliability_result = _tool_result(tool_results, "review_report_reliability")
+    human_review_result = _tool_result(tool_results, "generate_human_review_guidance")
     map_context_result = _tool_result(tool_results, "describe_map_location_context")
 
     normalized = message.lower()
@@ -647,6 +694,9 @@ def compose_tool_grounded_response(
             f"Reliability review: {reliability_result.get('summary', '')} "
             "Use the report to prioritize validation work, not to approve feasibility."
         )
+
+    if human_review_result:
+        return _human_review_chat_answer(human_review_result)
 
     if recommendation_result:
         actions = recommendation_result.get("actions", [])
@@ -866,6 +916,8 @@ def _is_platform_question(normalized_message: str) -> bool:
             "map work",
             "layer",
             "synthetic",
+            "human review",
+            "reviewer",
             "what can you do",
             "help",
         )
@@ -961,6 +1013,27 @@ def _asks_about_reliability(normalized_message: str) -> bool:
     return any(
         term in normalized_message
         for term in ("reliable", "reliability", "trust", "confidence", "uncertain")
+    )
+
+
+def _asks_about_human_review(normalized_message: str) -> bool:
+    return any(
+        term in normalized_message
+        for term in (
+            "human review",
+            "reviewer",
+            "validate first",
+            "validation first",
+            "what should i validate",
+            "what should a human",
+            "utility provider",
+            "expert review",
+            "review checklist",
+            "reviewer checklist",
+            "assumptions should",
+            "challenge assumptions",
+            "weakest evidence",
+        )
     )
 
 
@@ -1151,6 +1224,90 @@ def _recommendation_summary(actions: list[dict[str, Any]], data_gaps: list[Any])
     if data_gaps:
         summary += " Clear the listed data gaps before treating this as a decision-ready plan."
     return summary
+
+
+def _human_validation_priorities(
+    weakest_drivers: list[dict[str, Any]],
+    data_gaps: list[Any],
+    current_review: dict[str, Any] | None,
+) -> list[str]:
+    priorities = []
+    for driver in weakest_drivers[:3]:
+        priorities.append(
+            f"Validate {driver.get('component', 'weak component')} "
+            f"because it is scored {driver.get('score', 'unknown')}/100."
+        )
+    if data_gaps:
+        priorities.append(f"Clear data gap: {data_gaps[0]}")
+    if current_review:
+        checklist = current_review.get("checklistItems", [])
+        if isinstance(checklist, list):
+            open_items = [
+                item.get("label", "review item")
+                for item in checklist
+                if isinstance(item, dict) and not item.get("checked")
+            ]
+            if open_items:
+                priorities.append(f"Continue open review item: {open_items[0]}.")
+    return priorities or ["Create a human review record and validate source evidence first."]
+
+
+def _expert_questions(
+    weakest_drivers: list[dict[str, Any]],
+    current_analysis: dict[str, Any],
+) -> list[str]:
+    questions = [
+        "Which source documents or agencies can verify this evidence?",
+        "What capacity, service-level, legal, or permitting constraints are missing?",
+        "Which synthetic/demo assumptions should be replaced before decisions?",
+    ]
+    weakest_text = " ".join(str(driver.get("component", "")) for driver in weakest_drivers).lower()
+    if "power" in weakest_text or "grid" in weakest_text:
+        questions.insert(0, "Ask the utility provider for available load, interconnection limits, redundancy, and upgrade timeline.")
+    if "connectivity" in weakest_text:
+        questions.insert(0, "Ask telecom providers for fiber route, latency, redundancy, service-level, and build-cost evidence.")
+    if "cooling" in weakest_text or "water" in weakest_text:
+        questions.insert(0, "Ask engineering and environmental reviewers for water, heat, flood, discharge, and cooling constraints.")
+    if current_analysis.get("warnings"):
+        questions.append("Which report warnings must be cleared before the next planning stage?")
+    return questions[:5]
+
+
+def _review_status_text(current_review: dict[str, Any] | None) -> str:
+    if not current_review:
+        return "No saved human review record is attached yet."
+    status = current_review.get("status", "DRAFT_ANALYSIS")
+    return f"Current human review status is {status}."
+
+
+def _human_review_chat_answer(review_guidance: dict[str, Any]) -> str:
+    priorities = [
+        str(item)
+        for item in review_guidance.get("validationPriorities", [])
+        if isinstance(item, str)
+    ]
+    questions = [
+        str(item)
+        for item in review_guidance.get("questionsForExperts", [])
+        if isinstance(item, str)
+    ]
+    assumptions = [
+        str(item)
+        for item in review_guidance.get("assumptionsToChallenge", [])
+        if isinstance(item, str)
+    ]
+    return (
+        "## Human review guidance\n\n"
+        f"{review_guidance.get('reviewStatus', '')} The agent can recommend validation work, "
+        "but only a human reviewer can mark evidence as reviewed.\n\n"
+        "## Validate first\n\n"
+        f"{_simple_bullets(priorities[:4])}\n\n"
+        "## Questions for experts\n\n"
+        f"{_simple_bullets(questions[:4])}\n\n"
+        "## Assumptions to challenge\n\n"
+        f"{_simple_bullets(assumptions[:4])}\n\n"
+        f"{NON_GOAL_WARNING}"
+    )
 
 
 def _map_context_summary(

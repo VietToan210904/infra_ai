@@ -22,6 +22,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import type {
   ChatMessage,
+  HumanReviewRecord,
   InfrastructureIntent,
   ScenarioType,
   SelectedLocation,
@@ -37,12 +38,15 @@ const suggestedQuestions = [
   "What should we invest in first?",
   "Is this area ready for healthcare AI?",
   "What if we upgrade fiber?",
+  "What should a human validate first?",
+  "Generate a reviewer checklist.",
   "Generate a strategic roadmap.",
 ];
 
 interface AgentChatPanelProps {
   selectedLocation: SelectedLocation | null;
   analysis: SiteAnalysisResult | null;
+  review: HumanReviewRecord | null;
   activeLayers: string[];
   planningFocus: InfrastructureIntent;
   scenario: ScenarioType;
@@ -51,6 +55,7 @@ interface AgentChatPanelProps {
 export function AgentChatPanel({
   selectedLocation,
   analysis,
+  review,
   activeLayers,
   planningFocus,
   scenario,
@@ -123,6 +128,7 @@ export function AgentChatPanel({
         {
           selectedLocation,
           analysis,
+          review,
           activeLayers,
           scenario,
           planningFocus,

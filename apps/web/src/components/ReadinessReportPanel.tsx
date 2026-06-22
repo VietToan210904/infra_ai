@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   FileText,
   MapPin,
@@ -13,20 +14,52 @@ import {
   Landmark,
   HandHeart,
   Bot,
+  ClipboardCheck,
+  Download,
+  PlusCircle,
+  Save,
 } from "lucide-react";
 
+import {
+  createHumanReview,
+  getHumanReviewPacket,
+  reviewStatusLabel,
+  updateHumanReview,
+} from "@/api/siteApi";
 import { HumanReviewWarning } from "@/components/HumanReviewWarning";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Textarea } from "@/components/ui/textarea";
 import { planningFocusLabels } from "@/data/planningOptions";
-import type { SelectedLocation, SiteAnalysisResult, SectorReadiness, ComponentScores } from "@/types/site";
+import type {
+  ComponentScores,
+  EvidenceDecision,
+  EvidenceReviewItem,
+  HumanReviewRecord,
+  ReviewChecklistItem,
+  ReviewerNote,
+  ReviewStatus,
+  SelectedLocation,
+  SectorReadiness,
+  SiteAnalysisResult,
+} from "@/types/site";
 
 interface ReadinessReportPanelProps {
   analysis: SiteAnalysisResult | null;
+  review: HumanReviewRecord | null;
+  onReviewChange: (review: HumanReviewRecord | null) => void;
   isLoading: boolean;
   scenarioLabel: string;
   selectedLocation: SelectedLocation | null;
@@ -372,6 +405,8 @@ function SectorCard({
 
 export function ReadinessReportPanel({
   analysis,
+  review,
+  onReviewChange,
   isLoading,
   scenarioLabel,
   selectedLocation,
@@ -443,6 +478,8 @@ export function ReadinessReportPanel({
                 </p>
               </section>
 
+              <ScoreExplanationSection analysis={analysis} />
+
               <WhyThisScoreSection analysis={analysis} />
 
               <section className="space-y-3 rounded-[20px] border bg-background/35 p-4">
@@ -497,7 +534,14 @@ export function ReadinessReportPanel({
                     items={analysis.agentReview.excludedEvidenceNotes}
                   />
                 )}
+                <AgentTraceSection analysis={analysis} />
               </section>
+
+              <HumanReviewWorkspace
+                analysis={analysis}
+                review={review}
+                onReviewChange={onReviewChange}
+              />
 
               <section className="space-y-3 rounded-[20px] border bg-background/35 p-4">
                 <div className="flex flex-wrap items-center justify-between gap-2">
@@ -855,6 +899,508 @@ function EvidenceMetric({
       </p>
       <p className="mt-1 text-lg font-semibold text-primary">{value}</p>
     </div>
+  );
+}
+
+function ScoreExplanationSection({ analysis }: { analysis: SiteAnalysisResult }) {
+  return (
+    <section className="space-y-3 rounded-[20px] border bg-background/35 p-4">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div className="max-w-[38rem]">
+          <h3 className="text-sm font-semibold">What this score means</h3>
+          <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+            {analysis.scoreExplanation.headline}
+          </p>
+        </div>
+        <Badge variant="secondary">
+          {analysis.scoreExplanation.dataQualityBadge}
+        </Badge>
+      </div>
+
+      <p className="rounded-xl border bg-card/40 p-3 text-sm leading-relaxed text-muted-foreground">
+        {analysis.scoreExplanation.dataQualitySummary}
+      </p>
+
+      <div className="grid gap-3 md:grid-cols-2">
+        <AgentReviewList
+          title="Strongest score drivers"
+          items={
+            analysis.scoreExplanation.strongestDrivers.length > 0
+              ? analysis.scoreExplanation.strongestDrivers
+              : ["No strongest driver was returned by the analysis engine."]
+          }
+        />
+        <AgentReviewList
+          title="Weakest score drivers"
+          items={
+            analysis.scoreExplanation.weakestDrivers.length > 0
+              ? analysis.scoreExplanation.weakestDrivers
+              : ["No weakest driver was returned by the analysis engine."]
+          }
+        />
+      </div>
+    </section>
+  );
+}
+
+function AgentTraceSection({ analysis }: { analysis: SiteAnalysisResult }) {
+  return (
+    <div className="rounded-xl border bg-card/40 p-3">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">
+          Agent trace
+        </p>
+        <Badge variant="outline">
+          {analysis.agentTrace.toolsUsed.length} tool step(s)
+        </Badge>
+      </div>
+      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+        Intent source: {analysis.agentTrace.intentSource}. Classifier:{" "}
+        {analysis.agentTrace.classifier} (
+        {analysis.agentTrace.classifierConfidence}).{" "}
+        {analysis.agentTrace.classifierReason}
+      </p>
+      <div className="mt-3 grid gap-2 md:grid-cols-4">
+        <EvidenceMetric
+          label="Active layers"
+          value={analysis.agentTrace.activeLayerCount}
+        />
+        <EvidenceMetric
+          label="Scored layers"
+          value={analysis.agentTrace.scoredLayerCount}
+        />
+        <EvidenceMetric
+          label="Open-data layers"
+          value={analysis.agentTrace.openDataLayerCount}
+        />
+        <EvidenceMetric
+          label="Synthetic/demo layers"
+          value={analysis.agentTrace.syntheticDemoLayerCount}
+        />
+      </div>
+      <div className="mt-3 flex flex-wrap gap-2">
+        {analysis.agentTrace.toolsUsed.map((tool) => (
+          <Badge key={tool} variant="outline">
+            {tool}
+          </Badge>
+        ))}
+      </div>
+      <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+        Guardrails triggered: {analysis.agentTrace.guardrailsTriggered}. The
+        agent trace explains workflow steps only; numeric scores remain
+        deterministic.
+      </p>
+    </div>
+  );
+}
+
+const reviewStatusOptions: ReviewStatus[] = [
+  "DRAFT_ANALYSIS",
+  "NEEDS_MORE_DATA",
+  "READY_FOR_EXPERT_REVIEW",
+  "REVIEWED_FOR_PLANNING_ONLY",
+  "ESCALATED_TO_AUTHORITY",
+];
+
+const evidenceDecisionOptions: EvidenceDecision[] = [
+  "UNVERIFIED",
+  "NEEDS_SOURCE",
+  "REVIEWED",
+  "REJECTED",
+  "REQUIRES_EXPERT_VALIDATION",
+];
+
+const evidenceDecisionLabels: Record<EvidenceDecision, string> = {
+  UNVERIFIED: "Unverified",
+  NEEDS_SOURCE: "Needs source",
+  REVIEWED: "Reviewed",
+  REJECTED: "Rejected",
+  REQUIRES_EXPERT_VALIDATION: "Requires expert validation",
+};
+
+function HumanReviewWorkspace({
+  analysis,
+  review,
+  onReviewChange,
+}: {
+  analysis: SiteAnalysisResult;
+  review: HumanReviewRecord | null;
+  onReviewChange: (review: HumanReviewRecord | null) => void;
+}) {
+  const [draftStatus, setDraftStatus] =
+    useState<ReviewStatus>("DRAFT_ANALYSIS");
+  const [checklistItems, setChecklistItems] = useState<ReviewChecklistItem[]>(
+    []
+  );
+  const [evidenceItems, setEvidenceItems] = useState<EvidenceReviewItem[]>([]);
+  const [reviewerNotes, setReviewerNotes] = useState<ReviewerNote[]>([]);
+  const [noteText, setNoteText] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!review) {
+      setDraftStatus("DRAFT_ANALYSIS");
+      setChecklistItems([]);
+      setEvidenceItems([]);
+      setReviewerNotes([]);
+      setNoteText("");
+      setMessage(null);
+      return;
+    }
+    setDraftStatus(review.status);
+    setChecklistItems(review.checklistItems);
+    setEvidenceItems(review.evidenceItems);
+    setReviewerNotes(review.reviewerNotes);
+    setNoteText("");
+  }, [review]);
+
+  async function handleCreateReview() {
+    setIsSaving(true);
+    setMessage(null);
+    try {
+      const created = await createHumanReview(analysis);
+      onReviewChange(created);
+      setMessage("Review record created for planning review only.");
+    } catch {
+      setMessage("Unable to create review record. Start the FastAPI backend and try again.");
+    } finally {
+      setIsSaving(false);
+    }
+  }
+
+  async function handleSaveReview() {
+    if (!review) {
+      return;
+    }
+    setIsSaving(true);
+    setMessage(null);
+    try {
+      const saved = await updateHumanReview(review.reviewId, {
+        status: draftStatus,
+        checklistItems,
+        evidenceItems,
+        reviewerNotes,
+      });
+      onReviewChange(saved);
+      setMessage("Review saved. This is still planning review, not approval.");
+    } catch {
+      setMessage("Unable to save review updates.");
+    } finally {
+      setIsSaving(false);
+    }
+  }
+
+  async function handleExportPacket() {
+    if (!review) {
+      return;
+    }
+    setIsSaving(true);
+    setMessage(null);
+    try {
+      const packet = await getHumanReviewPacket(review.reviewId);
+      const blob = new Blob([JSON.stringify(packet, null, 2)], {
+        type: "application/json",
+      });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `infraai-review-${packet.reviewId}.json`;
+      link.click();
+      URL.revokeObjectURL(url);
+      setMessage("Review packet exported as JSON.");
+    } catch {
+      setMessage("Unable to export review packet.");
+    } finally {
+      setIsSaving(false);
+    }
+  }
+
+  function handleAddNote() {
+    const trimmed = noteText.trim();
+    if (!trimmed) {
+      return;
+    }
+    setReviewerNotes((current) => [
+      ...current,
+      {
+        id: crypto.randomUUID(),
+        author: "Reviewer",
+        note: trimmed,
+        createdAt: new Date().toISOString(),
+      },
+    ]);
+    setNoteText("");
+  }
+
+  function updateChecklistItem(
+    itemId: string,
+    update: Partial<ReviewChecklistItem>
+  ) {
+    setChecklistItems((current) =>
+      current.map((item) =>
+        item.id === itemId ? { ...item, ...update } : item
+      )
+    );
+  }
+
+  function updateEvidenceItem(
+    itemId: string,
+    update: Partial<EvidenceReviewItem>
+  ) {
+    setEvidenceItems((current) =>
+      current.map((item) =>
+        item.id === itemId ? { ...item, ...update } : item
+      )
+    );
+  }
+
+  const visibleEvidenceItems = evidenceItems.slice(0, 8);
+
+  return (
+    <section className="space-y-4 rounded-[20px] border bg-background/35 p-4">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h3 className="flex items-center gap-2 text-sm font-semibold">
+            <ClipboardCheck className="h-4 w-4 text-primary" />
+            Human Review Workspace
+          </h3>
+          <p className="mt-1 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+            Reviewers can validate evidence, record notes, and export a planning
+            packet. This workflow never approves construction, permits, funding,
+            or grid capacity.
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <Button
+            type="button"
+            size="sm"
+            variant={review ? "outline" : "default"}
+            disabled={Boolean(review) || isSaving}
+            onClick={() => void handleCreateReview()}
+          >
+            <PlusCircle className="mr-1.5 h-3.5 w-3.5" />
+            Create review record
+          </Button>
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            disabled={!review || isSaving}
+            onClick={() => void handleSaveReview()}
+          >
+            <Save className="mr-1.5 h-3.5 w-3.5" />
+            Save review
+          </Button>
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            disabled={!review || isSaving}
+            onClick={() => void handleExportPacket()}
+          >
+            <Download className="mr-1.5 h-3.5 w-3.5" />
+            Export review packet
+          </Button>
+        </div>
+      </div>
+
+      <div className="rounded-xl border border-amber-300/40 bg-amber-50/70 p-3 text-sm leading-relaxed text-amber-950">
+        <span className="font-semibold">Planning review only:</span> Reviewed
+        for planning does not mean approved. Synthetic/demo data may be included
+        in scoring and must be validated with responsible agencies and domain
+        experts.
+      </div>
+
+      {message && (
+        <p className="rounded-xl border bg-card/40 p-3 text-sm text-muted-foreground">
+          {message}
+        </p>
+      )}
+
+      {review ? (
+        <>
+          <div className="grid gap-3 md:grid-cols-3">
+            <div className="rounded-xl border bg-card/40 p-3 md:col-span-1">
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">
+                Review status
+              </p>
+              <Select
+                value={draftStatus}
+                onValueChange={(value) => setDraftStatus(value as ReviewStatus)}
+              >
+                <SelectTrigger className="mt-2">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {reviewStatusOptions.map((status) => (
+                    <SelectItem key={status} value={status}>
+                      {reviewStatusLabel(status)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <EvidenceMetric
+              label="Checklist items"
+              value={`${checklistItems.filter((item) => item.checked).length}/${checklistItems.length}`}
+            />
+            <EvidenceMetric
+              label="Evidence decisions"
+              value={evidenceItems.length}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">
+              Validation checklist
+            </p>
+            <div className="grid gap-2">
+              {checklistItems.map((item) => (
+                <div key={item.id} className="rounded-xl border bg-card/40 p-3">
+                  <label className="flex items-start gap-3">
+                    <input
+                      type="checkbox"
+                      className="mt-1 h-4 w-4 rounded border-input"
+                      checked={item.checked}
+                      onChange={(event) =>
+                        updateChecklistItem(item.id, {
+                          checked: event.target.checked,
+                        })
+                      }
+                    />
+                    <span>
+                      <span className="text-sm font-semibold">{item.label}</span>
+                      <span className="mt-1 block text-xs leading-relaxed text-muted-foreground">
+                        {item.description}
+                      </span>
+                    </span>
+                  </label>
+                  <Textarea
+                    value={item.notes}
+                    onChange={(event) =>
+                      updateChecklistItem(item.id, {
+                        notes: event.target.value,
+                      })
+                    }
+                    placeholder="Reviewer notes for this validation item..."
+                    className="mt-2 min-h-[64px]"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">
+                Evidence review
+              </p>
+              <Badge variant="outline">
+                Showing {visibleEvidenceItems.length} of {evidenceItems.length}
+              </Badge>
+            </div>
+            {visibleEvidenceItems.length > 0 ? (
+              <div className="grid gap-2">
+                {visibleEvidenceItems.map((item) => (
+                  <div key={item.id} className="rounded-xl border bg-card/40 p-3">
+                    <div className="flex flex-wrap items-start justify-between gap-3">
+                      <div>
+                        <p className="text-sm font-semibold">{item.name}</p>
+                        <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                          {item.layerLabel}; {item.sourceType}; confidence{" "}
+                          {item.sourceConfidence}; completeness{" "}
+                          {item.dataCompleteness}
+                        </p>
+                      </div>
+                      <div className="min-w-[210px]">
+                        <Select
+                          value={item.decision}
+                          onValueChange={(value) =>
+                            updateEvidenceItem(item.id, {
+                              decision: value as EvidenceDecision,
+                            })
+                          }
+                        >
+                          <SelectTrigger>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {evidenceDecisionOptions.map((decision) => (
+                              <SelectItem key={decision} value={decision}>
+                                {evidenceDecisionLabels[decision]}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+                    <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+                      {item.dataLimitation}
+                    </p>
+                    <Textarea
+                      value={item.notes}
+                      onChange={(event) =>
+                        updateEvidenceItem(item.id, {
+                          notes: event.target.value,
+                        })
+                      }
+                      placeholder="Reviewer notes for this evidence item..."
+                      className="mt-2 min-h-[64px]"
+                    />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="rounded-xl border bg-card/40 p-3 text-sm text-muted-foreground">
+                No matched evidence items were available. Use the validation
+                checklist to record required source collection.
+              </p>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">
+              Reviewer notes
+            </p>
+            <Textarea
+              value={noteText}
+              onChange={(event) => setNoteText(event.target.value)}
+              placeholder="Add a reviewer note before saving..."
+            />
+            <div className="flex justify-end">
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                onClick={handleAddNote}
+              >
+                Add note
+              </Button>
+            </div>
+            {reviewerNotes.length > 0 && (
+              <div className="space-y-2">
+                {reviewerNotes.map((note) => (
+                  <div key={note.id} className="rounded-xl border bg-card/40 p-3">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">
+                      {note.author}; {new Date(note.createdAt).toLocaleString()}
+                    </p>
+                    <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                      {note.note}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </>
+      ) : (
+        <p className="rounded-xl border bg-card/40 p-3 text-sm leading-relaxed text-muted-foreground">
+          Create a review record to start tracking checklist items, evidence
+          decisions, and reviewer notes for this report.
+        </p>
+      )}
+    </section>
   );
 }
 

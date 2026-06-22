@@ -10,14 +10,13 @@ export function DataTransparencyNotice() {
   return (
     <Alert variant="warning">
       <AlertTriangle className="h-4 w-4" />
-      <AlertTitle>Open-data and synthetic planning view only</AlertTitle>
+      <AlertTitle>Planning data disclosure</AlertTitle>
       <AlertDescription>
-        Real layers come from OpenStreetMap or public datasets and may be
-        incomplete or outdated. Visible synthetic/demo layers can contribute to
-        the planning score, but they are assumptions that must be validated.
-        This map supports early exploration and does not replace engineering,
-        grid, land, environmental, water, cooling, permitting, cybersecurity,
-        or public consultation review.
+        This map combines open-data and demo planning layers to support early
+        AI-infrastructure review. Scores are decision-support signals, not
+        verified capacity, permits, funding, or construction feasibility. Use
+        the Human Review Workspace to validate sources with responsible
+        agencies and domain experts.
       </AlertDescription>
     </Alert>
   );

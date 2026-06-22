@@ -10,6 +10,9 @@ satellite infrastructure overlays, run readiness analysis, simulate scenarios,
 and ask planning questions about compute, connectivity, power, data platforms,
 AI literacy, governance, cybersecurity, and sector readiness.
 
+Hackathon project: our team built and submitted InfraAI SiteCompass on Devpost:
+https://devpost.com/software/infraai
+
 ## Challenge Alignment
 
 The product supports Community AI Readiness Blueprint planning by:
